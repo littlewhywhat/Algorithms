@@ -16,7 +16,16 @@ public class GeometryHelper {
 	public static int computeAngleByPoints(Point one, Point two) {
 		int divident = Math.abs(one.getY() - two.getY());
 		int divider = Math.abs(one.getX() - two.getX());
-		int result = divident/divider;		
+		int result = divident / divider;
 		return (int) Math.toDegrees(Math.atan(result));
+	}
+
+	public static boolean checkFourPointsAreSquare(Point one, Point two,
+			Point three, Point four) {
+		double firstSide = computeDistanceBetweenPoints(one, two);
+		return (firstSide == computeDistanceBetweenPoints(two, three)
+				&& firstSide == computeDistanceBetweenPoints(three, four) 
+				&& firstSide == computeDistanceBetweenPoints(four, one));
+
 	}
 }

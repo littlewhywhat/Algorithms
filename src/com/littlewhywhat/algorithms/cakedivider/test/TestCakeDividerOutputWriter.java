@@ -10,21 +10,19 @@ public class TestCakeDividerOutputWriter {
 	private static final String FOLDER = "OutputTest/";
 	private static final String ANSWER_FILEPATH = FOLDER + "answer.txt";
 	
-	public static final String[] RIGHT_ANSWERS = new String[] { "1 1","45"};
-	public static final String[] WRONG_ANSWER = new String[] { "-1" };
 	@Test
 	public void testOutputRightAnswer() {
-		writer.setOutput(RIGHT_ANSWERS);
-		writer.setOutputFilePath(ANSWER_FILEPATH);
-		writer.write();
-		TestHelper.checkAnswerOutput(RIGHT_ANSWERS, ANSWER_FILEPATH);
+		testOutput(TestAnswersCakedDivider.RIGHT_ANSWERS);
 	}
 	@Test
 	public void testOutputWrongAnswer() {
-		writer.setOutput(WRONG_ANSWER);
+		testOutput(TestAnswersCakedDivider.WRONG_ANSWER);
+	}
+	
+	private void testOutput(String[] output) {
+		writer.setOutput(output);
 		writer.setOutputFilePath(ANSWER_FILEPATH);
 		writer.write();
-		TestHelper.checkAnswerOutput(WRONG_ANSWER, ANSWER_FILEPATH);
+		TestHelper.checkAnswerOutput(output, ANSWER_FILEPATH);
 	}
-
 }

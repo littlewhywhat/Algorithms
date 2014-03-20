@@ -17,38 +17,39 @@ public class TestCakeDivider {
 	private static final String FILE_THAT_HAS_ANSWER_CUSTOM_ONE = FOLDER + "testCustom1.txt";
 	private static final String FILE_THAT_HAS_ANSWER_CUSTOM_TWO = FOLDER + "testCustom2.txt";
 	private static final String FILE_THAT_HAS_NO_ANSWER = FOLDER + "testWithNoAnswer.txt";
+	private static final String FILE_THAT_HAS_ANSWER_CUSTOM_THREE = FOLDER + "testCustom3.txt";
 	
 	
 	@Test
 	public void testExecuteWithReadWriteCustomOne() {
-		reader.setInputFilePath(FILE_THAT_HAS_ANSWER_CUSTOM_ONE);
-		writer.setOutputFilePath(OUTPUT_FILE_PATH);
-		divider.executeWithReadWrite(reader, writer);
-		TestHelper.checkAnswerOutput(new String[] { "1 2", "45" }, OUTPUT_FILE_PATH);
+		testExecuteWithReadWrite(FILE_THAT_HAS_ANSWER_CUSTOM_ONE, TestAnswersCakedDivider.CUSTOM_ONE_ANSWERS);
 	}
 	
 	@Test
 	public void testExecuteWithReadWriteCustomTwo() {
-		reader.setInputFilePath(FILE_THAT_HAS_ANSWER_CUSTOM_TWO);
-		writer.setOutputFilePath(OUTPUT_FILE_PATH);
-		divider.executeWithReadWrite(reader, writer);
-		TestHelper.checkAnswerOutput(new String[] { "1 5", "45" }, OUTPUT_FILE_PATH);
+		testExecuteWithReadWrite(FILE_THAT_HAS_ANSWER_CUSTOM_TWO, TestAnswersCakedDivider.CUSTOM_TWO_ANSWERS);
+	}
+	
+	@Test
+	public void testExecuteWithReadWriteCustomThree() {
+		testExecuteWithReadWrite(FILE_THAT_HAS_ANSWER_CUSTOM_THREE, TestAnswersCakedDivider.WRONG_ANSWER);
 	}
 	
 	@Test
 	public void testExecuteWithReadWriteRightOutput() {
-		reader.setInputFilePath(FILE_THAT_HAS_ANSWER_SQUARE);
-		writer.setOutputFilePath(OUTPUT_FILE_PATH);
-		divider.executeWithReadWrite(reader, writer);
-		TestHelper.checkAnswerOutput(TestCakeDividerOutputWriter.RIGHT_ANSWERS, OUTPUT_FILE_PATH);
+		testExecuteWithReadWrite(FILE_THAT_HAS_ANSWER_SQUARE, TestAnswersCakedDivider.RIGHT_ANSWERS);
 	}
 	
 	@Test
 	public void testExecuteWithReadWriteWrongOutput() {
-		reader.setInputFilePath(FILE_THAT_HAS_NO_ANSWER);
+		testExecuteWithReadWrite(FILE_THAT_HAS_NO_ANSWER, TestAnswersCakedDivider.WRONG_ANSWER );
+	}
+	
+	private void testExecuteWithReadWrite(String fileInputPath, String[] answers) {
+		reader.setInputFilePath(fileInputPath);
 		writer.setOutputFilePath(OUTPUT_FILE_PATH);
 		divider.executeWithReadWrite(reader, writer);
-		TestHelper.checkAnswerOutput(TestCakeDividerOutputWriter.WRONG_ANSWER, OUTPUT_FILE_PATH);
+		TestHelper.checkAnswerOutput(answers, OUTPUT_FILE_PATH);
 	}
 
 

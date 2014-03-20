@@ -48,9 +48,12 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 		int[] indices;
 		while (tracker.hasNext()) {
 			indices = tracker.goNext();
-			if (checkFourPointsAreSquare(indices)) {
+			if (GeometryHelper.checkFourPointsAreSquare(getPoint(indices[0]),
+					getPoint(indices[1]), getPoint(indices[2]),
+					getPoint(indices[3]))) {
 				squareCorner = indices[0];
-				computeCenter(getPoint(squareCorner), getPoint(indices[NUMBER_OF_PARTS/2]));
+				computeCenter(getPoint(squareCorner),
+						getPoint(indices[NUMBER_OF_PARTS / 2]));
 				return true;
 			}
 		}
@@ -84,19 +87,6 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 								getData()[fourIndices[2]], center) && firstDistance == GeometryHelper
 					.computeDistanceBetweenPoints(getData()[fourIndices[3]],
 							center));
-	}
-
-	private boolean checkFourPointsAreSquare(int[] indices) {
-
-		double firstSide = GeometryHelper.computeDistanceBetweenPoints(
-				getPoint(indices[0]), getPoint(indices[1]));
-		return (firstSide == GeometryHelper.computeDistanceBetweenPoints(
-					getPoint(indices[1]), getPoint(indices[2]))
-				&& firstSide == GeometryHelper.computeDistanceBetweenPoints(
-						getPoint(indices[2]), getPoint(indices[3])) 
-				&& firstSide == GeometryHelper.computeDistanceBetweenPoints(
-						getPoint(indices[3]), getPoint(indices[0])));
-
 	}
 
 	private boolean checkPointsCount() {
