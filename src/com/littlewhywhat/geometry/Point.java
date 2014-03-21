@@ -16,4 +16,15 @@ public class Point {
 	public int getY() {
 		return y;
 	}
+
+	@Override
+	protected Point clone() {		
+		try {
+			return (Point)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError();
+		}
+	}
+	
+	
 }

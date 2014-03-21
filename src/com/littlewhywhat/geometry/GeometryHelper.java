@@ -20,12 +20,27 @@ public class GeometryHelper {
 		return (int) Math.toDegrees(Math.atan(result));
 	}
 
-	public static boolean checkFourPointsAreSquare(Point one, Point two,
+	public static boolean fourPointsAreSquare(Point one, Point two,
 			Point three, Point four) {
 		double firstSide = computeDistanceBetweenPoints(one, two);
 		return (firstSide == computeDistanceBetweenPoints(two, three)
 				&& firstSide == computeDistanceBetweenPoints(three, four) 
 				&& firstSide == computeDistanceBetweenPoints(four, one));
-
 	}
+
+	public static boolean isEqualSided(Figure figure) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean canBePlacedIntoCircleWithCenter(Figure figure,
+			Point center) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static Point computeCircumCenter(Figure figure) {
+		return null;
+	}
+	
 }
