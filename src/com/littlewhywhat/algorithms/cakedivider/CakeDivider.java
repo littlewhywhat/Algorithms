@@ -62,7 +62,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private void computeCenter(Figure figure) {
-		center = Geometry.computeCircumCenter(figure);
+		center = Geometry.computeCircumCenter(figure.getVertice(0), figure.getVertice(1), figure.getVertice(2));
 	}
 
 	private boolean checkPointsCount() {

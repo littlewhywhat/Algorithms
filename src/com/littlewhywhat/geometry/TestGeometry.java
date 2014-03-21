@@ -37,7 +37,8 @@ public class TestGeometry {
 
 	@Test
 	public void testIsEqualSidedFalse() {
-		Assert.assertEquals(false, Geometry.isEqualSided(TestGeometryFigures.getStraightTriangle()));
+		Assert.assertEquals(false, Geometry.isEqualSided(TestGeometryFigures
+				.getStraightTriangle()));
 	}
 
 	@Test
@@ -48,14 +49,22 @@ public class TestGeometry {
 						TestGeometryFigures.getSquare(), new Point(1, 1)));
 
 	}
-	
+
 	@Test
 	public void testCanBePlacedIntoCircleWithCenterFalse() {
-		Assert.assertEquals(
-				false,
-				Geometry.canBePlacedIntoCircleWithCenter(
-						TestGeometryFigures.getStraightTriangle(), new Point(2, 2)));
+		Assert.assertEquals(false, Geometry.canBePlacedIntoCircleWithCenter(
+				TestGeometryFigures.getStraightTriangle(), new Point(2, 2)));
 
+	}
+
+	@Test
+	public void testCompute() {
+		Figure triangle = TestGeometryFigures.getStraightTriangle();
+		Point center = Geometry.computeCircumCenter(triangle.getVertice(0),
+				triangle.getVertice(1), triangle.getVertice(2));
+		
+		Assert.assertEquals(1, center.getX());
+		Assert.assertEquals(1, center.getY());
 	}
 
 }
