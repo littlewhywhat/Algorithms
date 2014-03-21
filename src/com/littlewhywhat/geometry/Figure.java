@@ -1,6 +1,7 @@
 package com.littlewhywhat.geometry;
 
 public class Figure {
+	
 	private Point[] points;
 
 	@Override

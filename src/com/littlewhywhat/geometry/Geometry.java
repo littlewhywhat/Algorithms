@@ -41,8 +41,12 @@ public class Geometry {
 
 	public static boolean canBePlacedIntoCircleWithCenter(Figure figure,
 			Point center) {
-		// TODO Auto-generated method stub
-		return false;
+		Point first = figure.getVertice(0);
+		double distance = computeDistanceBetweenPoints(first, center);
+		for (int i = 1; i < figure.getPoints().length; i++)
+			if (computeDistanceBetweenPoints(center, figure.getVertice(i)) != distance) 
+				return false;
+		return true;
 	}
 
 	public static Point computeCircumCenter(Figure figure) {
