@@ -1,6 +1,5 @@
 package com.littlewhywhat.datastructure.sieve;
 
-
 public class SerialArraySieve<T> implements ArraySieve<T> {
 	private T[] array;
 	private int interval;
@@ -26,7 +25,7 @@ public class SerialArraySieve<T> implements ArraySieve<T> {
 			marker = round;
 		}
 	}
-	
+
 	@Override
 	public void setArray(T[] array) {
 		this.array = array;

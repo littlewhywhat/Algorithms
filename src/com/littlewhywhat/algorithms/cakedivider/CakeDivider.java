@@ -3,7 +3,7 @@ package com.littlewhywhat.algorithms.cakedivider;
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;
-import com.littlewhywhat.geometry.GeometryHelper;
+import com.littlewhywhat.geometry.Geometry;
 import com.littlewhywhat.geometry.Point;
 
 public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
@@ -31,7 +31,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private void computeAngle(Point vertice) {
-		dividerAngle = GeometryHelper.computeAngleByPoints(vertice, center);
+		dividerAngle = Geometry.computeAngleByPoints(vertice, center);
 	}
 
 	private boolean computeIfDividerExists() {
@@ -40,7 +40,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 		dosator.setDoseFigure(figure);
 		while (dosator.hasDose()) {
 			dosator.nextDose();
-			if (GeometryHelper.isEqualSided(figure)) {
+			if (Geometry.isEqualSided(figure)) {
 				computeCenter(figure);
 				computeAngle(figure.getVertice(0));
 				return true;
@@ -55,14 +55,14 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 		dosator.setDoseFigure(figure);
 		while (dosator.hasDose()) {
 			dosator.nextDose();
-			if (!GeometryHelper.canBePlacedIntoCircleWithCenter(figure, center))
+			if (!Geometry.canBePlacedIntoCircleWithCenter(figure, center))
 				return false;
 		}
 		return true;
 	}
 
 	private void computeCenter(Figure figure) {
-		center = GeometryHelper.computeCircumCenter(figure);
+		center = Geometry.computeCircumCenter(figure);
 	}
 
 	private boolean checkPointsCount() {
