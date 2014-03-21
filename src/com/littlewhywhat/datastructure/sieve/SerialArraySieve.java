@@ -42,4 +42,9 @@ public class SerialArraySieve<T> implements ArraySieve<T> {
 		round = 0;
 	}
 
+	@Override
+	public T[] getArray() {
+		return this.array;
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.littlewhywhat.algorithms.cakedivider;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
+import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;
 import com.littlewhywhat.geometry.Geometry;
@@ -10,7 +11,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	private static final int NUMBER_OF_PARTS = 4;
 	private Point center;
 	private int dividerAngle;
-	private FigureDosator dosator = new FigureDosator();
+	private CakeDosator dosator;
 
 	private void setWrongOutput() {
 		setOutput(new String[] { "-1" });
@@ -23,6 +24,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 
 	@Override
 	public void execute() {
+		dosator = new CakeDosator();
 		if (checkPointsCount() && computeIfDividerExists()
 				&& checkCakeSymmetry()) {
 			setRightOutput();
@@ -35,14 +37,11 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private boolean computeIfDividerExists() {
-		Figure figure = new Figure();
-		figure.setPoints(new Point[NUMBER_OF_PARTS]);
-		dosator.setDoseFigure(figure);
 		while (dosator.hasDose()) {
 			dosator.nextDose();
-			if (Geometry.isEqualSided(figure)) {
-				computeCenter(figure);
-				computeAngle(figure.getVertice(0));
+			if (Geometry.isEqualSided(dosator.getDoseFigure())) {
+				computeCenter(dosator.getDoseFigure());
+				computeAngle(dosator.getDoseFigure().getVertice(0));
 				return true;
 			}
 		}
@@ -50,23 +49,30 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private boolean checkCakeSymmetry() {
-		Figure figure = new Figure();
-		figure.setPoints(new Point[NUMBER_OF_PARTS]);
-		dosator.setDoseFigure(figure);
+		dosator.reset();
 		while (dosator.hasDose()) {
 			dosator.nextDose();
-			if (!Geometry.canBePlacedIntoCircleWithCenter(figure, center))
+			if (!Geometry.canBePlacedIntoCircleWithCenter(dosator.getDoseFigure(), center))
 				return false;
 		}
 		return true;
 	}
 
 	private void computeCenter(Figure figure) {
-		center = Geometry.computeCircumCenter(figure.getVertice(0), figure.getVertice(1), figure.getVertice(2));
+		center = Geometry.computeCircumCenter(figure.getVertice(0),
+				figure.getVertice(1), figure.getVertice(2));
 	}
 
 	private boolean checkPointsCount() {
 		return getData().length % NUMBER_OF_PARTS == 0;
 	}
 
+	private class CakeDosator extends FigureDosator {
+		public CakeDosator() {
+			super();
+			setArraySieve(new SerialArraySieve<Point>());
+			setArray(getData());
+			setDoseFigure(NUMBER_OF_PARTS);
+		}
+	}
 }
