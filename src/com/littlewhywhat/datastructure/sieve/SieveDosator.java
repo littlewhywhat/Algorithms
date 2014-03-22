@@ -1,5 +1,7 @@
 package com.littlewhywhat.datastructure.sieve;
 
+import com.littlewhywhat.datastructure.ArraySieve;
+
 public class SieveDosator<T> {
 	private T[] dose;
 	private ArraySieve<T> arraySieve;

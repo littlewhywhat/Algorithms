@@ -1,4 +1,4 @@
-package com.littlewhywhat.datastructure.sieve;
+package com.littlewhywhat.datastructure;
 
 public interface ArraySieve<T> {
 	void setInterval(int sellsNumber);
