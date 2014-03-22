@@ -15,7 +15,7 @@ public class TestFigureDosator {
 		dosator = new FigureDosator();
 		Point[] array = new Point[] { new Point(0, 0), new Point(1, 1),
 				new Point(2, 2), new Point(3, 3), new Point(4, 4),
-				new Point(5, 5) };		
+				new Point(5, 5) };
 		dosator.setArraySieve(new SerialArraySieve<Point>());
 		dosator.setArray(array);
 		dosator.setDoseFigure(2);

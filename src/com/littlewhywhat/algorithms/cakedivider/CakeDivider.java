@@ -37,13 +37,23 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private boolean computeIfDividerExists() {
+		int count = 0;
 		while (dosator.hasDose()) {
 			dosator.nextDose();
+			
 			if (Geometry.isEqualSided(dosator.getDoseFigure())) {
 				computeCenter(dosator.getDoseFigure());
 				computeAngle(dosator.getDoseFigure().getVertice(0));
+				System.out.println( "square " + count + "\n" +
+						"first " + dosator.getDoseFigure().getPoints()[0] + "\n" + 
+						"second " + dosator.getDoseFigure().getPoints()[1] + "\n" +
+						"third " + dosator.getDoseFigure().getPoints()[2] + "\n" +
+						"fourth " + dosator.getDoseFigure().getPoints()[3] + "\n" +
+						"center " + center
+						);
 				return true;
 			}
+			count++;
 		}
 		return false;
 	}
@@ -52,8 +62,16 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 		dosator.reset();
 		while (dosator.hasDose()) {
 			dosator.nextDose();
-			if (!Geometry.canBePlacedIntoCircleWithCenter(dosator.getDoseFigure(), center))
+			if (!Geometry.canBePlacedIntoCircleWithCenter(dosator.getDoseFigure(), center)) {
+				System.out.println(  "can't be placed \n" +
+						"first " + dosator.getDoseFigure().getPoints()[0] + "\n" + 
+						"second " + dosator.getDoseFigure().getPoints()[1] + "\n" +
+						"third " + dosator.getDoseFigure().getPoints()[2] + "\n" +
+						"fourth " + dosator.getDoseFigure().getPoints()[3] + "\n" +
+						"center " + center
+						);
 				return false;
+			}
 		}
 		return true;
 	}

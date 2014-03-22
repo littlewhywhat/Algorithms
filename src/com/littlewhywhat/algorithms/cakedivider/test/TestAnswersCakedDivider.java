@@ -5,4 +5,5 @@ public class TestAnswersCakedDivider {
 	public static final String[] WRONG_ANSWER = new String[] { "-1" };
 	public static final String[] CUSTOM_ONE_ANSWERS = new String[] { "1 2", "45" };
 	public static final String[] CUSTOM_TWO_ANSWERS = new String[] { "1 5", "45" };
+	public static final String[] BIG_ANSWERS = new String[] { "250 -250", "0" };
 }
