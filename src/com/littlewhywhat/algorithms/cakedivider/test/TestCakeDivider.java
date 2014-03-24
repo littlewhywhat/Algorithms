@@ -41,7 +41,7 @@ public class TestCakeDivider {
 	@Test
 	public void testExecuteWithReadWriteCustomThree() {
 		testExecuteWithReadWrite(FILE_THAT_HAS_ANSWER_CUSTOM_THREE,
-				TestAnswersCakedDivider.WRONG_ANSWER);
+				TestAnswersCakedDivider.CUSTOM_THREE_ANSWERS);
 	}
 
 	@Test
@@ -60,7 +60,8 @@ public class TestCakeDivider {
 	public void testSpeed() {
 		CakeGenerator.writeCake(FILE_THAT_HAS_BIG_INPUT, CakeGenerator.generateSquareCake(MAX_CAKE_VALUE));
 		long start = System.currentTimeMillis();
-		testExecuteWithReadWrite(FILE_THAT_HAS_BIG_INPUT, TestAnswersCakedDivider.BIG_ANSWERS);
+		for (int i = 0; i < 100; i++)
+			testExecuteWithReadWrite(FILE_THAT_HAS_BIG_INPUT, TestAnswersCakedDivider.BIG_ANSWERS);
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
 	}

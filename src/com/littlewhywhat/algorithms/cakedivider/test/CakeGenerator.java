@@ -8,6 +8,7 @@ import com.littlewhywhat.algorithms.TextFileOutputWriter;
 import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;
+import com.littlewhywhat.geometry.Geometry;
 import com.littlewhywhat.geometry.Point;
 
 public class CakeGenerator {
@@ -37,10 +38,10 @@ public class CakeGenerator {
 		while (dosator.hasDose()) {
 			dosator.nextDose();
 			figure = dosator.getDoseFigure();
-			Point first = figure.getVertice(0);
-			changePointOfFigure(figure, 0, getRandomX(), getRandomY());
+			Point first = getRandomPoint();			
+			changePointOfFigure(figure, 0, first.getX(), first.getY());
 			changePointOfFigure(figure, 1, SQUARE_SIDE_LENGTH + first.getY(),
-					first.getX());
+					-first.getX());
 			changePointOfFigure(figure, 2, SQUARE_SIDE_LENGTH - first.getX(),
 					-(SQUARE_SIDE_LENGTH + first.getY()));
 			changePointOfFigure(figure, 3, -first.getY(), first.getX()
@@ -48,7 +49,8 @@ public class CakeGenerator {
 		}
 		try {
 			changePointOfFigure(figure, 0, SQUARE_SIDE_LENGTH, 0);
-			changePointOfFigure(figure, 1, SQUARE_SIDE_LENGTH, -SQUARE_SIDE_LENGTH);
+			changePointOfFigure(figure, 1, SQUARE_SIDE_LENGTH,
+					-SQUARE_SIDE_LENGTH);
 			changePointOfFigure(figure, 2, 0, -SQUARE_SIDE_LENGTH);
 			changePointOfFigure(figure, 3, 0, 0);
 		} catch (NullPointerException e) {
@@ -62,6 +64,19 @@ public class CakeGenerator {
 		Point point = figure.getVertice(index);
 		point.setX(x);
 		point.setY(y);
+	}
+
+	private static Point getRandomPoint() {
+		Point point;
+		Point center = new Point(250, -250);
+		Point startPoint = new Point (0,0);
+		Point endPoint = new Point (0, 500);
+		do {
+			point = new Point(getRandomX(), getRandomY());
+		}
+		while (!Geometry.checkIfPointIsInAngle(point, center, startPoint,
+						endPoint));
+		return point;
 	}
 
 	private static int getRandomX() {
