@@ -1,5 +1,7 @@
 package com.littlewhywhat.geometry;
 
+import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
+
 public class Geometry {
 	public static double computeDistanceBetweenPoints(Point one, Point two) {
 		double powerOne = Math.pow(one.getX() - two.getX(), 2);
@@ -55,6 +57,60 @@ public class Geometry {
 		int x = (C1 * B2 - C2 * B1) / (A1 * B2 - A2 * B1);
 		int y = (A1 * C2 - A2 * C1) / (A1 * B2 - A2 * B1);
 		return new Point(x, y);
+	}
+
+	public static double computeSquare(SimpleArrayDivider<Point> dataDivider,
+			int part) {
+		dataDivider.goToPart(part);
+		Point first = dataDivider.getItem();
+		Point prevPoint = first;
+		Point nextPoint;
+		double ySum = 0;
+		double xSum = 0;
+		while (dataDivider.partHasItems()) {
+			nextPoint = dataDivider.getItem();
+			xSum += prevPoint.getX() * nextPoint.getY();
+			ySum += prevPoint.getY() * nextPoint.getX();
+			prevPoint = nextPoint;
+		}
+		xSum += prevPoint.getX() * first.getY();
+		ySum += prevPoint.getY() * first.getX();
+		return Math.abs((xSum - ySum) / 2);
+	}
+
+	public static double computeSquare(Point[] points) {
+		if (points.length > 2) {
+			double ySum = 0;
+			double xSum = 0;
+			Point prevPoint = points[points.length - 1];
+			for (Point nextPoint : points) {
+				xSum += prevPoint.getX() * nextPoint.getY();
+				ySum += prevPoint.getY() * nextPoint.getX();
+				prevPoint = nextPoint;
+			}
+			return Math.abs((xSum - ySum) / 2);
+		}
+		return 0;
+	}
+
+	public static boolean checkIfPointIsInAngle(Point item, Point center,
+			Point startPoint, Point endPoint) {
+		Line one = new Line();
+		one.setByPoints(center, startPoint);
+		Line two = new Line();
+		two.setByPoints(center, endPoint);
+		return checkIfPointsAreAtTheSamePositionToLine(one, endPoint, item)
+				&& checkIfPointsAreAtTheSamePositionToLine(two, startPoint,
+						item);
+	}
+
+	public static boolean checkIfPointsAreAtTheSamePositionToLine(Line line,
+			Point one, Point two) {
+		double positionOne = line.getPosition(one);
+		double positionTwo = line.getPosition(two);
+		if (positionOne == 0 || positionTwo == 0)
+			return true;
+		return (line.getPosition(one) < 0) == (line.getPosition(two) < 0);
 	}
 
 }
