@@ -25,13 +25,13 @@ public class TestSimpleArrayDivider {
 
 	@Test
 	public void testGoToPart() {
-		divider.goToPart(4);
+		divider.goToPart(3);
 		checkPartFrom(0);
 	}
 	
 	@Test
 	public void testPartHasItems() {
-		divider.goToPart(1);
+		divider.goToPart(0);
 		int count = 0;
 		while (divider.partHasItems()) {
 			divider.getItem();
@@ -39,6 +39,20 @@ public class TestSimpleArrayDivider {
 		}
 		Assert.assertEquals(2, count);
 	}
+	@Test
+	public void testSetInterval() {
+		divider.setNumberOfParts(3);
+		divider.setStartIndex(START_INDEX);
+		divider.goToPart(0);
+		int count = 0;
+		while (divider.partHasItems()) {
+			divider.getItem();
+			count++;
+		}
+		Assert.assertEquals(3, count);
+		
+	}
+	
 	private void checkPartFrom(int index) {
 		while(divider.partHasItems()) {
 			Assert.assertEquals(ARRAY[index], divider.getItem());
