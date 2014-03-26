@@ -1,12 +1,12 @@
-package com.littlewhywhat.algorithms.cakedivider.test;
+package com.littlewhywhat.algorithms.io.txt;
 
 import org.junit.Test;
 
-import com.littlewhywhat.algorithms.cakedivider.CakeDividerOutputWriter;
+import com.littlewhywhat.algorithms.cakedivider.test.TestAnswersCakedDivider;
 import com.littlewhywhat.algorithms.test.TestHelper;
 
-public class TestCakeDividerOutputWriter {
-	private CakeDividerOutputWriter writer = new CakeDividerOutputWriter();
+public class TestStringArrayOutputWriter {
+	private StringArrayOutputWriter writer = new StringArrayOutputWriter();
 	private static final String FOLDER = "OutputTest/";
 	private static final String ANSWER_FILEPATH = FOLDER + "answer.txt";
 	

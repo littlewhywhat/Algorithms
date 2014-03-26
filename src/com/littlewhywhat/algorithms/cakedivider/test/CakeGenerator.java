@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Random;
 
-import com.littlewhywhat.algorithms.TextFileOutputWriter;
+import com.littlewhywhat.algorithms.io.txt.TextFileOutputWriter;
 import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import org.apache.commons.math3.linear.MatrixUtils;
 
-import com.littlewhywhat.algorithms.TextFileInputReader;
+import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
 public class NormalEquationReader extends
 		TextFileInputReader<Integer[], DataNormalEquation> {

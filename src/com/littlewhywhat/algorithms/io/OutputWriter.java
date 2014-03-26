@@ -1,4 +1,4 @@
-package com.littlewhywhat.algorithms;
+package com.littlewhywhat.algorithms.io;
 
 public interface OutputWriter<OutputType> {
 	void setOutput(OutputType output);

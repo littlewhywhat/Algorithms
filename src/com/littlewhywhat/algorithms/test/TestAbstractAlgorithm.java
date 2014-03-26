@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.TextFileInputReader;
-import com.littlewhywhat.algorithms.TextFileOutputWriter;
+import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
+import com.littlewhywhat.algorithms.io.txt.TextFileOutputWriter;
 
 public class TestAbstractAlgorithm {
 	Reader reader = new Reader();

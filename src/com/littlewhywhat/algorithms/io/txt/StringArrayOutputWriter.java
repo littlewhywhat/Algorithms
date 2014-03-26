@@ -1,11 +1,9 @@
-package com.littlewhywhat.algorithms.cakedivider;
+package com.littlewhywhat.algorithms.io.txt;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import com.littlewhywhat.algorithms.TextFileOutputWriter;
-
-public class CakeDividerOutputWriter extends TextFileOutputWriter<String[]> {
+public class StringArrayOutputWriter extends TextFileOutputWriter<String[]> {
 	@Override
 	protected void writeOutputData(BufferedWriter bw) throws IOException {
 		for (String line : getOutput()) {

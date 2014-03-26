@@ -1,4 +1,4 @@
-package com.littlewhywhat.algorithms;
+package com.littlewhywhat.algorithms.io;
 
 public abstract class AbstractInputReader<ConfigType, DataType> implements
 		InputReader<ConfigType, DataType> {

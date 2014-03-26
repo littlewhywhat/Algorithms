@@ -1,5 +1,8 @@
 package com.littlewhywhat.algorithms;
 
+import com.littlewhywhat.algorithms.io.InputReader;
+import com.littlewhywhat.algorithms.io.OutputWriter;
+
 public abstract class AbstractAlgorithm<ConfigType, DataType, OutputType>
 		implements Algorithm<ConfigType, DataType, OutputType> {
 	ConfigType config;

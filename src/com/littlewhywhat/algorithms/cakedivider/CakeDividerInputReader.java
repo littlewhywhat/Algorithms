@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import com.littlewhywhat.algorithms.TextFileInputReader;
+import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 import com.littlewhywhat.geometry.Point;
 
 public class CakeDividerInputReader extends TextFileInputReader<Void, Point[]> {
