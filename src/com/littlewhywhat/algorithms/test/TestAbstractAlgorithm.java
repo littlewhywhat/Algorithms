@@ -1,5 +1,4 @@
 package com.littlewhywhat.algorithms.test;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
