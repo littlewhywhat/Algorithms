@@ -42,6 +42,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 			dataDivider.goToPart(prevIndex);
 			while (dataDivider.partHasItems()) {
 				Point item = dataDivider.getItem();
+
 				if (!Geometry.checkIfPointIsInAngle(item, center, startPoint,
 						endPoint))
 					return false;
