@@ -6,7 +6,7 @@ public class SimpleArrayDivider<T> implements ArrayDivider<T> {
 
 	private T[] array;
 	private int interval;
-	private int startIndex;
+	private int startIndex = -1;
 	private int currentIndex;
 	private int count;
 
