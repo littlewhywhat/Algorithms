@@ -7,7 +7,7 @@ import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.UserItemEn
 import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
 public class BaselinePredictorsReader extends
-		TextFileInputReader<PredictionConfig, PredictionData> {
+		TextFileInputReader<Integer, PredictionData> {
 
 	@Override
 	protected void extractInputData(Scanner scanner)
@@ -17,17 +17,20 @@ public class BaselinePredictorsReader extends
 	}
 
 	private void extractData(Scanner scanner) {
+		int[][] matrix = new int[scanner.nextInt()][scanner.nextInt()];	
 		UserItemEntry[] learnData = new UserItemEntry[scanner.nextInt()];
 		UserItemEntry[] testData = new UserItemEntry[scanner.nextInt()];
-		for (int i = 0; i < learnData.length; i++)
+		for (int i = 0; i < learnData.length; i++) {
 			learnData[i] = new UserItemEntry(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+			matrix[learnData[i].getUserId()][learnData[i].getItemId()] = learnData[i].getValue();
+		}
 		for (int i = 0; i < testData.length; i++)
 			testData[i] = new UserItemEntry(scanner.nextInt(), scanner.nextInt(), 0);
-		setData(new PredictionData(learnData, testData));
+		setData(new PredictionData(learnData, testData, matrix));
 	}
 
 	private void extractConfig(Scanner scanner) {	
-		setConfig(new PredictionConfig(scanner.nextInt(), scanner.nextInt(), scanner.nextInt()));
+		setConfig(scanner.nextInt());
 	}
 
 }

@@ -13,6 +13,7 @@ public class TestBaselinePredictorsReader {
 	private BaselinePredictorsReader reader;
 	private UserItemEntry[] checkLearnEntries;
 	private UserItemEntry[] checkTestEntries;
+	private int[][] checkMatrix;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -20,8 +21,18 @@ public class TestBaselinePredictorsReader {
 		reader.setInputFilePath(TestBaselinePredictors.INPUT_FILE_PATH);
 		checkLearnEntries = new UserItemEntry[5];
 		checkTestEntries = new UserItemEntry[4];
+		checkMatrix = new int[3][3];
 		initCheckLearnEntries();
 		initCheckTestEntries();
+		initCheckMatrix();
+	}
+
+	private void initCheckMatrix() {
+		checkMatrix[0][0] = 9;
+		checkMatrix[0][1] = 8;
+		checkMatrix[1][1] = 4;
+		checkMatrix[1][2] = 6;
+		checkMatrix[2][2] = 7;
 	}
 
 	private void initCheckTestEntries() {
@@ -50,13 +61,11 @@ public class TestBaselinePredictorsReader {
 	private void testPredictionData() {
 		Assert.assertArrayEquals(checkLearnEntries, reader.getData().getLearnEntries());
 		Assert.assertArrayEquals(checkTestEntries, reader.getData().getTestEntries());
-		
+		Assert.assertArrayEquals(checkMatrix, reader.getData().getMatrix());
 	}
 
 	private void testPredictionConfig() {
-		Assert.assertEquals(10, reader.getConfig().getMaxRateValue());
-		Assert.assertEquals(3, reader.getConfig().getNumOfItems());
-		Assert.assertEquals(3, reader.getConfig().getNumOfUsers());
+		Assert.assertEquals(10, reader.getConfig(), 0);
 	}
 
 }

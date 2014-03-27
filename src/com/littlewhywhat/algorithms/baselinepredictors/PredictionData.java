@@ -64,12 +64,14 @@ public class PredictionData {
 		
 		
 	}
-	
+
+	int[][] matrix;	
 	UserItemEntry[] learnEntries;
 	UserItemEntry[] testEntries;
 	public PredictionData(UserItemEntry[] learnEntries,
-			UserItemEntry[] testEntries) {
+			UserItemEntry[] testEntries, int[][] matrix) {
 		super();
+		this.matrix = matrix;
 		this.learnEntries = learnEntries;
 		this.testEntries = testEntries;
 	}
@@ -78,6 +80,9 @@ public class PredictionData {
 	}
 	public UserItemEntry[] getTestEntries() {
 		return testEntries;
+	}
+	public int[][] getMatrix() {
+		return matrix;
 	}
 	
 }
