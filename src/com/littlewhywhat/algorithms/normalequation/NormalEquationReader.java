@@ -30,12 +30,14 @@ public class NormalEquationReader extends
 		double[][] testValues = new double[numTestingRows][numParams];
 		try {
 			for (int i = 0; i < numLearningRows; i++) {
-				for (int j = 0; j < numParams; j++) 
+				learnValues[i][0] = 1;
+				for (int j = 1; j < numParams; j++) 
 					learnValues[i][j] = scanner.nextInt();
 				learnResults[i] = scanner.nextInt();
 			}
 			for (int i = 0; i < numTestingRows; i++) {
-				for (int j = 0; j < numParams; j++)
+				testValues[i][0] = 1;
+				for (int j = 1; j < numParams; j++)
 					testValues[i][j] = scanner.nextInt();
 			}
 		} catch (NoSuchElementException e) {
@@ -52,8 +54,8 @@ public class NormalEquationReader extends
 		List<Integer> paramsList =  readIntegersLine(scanner.nextLine());
 		numTestingRows = paramsList.remove(paramsList.size() - 1);
 		numLearningRows = paramsList.remove(paramsList.size() - 1);
-		numParams = paramsList.size() - 1;
-		setConfig(paramsList.toArray(new Integer[numParams]));
+		numParams = paramsList.size();
+		setConfig(paramsList.toArray(new Integer[numParams - 1]));
 	}
 	
 	private List<Integer> readIntegersLine(String line) {

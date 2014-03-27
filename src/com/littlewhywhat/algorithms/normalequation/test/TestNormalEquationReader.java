@@ -9,7 +9,6 @@ import com.littlewhywhat.algorithms.normalequation.NormalEquationReader;
 public class TestNormalEquationReader {
 
 	private NormalEquationReader reader;
-	private String inputFilePath = "NormalEquationTests/input.txt";
 	private Integer[] config;
 	private double[][] learnValues;
 	private double[] learnResults;
@@ -18,12 +17,12 @@ public class TestNormalEquationReader {
 	@Before
 	public void setUp() throws Exception {
 		reader = new NormalEquationReader();
-		reader.setInputFilePath(inputFilePath);
+		reader.setInputFilePath(TestNormalEquation.INPUT_FILE_PATH);
 		config = new Integer[] { 10, 3, 3 };
-		learnValues = new double[][] { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 1, 2 },
-				{ 2, 2 } };
+		learnValues = new double[][] { { 1, 0, 0 }, {1, 0, 1 }, { 1, 1, 1 }, { 1,1, 2 },
+				{ 1, 2, 2 } };
 		learnResults = new double[] { 9, 8, 4, 6, 7 };
-		testValues = new double[][] { { 0, 2}, { 1, 0 }, { 2, 0}, {2, 1 } };
+		testValues = new double[][] { { 1, 0, 2}, { 1, 1, 0 }, { 1, 2, 0}, { 1, 2, 1 } };
 	}
 
 	@Test
