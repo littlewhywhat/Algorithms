@@ -55,7 +55,7 @@ public class SimpleArrayDivider<T> implements ArrayDivider<T> {
 		return count < interval;
 	}
 
-	public void reset() {
+	private void reset() {
 		count = 0;
 	}
 }

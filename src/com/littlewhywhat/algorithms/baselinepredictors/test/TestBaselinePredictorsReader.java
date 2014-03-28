@@ -6,21 +6,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsReader;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.UserItemEntry;
+import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.UserItemIndex;
 
 public class TestBaselinePredictorsReader {
 	
 	private BaselinePredictorsReader reader;
-	private UserItemEntry[] checkLearnEntries;
-	private UserItemEntry[] checkTestEntries;
+	private UserItemIndex[] checkLearnEntries;
+	private UserItemIndex[] checkTestEntries;
 	private int[][] checkMatrix;
 	
 	@Before
 	public void setUp() throws Exception {
 		reader = new BaselinePredictorsReader();
 		reader.setInputFilePath(TestBaselinePredictors.INPUT_FILE_PATH);
-		checkLearnEntries = new UserItemEntry[5];
-		checkTestEntries = new UserItemEntry[4];
+		checkLearnEntries = new UserItemIndex[5];
+		checkTestEntries = new UserItemIndex[4];
 		checkMatrix = new int[3][3];
 		initCheckLearnEntries();
 		initCheckTestEntries();
@@ -36,18 +36,18 @@ public class TestBaselinePredictorsReader {
 	}
 
 	private void initCheckTestEntries() {
-		checkTestEntries[0] = new UserItemEntry(0, 2, 0);
-		checkTestEntries[1] = new UserItemEntry(1, 0, 0);
-		checkTestEntries[2] = new UserItemEntry(2, 0, 0);
-		checkTestEntries[3] = new UserItemEntry(2, 1, 0);
+		checkTestEntries[0] = new UserItemIndex(0, 2, 0);
+		checkTestEntries[1] = new UserItemIndex(1, 0, 0);
+		checkTestEntries[2] = new UserItemIndex(2, 0, 0);
+		checkTestEntries[3] = new UserItemIndex(2, 1, 0);
 	}
 
 	private void initCheckLearnEntries() {
-		checkLearnEntries[0] = new UserItemEntry(0, 0, 9);
-		checkLearnEntries[1] = new UserItemEntry(0, 1, 8);
-		checkLearnEntries[2] = new UserItemEntry(1, 1, 4);
-		checkLearnEntries[3] = new UserItemEntry(1, 2, 6);
-		checkLearnEntries[4] = new UserItemEntry(2, 2, 7);
+		checkLearnEntries[0] = new UserItemIndex(0, 0, 9);
+		checkLearnEntries[1] = new UserItemIndex(0, 1, 8);
+		checkLearnEntries[2] = new UserItemIndex(1, 1, 4);
+		checkLearnEntries[3] = new UserItemIndex(1, 2, 6);
+		checkLearnEntries[4] = new UserItemIndex(2, 2, 7);
 			
 	}
 

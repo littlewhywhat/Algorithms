@@ -3,7 +3,7 @@ package com.littlewhywhat.algorithms.baselinepredictors;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.UserItemEntry;
+import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.UserItemIndex;
 import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
 public class BaselinePredictorsReader extends
@@ -18,14 +18,14 @@ public class BaselinePredictorsReader extends
 
 	private void extractData(Scanner scanner) {
 		int[][] matrix = new int[scanner.nextInt()][scanner.nextInt()];	
-		UserItemEntry[] learnData = new UserItemEntry[scanner.nextInt()];
-		UserItemEntry[] testData = new UserItemEntry[scanner.nextInt()];
+		UserItemIndex[] learnData = new UserItemIndex[scanner.nextInt()];
+		UserItemIndex[] testData = new UserItemIndex[scanner.nextInt()];
 		for (int i = 0; i < learnData.length; i++) {
-			learnData[i] = new UserItemEntry(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+			learnData[i] = new UserItemIndex(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
 			matrix[learnData[i].getUserId()][learnData[i].getItemId()] = learnData[i].getValue();
 		}
 		for (int i = 0; i < testData.length; i++)
-			testData[i] = new UserItemEntry(scanner.nextInt(), scanner.nextInt(), 0);
+			testData[i] = new UserItemIndex(scanner.nextInt(), scanner.nextInt(), 0);
 		setData(new PredictionData(learnData, testData, matrix));
 	}
 
