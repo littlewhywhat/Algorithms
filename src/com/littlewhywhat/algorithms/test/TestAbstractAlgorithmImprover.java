@@ -23,7 +23,7 @@ public class TestAbstractAlgorithmImprover {
 		improver = new MockAbstractAlgorithmImprover();
 		improver.setAlgorithm(algorithm);
 		improver.setChecker(checker);
-		improver.setData(5);
+		improver.setData("5");
 		improver.setConfig(1);
 	}
 
@@ -31,20 +31,20 @@ public class TestAbstractAlgorithmImprover {
 	public void testImprove() {
 		improver.improve();
 		Assert.assertEquals(1, algorithm.getConfig(), 0);
-		improver.setData(25);
+		improver.setData("25");
 		improver.improve();
 		Assert.assertEquals(5, algorithm.getConfig(), 0);
 	}
 	@Test
 	public void testSetMaxNumberOfImprovements() {
 		improver.setConfig(1);
-		improver.setData(25);
+		improver.setData("25");
 		improver.setMaxNumberOfImprovements(2);
 		improver.improve();
 		Assert.assertEquals(3, algorithm.getConfig(), 0);
 	}
 
-	private class MockAbstractAlgorithmImprover extends AbstractAlgorithmImprover<Integer, Integer, Integer, Integer> {
+	private class MockAbstractAlgorithmImprover extends AbstractAlgorithmImprover<String,Integer, Integer, Integer, Integer> {
 	
 		@Override
 		protected Integer getPreviousConfig() {
@@ -60,7 +60,7 @@ public class TestAbstractAlgorithmImprover {
 
 		@Override
 		protected Integer measurePerformance() {
-			getAlgorithm().setData(getData());
+			getAlgorithm().setData(Integer.parseInt(getData()));
 			getAlgorithm().execute();
 			return getAlgorithm().getOutput();
 		}

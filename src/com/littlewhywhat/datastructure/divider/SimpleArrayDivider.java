@@ -21,7 +21,7 @@ public class SimpleArrayDivider<T> implements ArrayDivider<T> {
 		this.currentIndex = startIndex + index * interval;
 		if (this.currentIndex >= array.length)
 			this.currentIndex -= array.length;
-		reset();
+		resetCount();
 	}
 
 	private void increment() {
@@ -47,7 +47,7 @@ public class SimpleArrayDivider<T> implements ArrayDivider<T> {
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex - 1;
 		this.currentIndex = this.startIndex;
-		reset();
+		resetCount();
 	}
 
 	@Override
@@ -55,7 +55,11 @@ public class SimpleArrayDivider<T> implements ArrayDivider<T> {
 		return count < interval;
 	}
 
-	private void reset() {
+	private void resetCount() {
 		count = 0;
+	}
+
+	public T[] getArray() {
+		return this.array;
 	}
 }

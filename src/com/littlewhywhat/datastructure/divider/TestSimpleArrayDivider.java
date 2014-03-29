@@ -46,10 +46,17 @@ public class TestSimpleArrayDivider {
 		divider.goToPart(0);
 		int count = 0;
 		while (divider.partHasItems()) {
-			divider.getItem();
+			System.out.println(divider.getItem());
 			count++;
 		}
 		Assert.assertEquals(3, count);
+		for (int i = 0; i < 3; i++){
+			divider.goToPart(i);
+			while (divider.partHasItems()) {
+				System.out.println(divider.getItem());
+			}
+		}
+			
 		
 	}
 	

@@ -1,13 +1,13 @@
 package com.littlewhywhat.algorithms;
 
 
-public abstract class AbstractAlgorithmImprover<ConfigType, DataType, OutputType, CheckType>
+public abstract class AbstractAlgorithmImprover<DataType,AlgoConfigType, AlgoDataType, AlgoOutputType, CheckType>
 		implements
-		AlgorithmImprover<ConfigType, DataType, OutputType, CheckType> {
+		AlgorithmImprover<DataType, AlgoConfigType, AlgoDataType, AlgoOutputType, CheckType> {
 
 	private DataType data;
 	private PerformanceChecker<CheckType> checker;
-	private AbstractAlgorithm<ConfigType, DataType, OutputType> algorithm;
+	private AbstractAlgorithm<AlgoConfigType, AlgoDataType, AlgoOutputType> algorithm;
 	private int maxNumberOfImprovements = 0;
 	private boolean countIsNotSet = true;
 
@@ -27,7 +27,7 @@ public abstract class AbstractAlgorithmImprover<ConfigType, DataType, OutputType
 
 	@Override
 	public void setAlgorithm(
-			AbstractAlgorithm<ConfigType, DataType, OutputType> algorithm) {
+			AbstractAlgorithm<AlgoConfigType, AlgoDataType, AlgoOutputType> algorithm) {
 		this.algorithm = algorithm;
 	}
 
@@ -49,23 +49,23 @@ public abstract class AbstractAlgorithmImprover<ConfigType, DataType, OutputType
 		}
 	}
 
-	protected abstract ConfigType getPreviousConfig();
+	protected abstract AlgoConfigType getPreviousConfig();
 
 	protected abstract void improveConfig();
 
 	protected abstract CheckType measurePerformance();
 
 	@Override
-	public ConfigType getConfig() {
+	public AlgoConfigType getConfig() {
 		return algorithm.getConfig();
 	}
 
 	@Override
-	public void setConfig(ConfigType config) {
+	public void setConfig(AlgoConfigType config) {
 		algorithm.setConfig(config);
 	}
 
-	public AbstractAlgorithm<ConfigType, DataType, OutputType> getAlgorithm() {
+	public AbstractAlgorithm<AlgoConfigType, AlgoDataType, AlgoOutputType> getAlgorithm() {
 		return algorithm;
 	}
 

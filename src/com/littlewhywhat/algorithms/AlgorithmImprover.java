@@ -1,18 +1,18 @@
 package com.littlewhywhat.algorithms;
 
-public interface AlgorithmImprover<ConfigType, DataType, OutputType, CheckType> {
+public interface AlgorithmImprover<DataType, AlgoConfigType, AlgoDataType, AlgoOutputType, CheckType> {
 	void setData(DataType array);
 
-	void setConfig(ConfigType config);
+	void setConfig(AlgoConfigType config);
 
 	void setChecker(PerformanceChecker<CheckType> checker);
 
 	void setAlgorithm(
-			AbstractAlgorithm<ConfigType, DataType, OutputType> algorithm);
+			AbstractAlgorithm<AlgoConfigType, AlgoDataType, AlgoOutputType> algorithm);
 
 	void improve();
 
 	void setMaxNumberOfImprovements(int maxNumberOfImprovements);
-	
-	ConfigType getConfig();
+
+	AlgoConfigType getConfig();
 }
