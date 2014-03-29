@@ -1,6 +1,8 @@
 package com.littlewhywhat.datastructure.collection;
 
-public interface ArrayCollection<E> {
+import com.littlewhywhat.datastructure.Array;
+
+public interface ArrayCollection<E> extends Array<E> {
 	public void setArray(E[] array);
 
 	public E[] getArray();
@@ -11,5 +13,4 @@ public interface ArrayCollection<E> {
 
 	public void reset();
 
-	public int size();
 }

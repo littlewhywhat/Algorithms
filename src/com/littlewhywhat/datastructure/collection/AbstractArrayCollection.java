@@ -18,5 +18,15 @@ public abstract class AbstractArrayCollection<E> implements ArrayCollection<E> {
 	public int size() {
 		return this.array.length;
 	}
+	
+	@Override
+	public void set(int index, E element) {
+		this.getArray()[index] = element;	
+	}
+
+	@Override
+	public E get(int index) {
+		return this.getArray()[index];
+	}
 
 }
