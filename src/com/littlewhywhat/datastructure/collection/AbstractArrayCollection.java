@@ -1,4 +1,4 @@
-package com.littlewhywhat.datastructure;
+package com.littlewhywhat.datastructure.collection;
 
 public abstract class AbstractArrayCollection<E> implements ArrayCollection<E> {
 

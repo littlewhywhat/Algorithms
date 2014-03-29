@@ -1,4 +1,4 @@
-package com.littlewhywhat.datastructure;
+package com.littlewhywhat.datastructure.collection;
 
 public interface ArrayCollection<E> {
 	public void setArray(E[] array);

@@ -1,4 +1,4 @@
-package com.littlewhywhat.datastructure;
+package com.littlewhywhat.datastructure.collection;
 
 public class ArrayCycleStarter<E> extends ArrayCycle<E> {
 	int startIndex = 0;

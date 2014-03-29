@@ -1,10 +1,11 @@
-package com.littlewhywhat.datastructure.test;
+package com.littlewhywhat.datastructure.collection.test;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.littlewhywhat.datastructure.ArrayCycle;
+import com.littlewhywhat.datastructure.collection.ArrayCycle;
+import com.littlewhywhat.datastructure.test.TestArray;
 
 public class TestArrayCycle {
 
