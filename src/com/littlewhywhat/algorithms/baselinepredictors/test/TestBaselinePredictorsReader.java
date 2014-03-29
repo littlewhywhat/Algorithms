@@ -15,10 +15,12 @@ public class TestBaselinePredictorsReader {
 	private PredictionData.MatrixIndex[] checkTestEntries;
 	private int[][] checkMatrix;
 	
+	private final String INPUT_FILE_PATH = TestBaselinePredictors.FOLDER + "inputForReaderTest.txt";
+	
 	@Before
 	public void setUp() throws Exception {
 		reader = new BaselinePredictorsReader();
-		reader.setInputFilePath(TestBaselinePredictors.INPUT_FILE_PATH);
+		reader.setInputFilePath(INPUT_FILE_PATH);
 		checkLearnEntries = new PredictionData.MatrixIndex[5];
 		checkTestEntries = new PredictionData.MatrixIndex[4];
 		checkMatrix = new int[3][3];
