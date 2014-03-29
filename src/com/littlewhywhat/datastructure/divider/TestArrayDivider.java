@@ -1,11 +1,10 @@
-package com.littlewhywhat.datastructure.collection.test;
+package com.littlewhywhat.datastructure.divider;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.datastructure.Array;
-import com.littlewhywhat.datastructure.collection.ArrayDivider;
 import com.littlewhywhat.datastructure.test.TestArray;
 
 public class TestArrayDivider {

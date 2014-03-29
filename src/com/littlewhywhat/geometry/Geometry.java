@@ -2,8 +2,6 @@ package com.littlewhywhat.geometry;
 
 import java.util.List;
 
-import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
-
 public class Geometry {
 	public static boolean canBePlacedIntoCircleWithCenter(Figure figure,
 			Point center) {
@@ -98,25 +96,6 @@ public class Geometry {
 			return Math.abs((xSum - ySum) / 2);
 		}
 		return 0;
-	}
-
-	public static double computeSquare(SimpleArrayDivider<Point> dataDivider,
-			int part) {
-		dataDivider.goToPart(part);
-		Point first = dataDivider.getItem();
-		Point prevPoint = first;
-		Point nextPoint;
-		double ySum = 0;
-		double xSum = 0;
-		while (dataDivider.partHasItems()) {
-			nextPoint = dataDivider.getItem();
-			xSum += prevPoint.getX() * nextPoint.getY();
-			ySum += prevPoint.getY() * nextPoint.getX();
-			prevPoint = nextPoint;
-		}
-		xSum += prevPoint.getX() * first.getY();
-		ySum += prevPoint.getY() * first.getX();
-		return Math.abs((xSum - ySum) / 2);
 	}
 
 	public static boolean isEqualSided(Figure figure) {

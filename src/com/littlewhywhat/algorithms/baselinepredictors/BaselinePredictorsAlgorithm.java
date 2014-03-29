@@ -1,18 +1,20 @@
 package com.littlewhywhat.algorithms.baselinepredictors;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.BaselinePredictorsConfig;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.PredictionDataForAlgorithm;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Config;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Data;
+import com.littlewhywhat.datastructure.Array;
+import com.littlewhywhat.datastructure.ArrayPart;
 
 public class BaselinePredictorsAlgorithm
 		extends
-		AbstractAlgorithm<BaselinePredictorsConfig, PredictionDataForAlgorithm, double[]> {
+		AbstractAlgorithm<Config, Data, double[]> {
 
-	public static class BaselinePredictorsConfig {
+	public static class Config {
 		private double lambda;
 		private int maxRating;
 
-		public BaselinePredictorsConfig(double lambda, int maxRating) {
+		public Config(double lambda, int maxRating) {
 			super();
 			this.lambda = lambda;
 			this.maxRating = maxRating;
@@ -35,6 +37,35 @@ public class BaselinePredictorsAlgorithm
 		}
 	}
 
+	public static class Data {
+		private int[][] matrix;
+		ArrayPart<MatrixIndex> testIndices;
+
+		public int[][] getMatrix() {
+			return matrix;
+		}
+
+		public void setMatrix(int[][] matrix) {
+			this.matrix = matrix;
+		}
+
+		public ArrayPart<MatrixIndex> getTestIndices() {
+			return testIndices;
+		}
+
+		public void setTestIndices(ArrayPart<MatrixIndex> testIndices) {
+			this.testIndices = testIndices;
+		}
+
+		public Data(int[][] matrix,
+				ArrayPart<MatrixIndex> testIndices) {
+			super();
+			this.matrix = matrix;
+			this.testIndices = testIndices;
+		}
+
+	}
+	
 	private double divUsersItems;
 
 	private double[] usersBias;
@@ -75,10 +106,10 @@ public class BaselinePredictorsAlgorithm
 	}
 
 	private void computeTestIndices() {
-		double[] values = new double[getTestIndices().length];
+		double[] values = new double[getTestIndices().size()];
 		double value;
 		for (int i = 0; i < values.length; i++) {
-			PredictionData.MatrixIndex entry = getTestIndices()[i];
+			MatrixIndex entry = getTestIndices().get(i);
 			value = mean + usersBias[entry.getUserIndex()] + itemsBias[entry.getItemIndex()];
 			if (value > getMaxRating())
 				value = getMaxRating();
@@ -128,8 +159,8 @@ public class BaselinePredictorsAlgorithm
 		return getConfig().getMaxRating();
 	}
 
-	private PredictionData.MatrixIndex[] getTestIndices() {
-		return getData().getWorkIndices();
+	private Array<MatrixIndex> getTestIndices() {
+		return getData().getTestIndices();
 	}
 
 	private void init() {

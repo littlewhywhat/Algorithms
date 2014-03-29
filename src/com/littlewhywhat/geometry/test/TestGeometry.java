@@ -1,9 +1,11 @@
 package com.littlewhywhat.geometry.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.Geometry;
 import com.littlewhywhat.geometry.Line;
@@ -72,32 +74,25 @@ public class TestGeometry {
 		Assert.assertEquals(1, center.getX());
 		Assert.assertEquals(1, center.getY());
 	}
-
-	@Test
-	public void testComputeSquare() {			
-		
-		Point[] array = new Point[] {
-				new Point(0,0),
-				new Point(2,0),
-				new Point(2,2),
-				new Point(0,2),
-				new Point(0,0),
-				new Point(2,0),
-				new Point(2,2)
-		};
-		SimpleArrayDivider<Point> dataDivider = new SimpleArrayDivider<Point>();
-		dataDivider.setArray(array);
-		dataDivider.setNumberOfParts(2);
-		dataDivider.setStartIndex(0);
-		
-		Assert.assertEquals(4, Geometry.computeSquare(dataDivider, 0), 0);
-		Assert.assertEquals(2, Geometry.computeSquare(dataDivider, 1), 0);
-	}
 	
 	@Test
 	public void testComputeSquareArray() {
 		Assert.assertEquals(4, Geometry.computeSquare(TestGeometryFigures.getSquare().getPoints()),0);
 		Assert.assertEquals(2, Geometry.computeSquare(TestGeometryFigures.getStraightTriangle().getPoints()),0);
+	}
+	
+	@Test
+	public void testComputeSquareList() {
+		Point[] squarePoints = TestGeometryFigures.getSquare().getPoints();
+		List<Point> square = new ArrayList<Point>();
+		for (int i = 0; i < squarePoints.length; i++)
+			square.add(squarePoints[i]);
+		Point[] trianglePoints = TestGeometryFigures.getStraightTriangle().getPoints();
+		List<Point> triangle = new ArrayList<Point>();
+		for (int i = 0; i < trianglePoints.length; i++)
+			triangle.add(trianglePoints[i]);
+		Assert.assertEquals(4, Geometry.computeSquare(square),0);
+		Assert.assertEquals(2, Geometry.computeSquare(triangle),0);
 	}
 	
 	@Test

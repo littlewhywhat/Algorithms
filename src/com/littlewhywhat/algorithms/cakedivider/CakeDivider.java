@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.datastructure.Array;
-import com.littlewhywhat.datastructure.collection.ArrayDivider;
+import com.littlewhywhat.datastructure.divider.ArrayDivider;
 import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;

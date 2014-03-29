@@ -5,10 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm;
-import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.BaselinePredictorsConfig;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.MatrixIndex;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.PredictionDataForAlgorithm;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Config;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Data;
+import com.littlewhywhat.algorithms.baselinepredictors.MatrixIndex;
+import com.littlewhywhat.datastructure.ArrayPart;
 
 
 public class TestBaselinePredictorsAlgorithm {
@@ -31,26 +31,26 @@ public class TestBaselinePredictorsAlgorithm {
 		initLearnIndices();
 		matrix = new int[][] { { 9, 8, 0 }, { 0, 4, 6 }, { 0, 0, 7 } };
 		algorithm = new BaselinePredictorsAlgorithm();
-		algorithm.setConfig(new BaselinePredictorsConfig(LAMBDA, MAX_RATING));
-		algorithm.setData(new PredictionDataForAlgorithm(matrix, testIndices));
+		algorithm.setConfig(new Config(LAMBDA, MAX_RATING));
+		algorithm.setData(new Data(matrix, ArrayPart.getInstance(testIndices)));
 	
 		values = new double[] { 7.05, 6.68, 6.99, 6.68 };
 		
 	}
 
 	private void initTestIndices() {
-		testIndices[0] = new PredictionData.MatrixIndex(0, 2);
-		testIndices[1] = new PredictionData.MatrixIndex(1, 0);
-		testIndices[2] = new PredictionData.MatrixIndex(2, 0);
-		testIndices[3] = new PredictionData.MatrixIndex(2, 1);
+		testIndices[0] = new MatrixIndex(0, 2);
+		testIndices[1] = new MatrixIndex(1, 0);
+		testIndices[2] = new MatrixIndex(2, 0);
+		testIndices[3] = new MatrixIndex(2, 1);
 	}
 	
 	private void initLearnIndices() {
-		learnIndices[0] = new PredictionData.MatrixIndex(0, 0);
-		learnIndices[1] = new PredictionData.MatrixIndex(0, 1);
-		learnIndices[2] = new PredictionData.MatrixIndex(1, 1);
-		learnIndices[3] = new PredictionData.MatrixIndex(1, 2);
-		learnIndices[4] = new PredictionData.MatrixIndex(2, 2);
+		learnIndices[0] = new MatrixIndex(0, 0);
+		learnIndices[1] = new MatrixIndex(0, 1);
+		learnIndices[2] = new MatrixIndex(1, 1);
+		learnIndices[3] = new MatrixIndex(1, 2);
+		learnIndices[4] = new MatrixIndex(2, 2);
 	}
 
 	@Test

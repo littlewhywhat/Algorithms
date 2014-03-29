@@ -1,9 +1,10 @@
-package com.littlewhywhat.datastructure.collection;
+package com.littlewhywhat.datastructure.divider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.littlewhywhat.datastructure.ArrayPart;
+import com.littlewhywhat.datastructure.collection.CycleResolver;
 
 public class ArrayDivider<E> {
 

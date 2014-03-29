@@ -1,11 +1,10 @@
 package com.littlewhywhat.algorithms.baselinepredictors;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.BaselinePredictorsConfig;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.PredictionDataForAlgorithm;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Config;
 
 public class BaselinePredictors extends
-		AbstractAlgorithm<Integer, PredictionData, String[]> {
+		AbstractAlgorithm<Integer, BaselinePredictorsData, String[]> {
 	private BaselinePredictorsImprover improver;
 	private BaselinePredictorsAlgorithm algorithm;
 
@@ -19,16 +18,15 @@ public class BaselinePredictors extends
 	private void crossValidateLambda() {
 		improver = new BaselinePredictorsImprover();
 		improver.setAlgorithm(algorithm);
-		improver.setConfig(new BaselinePredictorsConfig(0, getConfig()));
+		improver.setConfig(new Config(0, getConfig()));
 		improver.setChecker(new BaselinePredictorsChecker());
-		improver.setData(new PredictionDataForAlgorithm(getData().getMatrix(),
-				getData().getLearnIndices()));
+		improver.setData(new BaselinePredictorsImprover.Data(getData()
+				.getMatrix(), getData().getLearnIndices()));
 		improver.improve();
 	}
 
 	private void computeTestValues() {
-		algorithm.setData(new PredictionDataForAlgorithm(getData().getMatrix(),
-				getData().getTestIndices()));
+		algorithm.setData(getData().getAlgoData());
 		algorithm.execute();
 		double[] output = algorithm.getOutput();
 		writeOutput(output);

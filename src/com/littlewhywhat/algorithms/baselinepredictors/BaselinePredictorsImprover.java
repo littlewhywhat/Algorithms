@@ -3,22 +3,41 @@ package com.littlewhywhat.algorithms.baselinepredictors;
 import java.util.List;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithmImprover;
-import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.BaselinePredictorsConfig;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.MatrixIndex;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData.PredictionDataForAlgorithm;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsAlgorithm.Config;
+import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsImprover.Data;
 import com.littlewhywhat.datastructure.ArrayListSetOrAdd;
-import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
+import com.littlewhywhat.datastructure.ArrayPart;
+import com.littlewhywhat.datastructure.divider.ArrayDivider;
 
 public class BaselinePredictorsImprover
 		extends
-		AbstractAlgorithmImprover<PredictionDataForAlgorithm, BaselinePredictorsConfig, PredictionDataForAlgorithm, double[], Double> {
+		AbstractAlgorithmImprover<Data, Config, BaselinePredictorsAlgorithm.Data, double[], Double> {
+
+	public static class Data {
+		private int[][] matrix;
+		private MatrixIndex[] indices;
+
+		public int[][] getMatrix() {
+			return matrix;
+		}
+
+		public MatrixIndex[] getIndices() {
+			return indices;
+		}
+
+		public Data(int[][] matrix, MatrixIndex[] indices) {
+			super();
+			this.matrix = matrix;
+			this.indices = indices;
+		}
+	}
 
 	private static final int NUMBER_OF_PARTS = 2;
 	private double oldLambda;
-	private SimpleArrayDivider<PredictionData.MatrixIndex> divider;
+	private ArrayDivider<MatrixIndex> divider;
 
 	@Override
-	protected BaselinePredictorsConfig getPreviousConfig() {
+	protected Config getPreviousConfig() {
 		getConfig().setLambda(oldLambda);
 		return getConfig();
 	}
@@ -44,64 +63,51 @@ public class BaselinePredictorsImprover
 	@Override
 	protected Double measurePerformance() {
 		initDivider();
-		ArrayListSetOrAdd<MatrixIndex> workIndexesForAlgo = new ArrayListSetOrAdd<MatrixIndex>();
 		ArrayListSetOrAdd<Integer> savedValues = new ArrayListSetOrAdd<Integer>();
-		MatrixIndex[] indices = null;
+		ArrayPart<MatrixIndex> part;
 		double sumRMSE = 0;
 		for (int partIndex = 0; partIndex < NUMBER_OF_PARTS; partIndex++) {
-			divider.goToPart(partIndex);
-			saveValuesOfPartAndZeroThem(workIndexesForAlgo, savedValues);
-			indices = new MatrixIndex[workIndexesForAlgo.size()];
-			workIndexesForAlgo.toArray(indices);
-			executeAlgorithm(indices);
+			part = divider.getPart(partIndex);
+			saveValuesOfPartAndZeroThem(part, savedValues);
+			executeAlgorithm(part);
 			sumRMSE += computeRMSE(savedValues);
-			divider.goToPart(partIndex);
-			recoverMatrix(savedValues);
+			recoverMatrix(part, savedValues);
 		}
-		getData().setWorkIndices(divider.getArray());
 		return sumRMSE / NUMBER_OF_PARTS;
 	}
 
-	private void recoverMatrix(List<Integer> savedValues) {
+	private void recoverMatrix(ArrayPart<MatrixIndex> part,
+			List<Integer> savedValues) {
 		int count = 0;
-		MatrixIndex index;
-		while (divider.partHasItems()) {
-			index = divider.getItem();
+		for (MatrixIndex index : part) {
 			setMatrixValue(index.getUserIndex(), index.getItemIndex(),
 					savedValues.get(count));
 			count++;
 		}
-
 	}
 
-	private void saveValuesOfPartAndZeroThem(
-			ArrayListSetOrAdd<MatrixIndex> workIndexesForAlgo,
+	private void saveValuesOfPartAndZeroThem(ArrayPart<MatrixIndex> part,
 			ArrayListSetOrAdd<Integer> savedValues) {
 		int count = 0;
-		MatrixIndex index;
-		while (divider.partHasItems()) {
-			index = divider.getItem();
+		for (MatrixIndex index : part) {
 			savedValues.setOrGet(count,
 					getMatrixValue(index.getUserIndex(), index.getItemIndex()));
-			workIndexesForAlgo.setOrGet(count, index);
 			setMatrixValue(index.getUserIndex(), index.getItemIndex(), 0);
 			count++;
 		}
 		savedValues.trimToSize();
-		workIndexesForAlgo.trimToSize();
 	}
 
-	private void executeAlgorithm(MatrixIndex[] workIndexesForAlgo) {
-		PredictionDataForAlgorithm data = getData();
-		data.setWorkIndices(workIndexesForAlgo);
-		getAlgorithm().setData(data);
+	private void executeAlgorithm(ArrayPart<MatrixIndex> part) {
+		getAlgorithm().setData(
+				new BaselinePredictorsAlgorithm.Data(getData().getMatrix(),
+						part));
 		getAlgorithm().execute();
 	}
 
 	private void initDivider() {
-		divider = new SimpleArrayDivider<PredictionData.MatrixIndex>();
-		divider.setArray(getWorkIndices());
-		divider.setNumberOfParts(NUMBER_OF_PARTS);
+		divider = ArrayDivider.getInstance(getData().getIndices(),
+				NUMBER_OF_PARTS);
 	}
 
 	private double computeRMSE(List<Integer> savedValues) {
@@ -111,10 +117,6 @@ public class BaselinePredictorsImprover
 			mean += Math.pow((output[i] - savedValues.get(i)), 2);
 		mean /= output.length;
 		return Math.sqrt(mean);
-	}
-
-	private MatrixIndex[] getWorkIndices() {
-		return getData().getWorkIndices();
 	}
 
 }

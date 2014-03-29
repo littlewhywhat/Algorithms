@@ -5,13 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsReader;
-import com.littlewhywhat.algorithms.baselinepredictors.PredictionData;
+import com.littlewhywhat.algorithms.baselinepredictors.MatrixIndex;
+import com.littlewhywhat.datastructure.Array;
 
 public class TestBaselinePredictorsReader {
 
 	private BaselinePredictorsReader reader;
-	private PredictionData.MatrixIndex[] checkLearnEntries;
-	private PredictionData.MatrixIndex[] checkTestEntries;
+	private MatrixIndex[] checkLearnEntries;
+	private MatrixIndex[] checkTestEntries;
 	private int[][] checkMatrix;
 
 	private final String INPUT_FILE_PATH = TestBaselinePredictors.FOLDER
@@ -21,8 +22,8 @@ public class TestBaselinePredictorsReader {
 	public void setUp() throws Exception {
 		reader = new BaselinePredictorsReader();
 		reader.setInputFilePath(INPUT_FILE_PATH);
-		checkLearnEntries = new PredictionData.MatrixIndex[5];
-		checkTestEntries = new PredictionData.MatrixIndex[4];
+		checkLearnEntries = new MatrixIndex[5];
+		checkTestEntries = new MatrixIndex[4];
 		checkMatrix = new int[3][3];
 		initCheckLearnEntries();
 		initCheckTestEntries();
@@ -38,18 +39,18 @@ public class TestBaselinePredictorsReader {
 	}
 
 	private void initCheckTestEntries() {
-		checkTestEntries[0] = new PredictionData.MatrixIndex(0, 2);
-		checkTestEntries[1] = new PredictionData.MatrixIndex(1, 0);
-		checkTestEntries[2] = new PredictionData.MatrixIndex(2, 0);
-		checkTestEntries[3] = new PredictionData.MatrixIndex(2, 1);
+		checkTestEntries[0] = new MatrixIndex(0, 2);
+		checkTestEntries[1] = new MatrixIndex(1, 0);
+		checkTestEntries[2] = new MatrixIndex(2, 0);
+		checkTestEntries[3] = new MatrixIndex(2, 1);
 	}
 
 	private void initCheckLearnEntries() {
-		checkLearnEntries[0] = new PredictionData.MatrixIndex(0, 0);
-		checkLearnEntries[1] = new PredictionData.MatrixIndex(0, 1);
-		checkLearnEntries[2] = new PredictionData.MatrixIndex(1, 1);
-		checkLearnEntries[3] = new PredictionData.MatrixIndex(1, 2);
-		checkLearnEntries[4] = new PredictionData.MatrixIndex(2, 2);
+		checkLearnEntries[0] = new MatrixIndex(0, 0);
+		checkLearnEntries[1] = new MatrixIndex(0, 1);
+		checkLearnEntries[2] = new MatrixIndex(1, 1);
+		checkLearnEntries[3] = new MatrixIndex(1, 2);
+		checkLearnEntries[4] = new MatrixIndex(2, 2);
 
 	}
 
@@ -61,15 +62,18 @@ public class TestBaselinePredictorsReader {
 	}
 
 	private void testPredictionData() {
-		Assert.assertArrayEquals(checkLearnEntries, reader.getData()
-				.getLearnIndices());
-		Assert.assertArrayEquals(checkTestEntries, reader.getData()
-				.getTestIndices());
+		Assert.assertArrayEquals( checkLearnEntries, reader.getData().getLearnIndices());
+		checkArray(checkTestEntries, reader.getData().getTestIndices());
 		Assert.assertArrayEquals(checkMatrix, reader.getData().getMatrix());
 	}
 
 	private void testPredictionConfig() {
 		Assert.assertEquals(10, reader.getConfig(), 0);
+	}
+	
+	private void checkArray(MatrixIndex[] testArray, Array<MatrixIndex> array) {
+		for (int i = 0; i < testArray.length; i++)
+			Assert.assertEquals(testArray[i], array.get(i));
 	}
 
 }
