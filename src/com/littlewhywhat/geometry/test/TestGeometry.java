@@ -1,9 +1,13 @@
-package com.littlewhywhat.geometry;
+package com.littlewhywhat.geometry.test;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
+import com.littlewhywhat.geometry.Figure;
+import com.littlewhywhat.geometry.Geometry;
+import com.littlewhywhat.geometry.Line;
+import com.littlewhywhat.geometry.Point;
 
 public class TestGeometry {
 

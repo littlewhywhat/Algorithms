@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.baselinepredictors.test;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,14 +8,15 @@ import com.littlewhywhat.algorithms.baselinepredictors.BaselinePredictorsReader;
 import com.littlewhywhat.algorithms.baselinepredictors.PredictionData;
 
 public class TestBaselinePredictorsReader {
-	
+
 	private BaselinePredictorsReader reader;
 	private PredictionData.MatrixIndex[] checkLearnEntries;
 	private PredictionData.MatrixIndex[] checkTestEntries;
 	private int[][] checkMatrix;
-	
-	private final String INPUT_FILE_PATH = TestBaselinePredictors.FOLDER + "inputForReaderTest.txt";
-	
+
+	private final String INPUT_FILE_PATH = TestBaselinePredictors.FOLDER
+			+ "inputForReaderTest.txt";
+
 	@Before
 	public void setUp() throws Exception {
 		reader = new BaselinePredictorsReader();
@@ -50,7 +50,7 @@ public class TestBaselinePredictorsReader {
 		checkLearnEntries[2] = new PredictionData.MatrixIndex(1, 1);
 		checkLearnEntries[3] = new PredictionData.MatrixIndex(1, 2);
 		checkLearnEntries[4] = new PredictionData.MatrixIndex(2, 2);
-			
+
 	}
 
 	@Test
@@ -61,8 +61,10 @@ public class TestBaselinePredictorsReader {
 	}
 
 	private void testPredictionData() {
-		Assert.assertArrayEquals(checkLearnEntries, reader.getData().getLearnIndices());
-		Assert.assertArrayEquals(checkTestEntries, reader.getData().getTestIndices());
+		Assert.assertArrayEquals(checkLearnEntries, reader.getData()
+				.getLearnIndices());
+		Assert.assertArrayEquals(checkTestEntries, reader.getData()
+				.getTestIndices());
 		Assert.assertArrayEquals(checkMatrix, reader.getData().getMatrix());
 	}
 

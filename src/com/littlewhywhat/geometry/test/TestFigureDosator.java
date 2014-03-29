@@ -1,10 +1,12 @@
-package com.littlewhywhat.geometry;
+package com.littlewhywhat.geometry.test;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
+import com.littlewhywhat.geometry.FigureDosator;
+import com.littlewhywhat.geometry.Point;
 
 public class TestFigureDosator {
 

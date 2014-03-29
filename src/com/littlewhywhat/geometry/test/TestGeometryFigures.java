@@ -1,4 +1,7 @@
-package com.littlewhywhat.geometry;
+package com.littlewhywhat.geometry.test;
+
+import com.littlewhywhat.geometry.Figure;
+import com.littlewhywhat.geometry.Point;
 
 public final class TestGeometryFigures {
 

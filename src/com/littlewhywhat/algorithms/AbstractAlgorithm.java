@@ -5,9 +5,9 @@ import com.littlewhywhat.algorithms.io.OutputWriter;
 
 public abstract class AbstractAlgorithm<ConfigType, DataType, OutputType>
 		implements Algorithm<ConfigType, DataType, OutputType> {
-	ConfigType config;
-	DataType data;
-	OutputType output;
+	private ConfigType config;
+	private DataType data;
+	private OutputType output;
 	
 	protected void setOutput(OutputType output) {
 		this.output = output;
