@@ -8,14 +8,13 @@ import com.littlewhywhat.datastructure.ArrayCycle;
 
 public class TestArrayCycle {
 
-	private static final Integer[] ARRAY = new Integer[] { 1, 2, 3 };
 	private static final int NUMBER_OF_CYCLES = 5;
 	ArrayCycle<Integer> arrayCycle;
 
 	@Before
 	public void setUp() throws Exception {
 		arrayCycle = new ArrayCycle<Integer>();
-		arrayCycle.setArray(ARRAY);
+		arrayCycle.setArray(TestArray.ARRAY);
 	}
 
 	@Test
@@ -25,6 +24,7 @@ public class TestArrayCycle {
 			Assert.assertEquals(count, arrayCycle.next(), 0);
 			count++;
 		}
+		Assert.assertEquals(4, count, 0);
 	}
 
 	@Test
