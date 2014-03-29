@@ -1,7 +1,11 @@
 package com.littlewhywhat.algorithms.cakedivider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.datastructure.divider.SimpleArrayDivider;
+import com.littlewhywhat.datastructure.Array;
+import com.littlewhywhat.datastructure.collection.ArrayDivider;
 import com.littlewhywhat.datastructure.sieve.SerialArraySieve;
 import com.littlewhywhat.geometry.Figure;
 import com.littlewhywhat.geometry.FigureDosator;
@@ -9,13 +13,7 @@ import com.littlewhywhat.geometry.Geometry;
 import com.littlewhywhat.geometry.Point;
 
 public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
-	private class CakeArrayDivider extends SimpleArrayDivider<Point> {
-		public CakeArrayDivider() {
-			super();
-			setArray(getData());
-			setNumberOfParts(NUMBER_OF_PARTS);
-		}
-	}
+
 	private class CakeDosator extends FigureDosator {
 		public CakeDosator() {
 			super();
@@ -24,13 +22,14 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 			setDoseFigure(NUMBER_OF_PARTS);
 		}
 	}
+
 	private static final int NUMBER_OF_PARTS = 4;
 	private Point center;
 	private int dividerAngle;
 
 	private CakeDosator dataDosator;
 
-	private CakeArrayDivider dataDivider;
+	private ArrayDivider<Point> dataDivider;
 
 	private boolean checkEachPartPoints() {
 		Point startPoint;
@@ -39,12 +38,10 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 		for (int nextIndex = 0; nextIndex < NUMBER_OF_PARTS; nextIndex++) {
 			startPoint = dataDosator.getDoseFigure().getVertice(prevIndex);
 			endPoint = dataDosator.getDoseFigure().getVertice(nextIndex);
-			dataDivider.goToPart(prevIndex);
-			while (dataDivider.partHasItems()) {
-				Point item = dataDivider.getItem();
-
-				if (!Geometry.checkIfPointIsInAngle(item, center, startPoint,
-						endPoint))
+			Array<Point> part = dataDivider.getPart(prevIndex);
+			for (int i = 0; i < part.size(); i++) {
+				if (!Geometry.checkIfPointIsInAngle(part.get(i), center,
+						startPoint, endPoint))
 					return false;
 			}
 			prevIndex = nextIndex;
@@ -53,11 +50,10 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	}
 
 	private boolean checkEachPartSquares() {
-		double firstPartSquare = Geometry.computeSquare(getPartPoints(0));
+		double firstPartSquare = Geometry.computeSquare(getAllPartPoints(0));
 		double otherPartSquare;
 		for (int part = 1; part < NUMBER_OF_PARTS; part++) {
-			Point[] partPoints = getPartPoints(part);
-			otherPartSquare = Geometry.computeSquare(partPoints);
+			otherPartSquare = Geometry.computeSquare(getAllPartPoints(part));
 			if (otherPartSquare != firstPartSquare)
 				return false;
 		}
@@ -99,25 +95,32 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 
 	@Override
 	public void execute() {
-		dataDosator = new CakeDosator();
-		dataDivider = new CakeArrayDivider();
+		prepareData();
 		if (checkPointsCount() && computeIfDividerExists()) {
 			setRightOutput();
 		} else
 			setWrongOutput();
 	}
 
-	private Point[] getPartPoints(int part) {
-		int count = 0;
-		Point[] partPoints = new Point[getData().length / NUMBER_OF_PARTS + 2];
-		dataDivider.goToPart(part);
-		while (dataDivider.partHasItems()) {
-			partPoints[count] = dataDivider.getItem();
-			count++;
-		}
-		partPoints[partPoints.length - 2] = dataDivider.getItem();
-		partPoints[partPoints.length - 1] = center;
-		return partPoints;
+	private void prepareData() {
+		dataDosator = new CakeDosator();
+		dataDivider = ArrayDivider.getInstance(getData(), NUMBER_OF_PARTS);	
+	}
+
+	private List<Point> getAllPartPoints(int part) {
+		List<Point> allPoints = new ArrayList<Point>();
+		Array<Point> partPoints = dataDivider.getPart(part);
+		for (int i = 0; i < partPoints.size(); i++)
+			allPoints.add(partPoints.get(i));
+		allPoints.add(getNextPart(part).get(0));
+		allPoints.add(center);
+		return allPoints;
+	}
+
+	private Array<Point> getNextPart(int part) {
+		if (part >= NUMBER_OF_PARTS)
+			part -= NUMBER_OF_PARTS;
+		return dataDivider.getPart(part);
 	}
 
 	private void setRightOutput() {

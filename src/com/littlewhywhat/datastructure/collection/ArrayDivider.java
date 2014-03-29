@@ -13,6 +13,17 @@ public class ArrayDivider<E> {
 	private List<ArrayPart<E>> arrayParts;
 	private int startIndex;
 
+	
+	public static <T> ArrayDivider<T> getInstance(T[] array, int numberOfParts) {
+		return new ArrayDivider<T>(array, numberOfParts);
+	}
+	
+	private ArrayDivider(E[] array, int numberOfParts) {
+		super();
+		this.setArray(array);
+		this.setNumberOfParts(numberOfParts);
+	}
+
 	public Array<E> getPart(int partIndex) {
 		return this.arrayParts.get(partIndex);
 	}

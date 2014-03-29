@@ -20,9 +20,7 @@ public class TestArrayDivider {
 
 	@Before
 	public void setUp() throws Exception {
-		divider = new ArrayDivider<Integer>();
-		divider.setArray(TestArray.ARRAY);
-		divider.setNumberOfParts(NUMBER_OF_PARTS);
+		divider = ArrayDivider.getInstance(TestArray.ARRAY, NUMBER_OF_PARTS);
 	}
 
 	@Test
