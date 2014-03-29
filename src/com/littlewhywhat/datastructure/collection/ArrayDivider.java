@@ -3,7 +3,6 @@ package com.littlewhywhat.datastructure.collection;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.littlewhywhat.datastructure.Array;
 import com.littlewhywhat.datastructure.ArrayPart;
 
 public class ArrayDivider<E> {
@@ -24,7 +23,7 @@ public class ArrayDivider<E> {
 		this.setNumberOfParts(numberOfParts);
 	}
 
-	public Array<E> getPart(int partIndex) {
+	public ArrayPart<E> getPart(int partIndex) {
 		return this.arrayParts.get(partIndex);
 	}
 

@@ -1,5 +1,6 @@
 package com.littlewhywhat.datastructure.collection;
 
+
 public class ArrayCycle<E> extends AbstractArrayCollection<E> {
 
 	private int index = -1;

@@ -1,26 +1,25 @@
 package com.littlewhywhat.datastructure;
 
-public class ArrayPart<E> implements Array<E> {
+import java.util.Iterator;
+
+public class ArrayPart<E> implements Array<E>, Iterable<E> {
 	public static <T> ArrayPart<T> getInstance(T[] array, int startIndex,
 			int endIndex) {
 		return new ArrayPart<T>(array, startIndex, endIndex);
 	}
-	
+
 	public static <T> ArrayPart<T> getInstance(T[] array) {
-		return new ArrayPart<T>(array);
+		return new ArrayPart<T>(array, 0, array.length - 1);
 	}
+
 	private E[] array;
 	private int startIndex;
 	private int endIndex;
 
 	private boolean isOnBorder;
 
-	private ArrayPart(E[] array) {
-		this.array = array;
-	}
-	
 	private ArrayPart(E[] array, int startIndex, int endIndex) {
-		this(array);
+		this.array = array;
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
 		this.setIsOnBorder();
@@ -72,6 +71,11 @@ public class ArrayPart<E> implements Array<E> {
 		if (isOnBorder)
 			return this.array.length - this.startIndex + this.endIndex + 1;
 		return Math.abs(endIndex - startIndex) + 1;
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return new ArrayPartIterator<E>(this);
 	}
 
 }
