@@ -24,7 +24,6 @@ public class TestCakeDivider {
 			+ "testCustom3.txt";
 	private static final String FILE_THAT_HAS_BIG_INPUT = FOLDER
 			+ "testBig.txt";
-	private static final int MAX_CAKE_VALUE = 1500;
 
 	@Test
 	public void testExecuteWithReadWriteCustomOne() {
@@ -58,7 +57,6 @@ public class TestCakeDivider {
 	
 	@Test
 	public void testSpeed() {
-		CakeGenerator.writeCake(FILE_THAT_HAS_BIG_INPUT, CakeGenerator.generateSquareCake(MAX_CAKE_VALUE));
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 100; i++)
 			testExecuteWithReadWrite(FILE_THAT_HAS_BIG_INPUT, TestAnswersCakedDivider.BIG_ANSWERS);
