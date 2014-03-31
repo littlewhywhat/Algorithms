@@ -6,36 +6,39 @@ import org.junit.Test;
 
 import com.littlewhywhat.algorithms.badparket.Data;
 import com.littlewhywhat.algorithms.badparket.Data.Index;
-import com.littlewhywhat.algorithms.badparket.ParketReader;
 
 public class TestData {
 
 	private Data data;
-	
+	private boolean[][] isBad;
+
 	@Before
 	public void setUp() throws Exception {
-		ParketReader reader = new ParketReader();
-		reader.setInputFilePath(TestBadParket.INPUTFILE);
-		reader.read();
-		this.data = reader.getData();
+		isBad = TestBadParket.isBad;
+	}
+
+	private void recoverData() {
+		this.data = TestBadParket.getReaderData();
 	}
 
 	@Test
-	public void testGet() {
-		Assert.assertEquals(false, this.data.get(0, 0));
-		Assert.assertEquals(true, this.data.get(0, 1));
-		Assert.assertEquals(true, this.data.get(0, 2));
-		Assert.assertEquals(false, this.data.get(1, 0));
-		Assert.assertEquals(true, this.data.get(1, 1));
-		Assert.assertEquals(false, this.data.get(1, 2));
+	public void testPop() {
+		recoverData();
+		for (int i = 0; i < 2; i++)
+			for (int j = 0; j < 3; j++)
+				checkIndex(i, j, isBad[i][j] ,true, this.data.pop());
+		checkDataHasUnProcessed(false);
 	}
 
-	@Test
-	public void testNext() {
-		data.remove(0, 1);
-		data.pushFirst();
-		Index index = data.pushFirst();
-		Assert.assertEquals(new Index(0,2), index);
+	public static void checkIndex(int x, int y, boolean isBad, boolean isProcessed, Index index) {
+		Assert.assertEquals(x, index.getX());
+		Assert.assertEquals(y, index.getY());
+		Assert.assertEquals(isProcessed, index.isProcessed());
+		Assert.assertEquals(isBad, index.isBad());
+	}
+
+	private void checkDataHasUnProcessed(boolean expected) {
+		Assert.assertEquals(expected, this.data.hasUnProcessed());
 	}
 
 }
