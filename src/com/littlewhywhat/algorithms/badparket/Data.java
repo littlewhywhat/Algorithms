@@ -140,6 +140,10 @@ public class Data {
 					badNeighbours.add(this.data.get(this.x, this.y + 1));
 			return badNeighbours;
 		}
+
+		public void setUnProcessed() {
+			this.isProcessed = false;
+		}
 		
 
 	}
