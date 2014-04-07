@@ -36,9 +36,10 @@ public class TestBadParket {
 	}
 	
 	@Test
-	public void testExecute() {
+	public void testExecute() throws InterruptedException {
 		writer.setOutputFilePath(OUTPUTFILE);
-		parket.executeWithReadWrite(getReader(), writer );
+		for (int i = 0; i < 10000; i++)
+			parket.executeWithReadWrite(getReader(), writer );
 	}
 	
 	@Test

@@ -1,15 +1,24 @@
 package com.littlewhywhat.algorithms.badparket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Data {
 	public class Index {
 		private int x;
 		private int y;
+		private boolean isProcessed;
+		private boolean isBad;
+		private int badNeighboursCount = -1;
+		
 		private Data data;
 
-		private Index(int x, int y, Data data) {
+		private Index(int x, int y, boolean isBad, Data data) {
 			super();
 			this.x = x;
 			this.y = y;
+			this.isBad = isBad;
+			this.isProcessed = false;
 			this.data = data;
 		}
 
@@ -50,6 +59,7 @@ public class Data {
 			return this.data.get(this.x - 1, this.y);
 		}
 
+
 		public int getX() {
 			return x;
 		}
@@ -64,11 +74,7 @@ public class Data {
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + y;
-			result = prime * result + x;
-			return result;
+			return getHash(x, y);
 		}
 
 		public boolean hasLeftNeighbour() {
@@ -84,15 +90,15 @@ public class Data {
 		}
 
 		public boolean isBad() {
-			return this.data.isBad(this.x, this.y);
+			return this.isBad;
 		}
 
 		public boolean isProcessed() {
-			return this.data.isProcessed(this.x, this.y);
+			return this.isProcessed;
 		}
 
 		public void setIsProcessed() {
-			this.data.setIsProcessed(this.x, this.y);
+			this.isProcessed = true;
 		}
 
 		@Override
@@ -100,10 +106,45 @@ public class Data {
 			return "[" + x + ", " + y + "]";
 		}
 
+		public int getBadNeighboursCount() {
+			if (this.badNeighboursCount == -1) {
+				this.badNeighboursCount = 0;
+				if (this.hasDownNeighbour() && this.getDownNeighbour().isBad())
+					badNeighboursCount++;
+				if (this.hasLeftNeighbour() && this.getLeftNeighbour().isBad())
+					badNeighboursCount++;
+				if (this.hasRightNeighbour() && this.getRightNeighbour().isBad())
+					badNeighboursCount++;
+				if (this.hasUpNeighbour() && this.getUpNeighbour().isBad())
+					badNeighboursCount++;
+			}
+			//System.out.println(this.badNeighboursCount);
+			return this.badNeighboursCount;
+		}
+
+		
+		
+		public List<Index> getBadNeighbours() {
+			List<Index> badNeighbours = new ArrayList<Index>();
+			if (this.hasDownNeighbour())
+				if (this.data.get(this.x + 1, this.y).isBad())
+					badNeighbours.add(this.data.get(this.x + 1, this.y));
+			if (this.hasUpNeighbour())
+				if (this.data.get(this.x - 1, this.y).isBad())
+					badNeighbours.add(this.data.get(this.x - 1, this.y));
+			if (this.hasLeftNeighbour())
+				if (this.data.get(this.x, this.y - 1).isBad())
+					badNeighbours.add(this.data.get(this.x, this.y - 1));
+			if (this.hasRightNeighbour())
+				if (this.data.get(this.x, this.y + 1).isBad())
+					badNeighbours.add(this.data.get(this.x, this.y + 1));
+			return badNeighbours;
+		}
+		
+
 	}
 
-	private boolean[] goodBadParket;
-	private boolean[] processedParket;
+	private Index[] parket;
 	private int yLength;
 	private int xLength;
 	private int marker;
@@ -111,14 +152,13 @@ public class Data {
 	public Data(int xLength, int yLength) {
 		this.yLength = yLength;
 		this.xLength = xLength;
-		this.processedParket = new boolean[yLength * xLength];
-		this.goodBadParket = new boolean[yLength * xLength];
+		this.parket = new Index[yLength * xLength];
 	}
 
 	public void add(int x, int y, boolean isBad) {
 		if (areCorrectXY(x, y)) {
 			int hash = getHash(x, y);
-			this.goodBadParket[hash] = isBad;
+			this.parket[hash] = new Index(x, y, isBad, this);
 		} else
 			throw new IndexOutOfBoundsException();
 	}
@@ -128,7 +168,7 @@ public class Data {
 	}
 
 	private Index get(int x, int y) {
-		return new Index(x, y, this);
+		return this.parket[getHash(x, y)];
 	}
 
 	private int getHash(int x, int y) {
@@ -141,37 +181,19 @@ public class Data {
 	}
 
 	private boolean checkMarker() {
-		return this.marker < this.processedParket.length - 1;
-	}
-
-	private boolean isBad(int x, int y) {
-		return this.goodBadParket[getHash(x, y)];
-	}
-
-	private boolean isProcessed(int x, int y) {
-		return this.processedParket[getHash(x, y)];
+		return this.marker < this.parket.length;
 	}
 
 	public Index pop() {
 		this.moveMarker();
-		this.processedParket[marker] = true;
-		return unHash(marker);
+		Index index = parket[marker];
+		index.setIsProcessed();
+		return index;
 	}
 
 	private void moveMarker() {
-		while (this.checkMarker() && this.processedParket[this.marker])
+		while (this.checkMarker() && this.parket[this.marker].isProcessed())
 			this.marker++;
-	}
-
-	private void setIsProcessed(int x, int y) {
-		int hash = getHash(x, y);
-		this.processedParket[hash] = true;
-	}
-
-	private Index unHash(int hash) {
-		int x = hash / this.yLength;
-		int y = hash % this.yLength;
-		return new Index(x, y, this);
 	}
 
 }

@@ -7,52 +7,68 @@ import com.littlewhywhat.algorithms.badparket.Data.Index;
 
 public class BadParket extends AbstractAlgorithm<int[], Data, Integer> {
 
-	LinkedList<Index> neighbours;
+	LinkedList<Index> badCellsForCurrentFigure;
 
 	@Override
 	public void execute() {
 		int result = 0;
-		neighbours = new LinkedList<Index>();
-		LinkedList<Index> figure = new LinkedList<Index>();
+		badCellsForCurrentFigure = new LinkedList<Index>();
+		LinkedList<Index> figure = new LinkedList<Data.Index>();
 		BadParketOneTwoComputer computer = new BadParketOneTwoComputer();
 		computer.setConfig(getConfig());
 		computer.setData(figure);
 		while (getData().hasUnProcessed()) {
-			neighbours.addLast(getData().pop());
-			figure.clear(); 
-			while (!neighbours.isEmpty()) {
-				Index startIndex = neighbours.pop();
-				if (startIndex.isBad()) {
-					addNewNeighbours(startIndex);
-					figure.add(startIndex);
+			Index index = getData().pop();
+			if (index.isBad()) {
+				badCellsForCurrentFigure.addLast(index);
+				figure.clear();
+				while (!badCellsForCurrentFigure.isEmpty()) {
+					Index badCell = badCellsForCurrentFigure.pop();
+					addNewNeighbours(badCell);
+					figure.add(badCell);
+					//System.out.println(badCell);
 				}
-				startIndex.setIsProcessed();
-			}
-			if (!figure.isEmpty()) {
-				computer.execute();
-				result += computer.getOutput();
-				System.out.println(computer.getOutput());
+				//System.out.println(figure);
+				//System.out.println();
+				if (!figure.isEmpty()) {
+					computer.execute();
+					result += computer.getOutput();
+				}
+				//System.out.println();
 			}
 		}
 		setOutput(result);
-
+		
 	}
 
 	private void addNewNeighbours(Index index) {
-		if (index.hasLeftNeighbour())
-			addNeighbourIfNotProcessed(index.getLeftNeighbour());
-		if (index.hasRightNeighbour())
-			addNeighbourIfNotProcessed(index.getRightNeighbour());
-		if (index.hasUpNeighbour())
-			addNeighbourIfNotProcessed(index.getUpNeighbour());
-		if (index.hasDownNeighbour())
-			addNeighbourIfNotProcessed(index.getDownNeighbour());
-
+		Index neighbour;
+		if (index.hasLeftNeighbour()) {
+			neighbour = index.getLeftNeighbour();
+			processNeighbour(neighbour);
+		}
+		if (index.hasRightNeighbour()) {
+			neighbour = index.getRightNeighbour();
+			processNeighbour(neighbour);
+		}
+		if (index.hasDownNeighbour()) {
+			neighbour = index.getDownNeighbour();
+			processNeighbour(neighbour);
+		}
+		if (index.hasUpNeighbour()) {
+			neighbour = index.getUpNeighbour();
+			processNeighbour(neighbour);
+		}
+			
+		//System.out.println(count);
+		//figure.put(count, index);
 	}
 
-	private void addNeighbourIfNotProcessed(Index neighbour) {
-		if (!neighbour.isProcessed())
-			neighbours.addLast(neighbour);
+	private void processNeighbour(Index neighbour) {
+		if (neighbour.isProcessed())
+			return;
+		if (neighbour.isBad())
+			badCellsForCurrentFigure.addLast(neighbour);
 		neighbour.setIsProcessed();
 	}
 

@@ -9,7 +9,7 @@ public class ParketWriter extends TextFileOutputWriter<Integer> {
 
 	@Override
 	protected void writeOutputData(BufferedWriter bw) throws IOException {
-		bw.write(getOutput());
+		bw.write(String.valueOf(getOutput()));
 		
 	}
 
