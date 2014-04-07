@@ -13,7 +13,6 @@ import com.littlewhywhat.geometry.Geometry;
 import com.littlewhywhat.geometry.Point;
 
 public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
-
 	private class CakeDosator extends FigureDosator {
 		public CakeDosator() {
 			super();
@@ -28,7 +27,6 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 	private int dividerAngle;
 
 	private CakeDosator dataDosator;
-
 	private ArrayDivider<Point> dataDivider;
 
 	private boolean checkEachPartPoints() {
@@ -104,7 +102,7 @@ public class CakeDivider extends AbstractAlgorithm<Void, Point[], String[]> {
 
 	private void prepareData() {
 		dataDosator = new CakeDosator();
-		dataDivider = ArrayDivider.getInstance(getData(), NUMBER_OF_PARTS);	
+		dataDivider = ArrayDivider.getInstance(getData(), NUMBER_OF_PARTS);
 	}
 
 	private List<Point> getAllPartPoints(int part) {
