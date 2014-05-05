@@ -1,5 +1,6 @@
 package com.littlewhywhat.algorithms.sort.merge.test;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,10 +49,15 @@ public class TestMergeSort {
 
 	private void executeAlgos() {
 		sort.setData(reader.getData());
+		long start1 = System.currentTimeMillis();
 		sort.execute();
+		long end1 = System.currentTimeMillis();
 		sortEff.setData(reader.getData());
+		long start2 = System.currentTimeMillis();
 		sortEff.execute();
-		System.out.println();
+		long end2 = System.currentTimeMillis();
+		Assert.assertArrayEquals(sort.getOutput(), sortEff.getOutput());
+		System.out.println((end1-start1) + "vs" + (end2 - start2));
 	}
 
 }
