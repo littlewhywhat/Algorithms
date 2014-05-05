@@ -17,7 +17,6 @@ public class EfficientMergeSort extends AbstractMergeSort {
 
 	public static class Merger {
 		private byte GEN_SORTED_PART_ID = 0;
-		private static final int MAX_COUNT_PARTS = 4;
 		private static final int LAST_CODE = 0;
 		private static final int PRELAST_CODE = 1;
 		private Stack<SortedPart> emptyParts = new Stack<SortedPart>();
@@ -25,8 +24,6 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		private int[] array;
 
 		public Merger() {
-			for (int i = 0; i < MAX_COUNT_PARTS; i++)
-				emptyParts.push(new SortedPart());
 		}
 
 		public void setArray(int[] array) {
@@ -34,12 +31,19 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		}
 
 		public void init(int index1, int length1, int length2) {
-			SortedPart part1 = new SortedPart();
+			SortedPart part1 = getSortedPart();
 			part1.set(index1, length1);
-			SortedPart part2 = new SortedPart();
+			SortedPart part2 = getSortedPart();
 			part2.set(index1 + length1, length2);
 			parts.add(part1);
 			parts.add(part2);
+		}
+
+		private SortedPart getSortedPart() {
+			if (emptyParts.isEmpty())
+				return new SortedPart();
+			else	
+				return emptyParts.pop();
 		}
 
 		public void execute() {
@@ -61,7 +65,11 @@ public class EfficientMergeSort extends AbstractMergeSort {
 				}
 				removeEmptyParts();
 			}
-			this.parts.pollFirst();
+			SortedPart part = this.parts.pollFirst();
+			part.makeEmpty();
+			emptyParts.push(part);
+			if (GEN_SORTED_PART_ID > 18)
+				System.out.println(GEN_SORTED_PART_ID);
 		}
 
 		private SortedPart getLastOrPreLast(int partCode) {
@@ -76,7 +84,7 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		}
 
 		private void addEmptyPart(int partCode) {
-			SortedPart part = new SortedPart();
+			SortedPart part = getSortedPart();
 			if (partCode == PRELAST_CODE) {
 				SortedPart last = parts.pollLast();
 				SortedPart preLast = parts.pollLast();
@@ -99,8 +107,10 @@ public class EfficientMergeSort extends AbstractMergeSort {
 				SortedPart part = parts.pollFirst();
 				if (part.length != 0)
 					parts.addLast(part);
-				else
+				else {
+					part.makeEmpty();
 					emptyParts.push(part);
+				}
 			}
 		}
 		
@@ -121,6 +131,12 @@ public class EfficientMergeSort extends AbstractMergeSort {
 			private SortedPart() {
 				this.id = GEN_SORTED_PART_ID;
 				GEN_SORTED_PART_ID++;
+			}
+
+			public void makeEmpty() {
+				this.itemId = 0;
+				this.length = 0;
+				
 			}
 
 			public void set(int index, int length) {
