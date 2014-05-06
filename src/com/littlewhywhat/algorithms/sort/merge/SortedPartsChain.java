@@ -7,8 +7,8 @@ class SortedPartsChain {
 	private static final String EMPTY_MESSAGE = "SortedPartsChain is empty";
 	private static int GEN_ID = 0;
 	private Node header;
-	private LinkedList<SortedPart> stack;
 	private LinkedList<SortedPart> emptyParts;
+	private Node stack;
 	private int[] array;
 
 	void setArray(int[] array) {
@@ -17,8 +17,10 @@ class SortedPartsChain {
 
 	SortedPartsChain() {
 		header = new Node();
-		stack = new LinkedList<SortedPart>();
 		emptyParts = new LinkedList<SortedPart>();
+		stack = new Node();
+		stack.next = stack;
+		stack.prev = stack;
 		header.next = header;
 		header.prev = header;
 	}
@@ -38,10 +40,14 @@ class SortedPartsChain {
 	}
 
 	SortedPart getNewSortedPart() {
-		if (stack.isEmpty())
-			return new SortedPart(GEN_ID++);
+		Node node = stack.getNext();
+		if (node  instanceof SortedPart) {
+			stack.setNext(node.getNext());
+			//node.setNext(null);
+			return (SortedPart) node;
+		}
 		else
-			return stack.pop();
+			return new SortedPart(GEN_ID++);
 	}
 
 	SortedPart getNewSortedPart(int itemId, int length) {
@@ -107,7 +113,13 @@ class SortedPartsChain {
 	}
 
 	int size() {
-		return GEN_ID - stack.size();
+		int size = 0;
+		Node node = header.getNext();
+		while (node instanceof SortedPart) {
+			size++;
+			node = node.getNext();
+		}
+		return size;
 	}
 
 	boolean oneRemained() {
@@ -178,7 +190,9 @@ class SortedPartsChain {
 			super.remove();
 			this.length = 0;
 			this.itemId = 0;
-			stack.push(this);
+			Node node = stack.getNext();
+			stack.setNext(this);
+			((Node)this).setNext(node);
 		}
 
 		int getLength() {
