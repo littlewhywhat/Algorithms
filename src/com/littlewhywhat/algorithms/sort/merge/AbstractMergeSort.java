@@ -7,8 +7,12 @@ public abstract class AbstractMergeSort extends
 
 	@Override
 	public void execute() {
-		setOutput(getData().clone());
+		setup();
 		recursiveCall(0, getOutput().length);
+	}
+
+	protected void setup() {
+		setOutput(getData().clone());
 	}
 
 	private void recursiveCall(int first, int length) {

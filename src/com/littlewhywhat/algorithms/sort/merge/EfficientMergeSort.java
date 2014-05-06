@@ -1,192 +1,70 @@
 package com.littlewhywhat.algorithms.sort.merge;
 
-import java.util.LinkedList;
-import java.util.Stack;
+import com.littlewhywhat.algorithms.sort.merge.SortedPartsChain.SortedPart;
 
 public class EfficientMergeSort extends AbstractMergeSort {
 
-	private Merger merger = new Merger();
+	private SortedPartsChain chain = new SortedPartsChain();
 
 	@Override
 	protected void merge(int firstHalfStart, int firstHalfLength,
 			int secondHalfStart, int secondHalfLength) {
-		merger.init(firstHalfStart, firstHalfLength, secondHalfLength);
-		merger.setArray(getOutput());
-		merger.execute();
-	}
-
-	public static class Merger {
-		private byte GEN_SORTED_PART_ID = 0;
-		private static final int LAST_CODE = 0;
-		private static final int PRELAST_CODE = 1;
-		private Stack<SortedPart> emptyParts = new Stack<SortedPart>();
-		private LinkedList<SortedPart> parts = new LinkedList<SortedPart>();
-		private int[] array;
-
-		public Merger() {
-		}
-
-		public void setArray(int[] array) {
-			this.array = array;
-		}
-
-		public void init(int index1, int length1, int length2) {
-			SortedPart part1 = getSortedPart();
-			part1.set(index1, length1);
-			SortedPart part2 = getSortedPart();
-			part2.set(index1 + length1, length2);
-			parts.add(part1);
-			parts.add(part2);
-		}
-
-		private SortedPart getSortedPart() {
-			if (emptyParts.isEmpty())
-				return new SortedPart();
-			else	
-				return emptyParts.pop();
-		}
-
-		public void execute() {
-			while (parts.size() != 1) {
-				int partCode = getMin();
-				int min = getLastOrPreLast(partCode).getItem();
-				int partIndex = 0;
-				SortedPart part = parts.get(partIndex);
-				int swap = part.swapItem(min);
+		if (firstHalfLength == 1 && secondHalfLength == 1) {
+			if (getOutput()[firstHalfStart] > getOutput()[secondHalfStart]) {
+				int temp = getOutput()[firstHalfStart];
+				getOutput()[firstHalfStart] = getOutput()[secondHalfStart];
+				getOutput()[secondHalfStart] = temp;
+			}
+				
+		} else {
+			chain.addFirst(chain.getNewSortedPart(firstHalfStart,
+					firstHalfLength));
+			chain.addLast(chain.getNewSortedPart(secondHalfStart,
+					secondHalfLength));
+			while (!chain.oneRemained()) {
+				SortedPart minPart = getMinLastOrPrelast();
+				int min = minPart.getItem();
+				SortedPart part = chain.getFirst();
+				int swap = part.swapItem(minPart.getItem());
+				SortedPart nextpart;
+				SortedPart nextnextpart;
 				part.goNext();
 				while (swap != min) {
-					partIndex += 2;
-					if (!(partIndex < parts.size() - partCode))
-						addEmptyPart(partCode);
-					part = parts.get(partIndex);
+					nextpart = chain.getNext(part);
+					nextnextpart = chain.getNext(nextpart);
+					if (nextnextpart == null
+							|| (nextnextpart.equals(chain.getLast()) && minPart
+									.equals(chain.getFromLast(1)))) {
+						SortedPart emptyPart = chain.getNewSortedPart();
+						emptyPart.setItemId(nextpart.getItemId());
+						nextpart.addBefore(emptyPart);
+						nextnextpart = nextpart;
+						nextpart = emptyPart;
+					}
+					part = nextnextpart;
 					swap = part.swapItem(swap);
 					part.goNext();
-					parts.get(partIndex - 1).length++;
+					nextpart.incrementLength();
 				}
-				removeEmptyParts();
+				chain.removeEmptyParts();
 			}
-			SortedPart part = this.parts.pollFirst();
-			part.makeEmpty();
-			emptyParts.push(part);
-			if (GEN_SORTED_PART_ID > 18)
-				System.out.println(GEN_SORTED_PART_ID);
+			chain.getFirst().remove();
 		}
+	}
 
-		private SortedPart getLastOrPreLast(int partCode) {
-			SortedPart toReturn;
-			SortedPart last = parts.pollLast();
-			if (partCode == LAST_CODE)
-				toReturn = last;
-			else
-				toReturn = parts.getLast();
-			parts.addLast(last);
-			return toReturn;
-		}
+	private SortedPart getMinLastOrPrelast() {
+		SortedPart last = chain.getLast();
+		SortedPart preLast = chain.getFromLast(1);
+		if (last.getItem() > preLast.getItem())
+			return preLast;
+		return last;
+	}
 
-		private void addEmptyPart(int partCode) {
-			SortedPart part = getSortedPart();
-			if (partCode == PRELAST_CODE) {
-				SortedPart last = parts.pollLast();
-				SortedPart preLast = parts.pollLast();
-				part.itemId = preLast.itemId;
-				parts.addLast(part);
-				parts.addLast(preLast);
-				parts.addLast(last);
-			}
-			else {
-				SortedPart last = parts.pollLast();
-				part.itemId = last.itemId;
-				parts.addLast(part);
-				parts.addLast(last);
-			}
-		}
+	
 
-		private void removeEmptyParts() {
-			int size = parts.size();
-			for (int i = 0; i < size; i++) {
-				SortedPart part = parts.pollFirst();
-				if (part.length != 0)
-					parts.addLast(part);
-				else {
-					part.makeEmpty();
-					emptyParts.push(part);
-				}
-			}
-		}
-		
-		private int getMin() {
-			SortedPart last = parts.getLast();
-			SortedPart preLast = parts.get(parts.size() - 2);
-			if (last.getItem() < preLast.getItem())
-				return LAST_CODE;
-			else
-				return PRELAST_CODE;
-		}
-
-		private class SortedPart {
-			private int id;
-			private int itemId;
-			private int length;
-
-			private SortedPart() {
-				this.id = GEN_SORTED_PART_ID;
-				GEN_SORTED_PART_ID++;
-			}
-
-			public void makeEmpty() {
-				this.itemId = 0;
-				this.length = 0;
-				
-			}
-
-			public void set(int index, int length) {
-				this.itemId = index;
-				this.length = length;
-			}
-
-			public void goNext() {
-				this.length--;
-
-				this.itemId++;
-			}
-
-			public int getItem() {
-				return array[this.itemId];
-			}
-
-			public int swapItem(int value) {
-				int old = this.getItem();
-				array[this.itemId] = value;
-				return old;
-			}
-
-			@Override
-			public int hashCode() {
-				return id;
-			}
-
-			@Override
-			public boolean equals(Object obj) {
-				if (this == obj) {
-					return true;
-				}
-				if (obj == null) {
-					return false;
-				}
-				if (!(obj instanceof SortedPart)) {
-					return false;
-				}
-				SortedPart other = (SortedPart) obj;
-				if (id != other.id) {
-					return false;
-				}
-				return true;
-			}
-
-			@Override
-			public String toString() {
-				return "[id=" + itemId + ", len=" + length + "]";
-			}
-		}
+	@Override
+	protected void setup() {
+		super.setup();
+		chain.setArray(getOutput());
 	}
 }

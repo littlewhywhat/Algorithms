@@ -1,30 +1,54 @@
 package com.littlewhywhat.algorithms.sort.merge;
 
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Stack;
 
 class SortedPartsChain {
 	private static final String EMPTY_MESSAGE = "SortedPartsChain is empty";
+	private static int GEN_ID = 0;
 	private Node header;
-	private Stack<SortedPart> stack;
+	private LinkedList<SortedPart> stack;
+	private LinkedList<SortedPart> emptyParts;
 	private int[] array;
-	
+
 	void setArray(int[] array) {
 		this.array = array;
 	}
-	
+
 	SortedPartsChain() {
 		header = new Node();
-		stack = new Stack<SortedPart>();
+		stack = new LinkedList<SortedPart>();
+		emptyParts = new LinkedList<SortedPart>();
 		header.next = header;
 		header.prev = header;
 	}
 
+	SortedPart getNext(Node part) {
+		if (part.next instanceof SortedPart)
+			return (SortedPart) part.next;
+		return null;
+	}
+
+	void removeEmptyParts() {
+		SortedPart emptyPart = emptyParts.pollFirst();
+		while (emptyPart != null) {
+			emptyPart.remove();
+			emptyPart = emptyParts.pollFirst();
+		}
+	}
+
 	SortedPart getNewSortedPart() {
 		if (stack.isEmpty())
-			return new SortedPart();
+			return new SortedPart(GEN_ID++);
 		else
 			return stack.pop();
+	}
+
+	SortedPart getNewSortedPart(int itemId, int length) {
+		SortedPart part = getNewSortedPart();
+		part.setItemId(itemId);
+		part.setLength(length);
+		return part;
 	}
 
 	private void addBetween(Node partPrev, Node partNext, Node part) {
@@ -48,24 +72,24 @@ class SortedPartsChain {
 		while (count != index) {
 			count++;
 			part = part.getPrev();
-			if (!(part instanceof SortedPart ))
+			if (!(part instanceof SortedPart))
 				throw new NoSuchElementException();
 		}
-		return (SortedPart)part;
+		return (SortedPart) part;
 	}
-	
+
 	SortedPart getFromFirst(int index) {
 		int count = 0;
 		Node part = this.getFirst();
 		while (count != index) {
 			count++;
 			part = part.getNext();
-			if (!(part instanceof SortedPart ))
+			if (!(part instanceof SortedPart))
 				throw new NoSuchElementException();
 		}
-		return (SortedPart)part;
+		return (SortedPart) part;
 	}
-	
+
 	SortedPart getLast() {
 		try {
 			return (SortedPart) header.getPrev();
@@ -83,13 +107,7 @@ class SortedPartsChain {
 	}
 
 	int size() {
-		int size = 0;
-		Node node = header;
-		while (node.getNext() instanceof SortedPart) {
-			node = node.getNext();
-			size++;
-		}
-		return size;
+		return GEN_ID - stack.size();
 	}
 
 	boolean oneRemained() {
@@ -127,7 +145,7 @@ class SortedPartsChain {
 			node.setNext(this);
 			node.setPrev(prev);
 		}
-		
+
 		void remove() {
 			Node prev = this.prev;
 			Node next = this.next;
@@ -139,11 +157,22 @@ class SortedPartsChain {
 	class SortedPart extends Node {
 		private int length;
 		private int itemId;
-		
+		private int id;
+
+		private SortedPart(int id) {
+			this.id = id;
+		}
+
 		int getItem() {
 			return array[this.itemId];
 		}
-		
+
+		int swapItem(int newValue) {
+			int old = this.getItem();
+			array[this.itemId] = newValue;
+			return old;
+		}
+
 		@Override
 		void remove() {
 			super.remove();
@@ -151,8 +180,7 @@ class SortedPartsChain {
 			this.itemId = 0;
 			stack.push(this);
 		}
-		
-		
+
 		int getLength() {
 			return length;
 		}
@@ -172,6 +200,44 @@ class SortedPartsChain {
 		@Override
 		public String toString() {
 			return "[id=" + itemId + ", len=" + length + "]";
+		}
+
+		public void goNext() {
+			this.length--;
+			this.itemId++;
+			if (length == 0)
+				emptyParts.push(this);
+		}
+
+		public void incrementLength() {
+			this.length++;
+
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + id;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SortedPart)) {
+				return false;
+			}
+			SortedPart other = (SortedPart) obj;
+			if (id != other.id) {
+				return false;
+			}
+			return true;
 		}
 
 	}
