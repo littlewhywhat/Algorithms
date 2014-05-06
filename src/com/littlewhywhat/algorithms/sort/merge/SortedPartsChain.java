@@ -7,7 +7,12 @@ class SortedPartsChain {
 	private static final String EMPTY_MESSAGE = "SortedPartsChain is empty";
 	private Node header;
 	private Stack<SortedPart> stack;
-
+	private int[] array;
+	
+	void setArray(int[] array) {
+		this.array = array;
+	}
+	
 	SortedPartsChain() {
 		header = new Node();
 		stack = new Stack<SortedPart>();
@@ -37,6 +42,30 @@ class SortedPartsChain {
 		addBetween(header.getPrev(), header, part);
 	}
 
+	SortedPart getFromLast(int index) {
+		int count = 0;
+		Node part = this.getLast();
+		while (count != index) {
+			count++;
+			part = part.getPrev();
+			if (!(part instanceof SortedPart ))
+				throw new NoSuchElementException();
+		}
+		return (SortedPart)part;
+	}
+	
+	SortedPart getFromFirst(int index) {
+		int count = 0;
+		Node part = this.getFirst();
+		while (count != index) {
+			count++;
+			part = part.getNext();
+			if (!(part instanceof SortedPart ))
+				throw new NoSuchElementException();
+		}
+		return (SortedPart)part;
+	}
+	
 	SortedPart getLast() {
 		try {
 			return (SortedPart) header.getPrev();
@@ -111,6 +140,10 @@ class SortedPartsChain {
 		private int length;
 		private int itemId;
 		
+		int getItem() {
+			return array[this.itemId];
+		}
+		
 		@Override
 		void remove() {
 			super.remove();
@@ -118,6 +151,7 @@ class SortedPartsChain {
 			this.itemId = 0;
 			stack.push(this);
 		}
+		
 		
 		int getLength() {
 			return length;

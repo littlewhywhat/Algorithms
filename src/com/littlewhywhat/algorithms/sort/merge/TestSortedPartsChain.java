@@ -22,6 +22,36 @@ public class TestSortedPartsChain {
 	}
 
 	@Test
+	public void testAddBefore() {
+		SortedPart part = chain.getNewSortedPart();
+		part.setLength(1);
+		SortedPart middlePart = chain.getNewSortedPart();
+		middlePart.setLength(2);
+		chain.addFirst(part);
+		chain.addFirst(chain.getNewSortedPart());
+		part.addBefore(middlePart);
+		chain.getFirst().remove();
+		Assert.assertEquals(chain.getFirst(), middlePart);
+	}
+	
+	@Test
+	public void testGetFromLast() {
+		SortedPart part = chain.getNewSortedPart();
+		part.setLength(1);
+		chain.addFirst(chain.getNewSortedPart());
+		chain.addFirst(part);
+		Assert.assertEquals(part, chain.getFromLast(1));
+	}
+	@Test
+	public void testGetFromFirst() {
+		SortedPart part = chain.getNewSortedPart();
+		part.setLength(1);
+		chain.addFirst(part);
+		chain.addFirst(chain.getNewSortedPart());
+		Assert.assertEquals(part, chain.getFromFirst(1));
+	}
+	
+	@Test
 	public void testAddGetLast() {
 		SortedPart part = chain.getNewSortedPart();
 		chain.addLast(chain.getNewSortedPart());
