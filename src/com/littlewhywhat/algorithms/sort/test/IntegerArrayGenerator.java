@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.sort.test;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 import com.littlewhywhat.algorithms.io.txt.StringArrayOutputWriter;
@@ -8,21 +7,37 @@ import com.littlewhywhat.algorithms.io.txt.StringArrayOutputWriter;
 public class IntegerArrayGenerator {
 	
 	private StringArrayOutputWriter writer = new StringArrayOutputWriter();
-	private int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-			13, 14, 15, 16 };
 	private Random random = new Random();
 	
-	public void generate() {
-		LinkedList<Integer> list = new LinkedList<Integer>();
-		for (int item : array)
-			list.add(item);
-		String[] output = new String[array.length];
+	public void generate(int size) {
+		String[] output = new String[size];
 		for (int i = 0; i < output.length; i++) {
-			int index = random.nextInt(list.size());
-			output[i] = String.valueOf(list.remove(index));
+			int index = random.nextInt(size);
+			output[i] = String.valueOf(index);
 		}
 		writer.setOutput(output);
 		writer.setOutputFilePath(SortTest.INPUT_PATH_RANDOM);
+		writer.write();
+	}
+	
+	public void generateBad(int size) {
+		String[] output = new String[size];
+		int first = 2;
+
+		for (int i = 0; i < size/2; i++) {
+			output[i] = String.valueOf(first);
+			first += 3;
+		}
+		first = 0;
+		for (int i = size/2 + 1; i < size; i = i + 2) {
+			output[i-1] = String.valueOf(first);
+			output[i] = String.valueOf(first+1);
+			first += 3;
+		}
+		if (output[size - 1 ] == null)
+			output[size -1] = String.valueOf(first);
+		writer.setOutput(output);
+		writer.setOutputFilePath(SortTest.INPUT_PATH_BAD);
 		writer.write();
 	}
 }

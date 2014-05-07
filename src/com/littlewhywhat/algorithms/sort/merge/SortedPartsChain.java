@@ -15,6 +15,10 @@ class SortedPartsChain {
 		this.array = array;
 	}
 
+	public int getGENID () {
+		return GEN_ID;
+	}
+	 
 	SortedPartsChain() {
 		header = new Node();
 		emptyParts = new LinkedList<SortedPart>();

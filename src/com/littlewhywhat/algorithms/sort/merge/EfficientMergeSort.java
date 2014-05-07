@@ -6,18 +6,22 @@ public class EfficientMergeSort extends AbstractMergeSort {
 
 	private SortedPartsChain chain = new SortedPartsChain();
 
+	public int getGenId() {
+		return chain.getGENID();
+	}
+
 	@Override
 	protected void merge(int firstHalfStart, int firstHalfLength,
 			int secondHalfStart, int secondHalfLength) {
 		int sumLength = firstHalfLength + secondHalfLength;
-		if (sumLength < 400) 
+		if (sumLength < 400)
 			insertionSort(firstHalfStart, firstHalfStart + sumLength);
-		else 
-			mergeSort(firstHalfStart, firstHalfLength, secondHalfStart, secondHalfLength);
-		
+		else
+			mergeSort(firstHalfStart, firstHalfLength, secondHalfStart,
+					secondHalfLength);
 
 	}
-	
+
 	private void insertionSort(int start, int end) {
 		int[] array = getOutput();
 		for (int j = start + 1; j < end; j++) {
@@ -30,14 +34,13 @@ public class EfficientMergeSort extends AbstractMergeSort {
 			array[i + 1] = newItem;
 		}
 	}
-	
+
 	private void mergeSort(int firstHalfStart, int firstHalfLength,
 			int secondHalfStart, int secondHalfLength) {
-		chain.addFirst(chain.getNewSortedPart(firstHalfStart,
-				firstHalfLength));
-		chain.addLast(chain.getNewSortedPart(secondHalfStart,
-				secondHalfLength));
+		chain.addFirst(chain.getNewSortedPart(firstHalfStart, firstHalfLength));
+		chain.addLast(chain.getNewSortedPart(secondHalfStart, secondHalfLength));
 		while (!chain.oneRemained()) {
+
 			SortedPart minPart = getMinLastOrPrelast();
 			int min = minPart.getItem();
 			SortedPart part = chain.getFirst();
@@ -62,11 +65,18 @@ public class EfficientMergeSort extends AbstractMergeSort {
 				part.goNext();
 				nextpart.incrementLength();
 			}
+			// if (chain.size() > 1) {
+			// System.out.println(chain);
+			// for (int i = chain.getFirst().getItemId(); i <
+			// chain.getLast().getItemId() + chain.getLast().getLength() - 1;
+			// i++)
+			// System.out.print(getOutput()[i] + " ");
+			// System.out.println();
+			// }
 			chain.removeEmptyParts();
 		}
 		chain.getFirst().remove();
 	}
-	
 
 	private SortedPart getMinLastOrPrelast() {
 		SortedPart last = chain.getLast();

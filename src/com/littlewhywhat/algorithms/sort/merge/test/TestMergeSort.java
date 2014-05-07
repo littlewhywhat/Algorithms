@@ -16,7 +16,7 @@ public class TestMergeSort {
 	private SortingReader reader;
 	private EfficientMergeSort sortEff;
 	private IntegerArrayGenerator generator;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		sort = new SimpleMergeSort();
@@ -31,15 +31,24 @@ public class TestMergeSort {
 		reader.read();
 		executeAlgos();
 	}
-	
+
 	@Test
 	public void testExecuteRandom() {
-		generator.generate();
+
+		generator.generate(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_RANDOM);
 		reader.read();
 		executeAlgos();
 	}
-	
+
+	@Test
+	public void testExecuteBad() {
+		generator.generateBad(100000);
+		reader.setInputFilePath(SortTest.INPUT_PATH_BAD);
+		reader.read();
+		executeAlgos();
+	}
+
 	@Test
 	public void testExecute() {
 		reader.setInputFilePath(SortTest.INPUT_PATH_BIG);
@@ -55,9 +64,11 @@ public class TestMergeSort {
 		sortEff.setData(reader.getData());
 		long start2 = System.currentTimeMillis();
 		sortEff.execute();
+
 		long end2 = System.currentTimeMillis();
+		System.out.println(sortEff.getGenId());
 		Assert.assertArrayEquals(sort.getOutput(), sortEff.getOutput());
-		System.out.println((end1-start1) + "vs" + (end2 - start2));
+		System.out.println((end1 - start1) + "vs" + (end2 - start2));
 	}
 
 }
