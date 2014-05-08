@@ -48,9 +48,10 @@ class SimpleArraySplitterList implements ArraySplitterList {
 			this.prev = prev;
 		}
 	}
+
 	class SimpleSplitter extends DoublyNode implements Splitter {
 
-		private DoublyNode nextToDelete;
+		private DoublyNode extraLink;
 		private int itemId = 0;
 		private int id;
 
@@ -123,8 +124,8 @@ class SimpleArraySplitterList implements ArraySplitterList {
 				return null;
 		}
 
-		private DoublyNode getNextToDelete() {
-			return this.nextToDelete;
+		private DoublyNode getExtraLink() {
+			return this.extraLink;
 		}
 
 		@Override
@@ -162,8 +163,8 @@ class SimpleArraySplitterList implements ArraySplitterList {
 			this.itemId = itemId;
 		}
 
-		private void setNextToDelete(DoublyNode nextToDelete) {
-			this.nextToDelete = nextToDelete;
+		private void setExtraLink(DoublyNode nextToDelete) {
+			this.extraLink = nextToDelete;
 		}
 
 		@Override
@@ -179,6 +180,7 @@ class SimpleArraySplitterList implements ArraySplitterList {
 		}
 
 	}
+
 	private int[] array;
 	private SimpleSplitter header;
 	private DoublyNode deleteHeader;
@@ -215,7 +217,7 @@ class SimpleArraySplitterList implements ArraySplitterList {
 		DoublyNode toDelete = deleteHeader.getNext();
 		while (toDelete instanceof SimpleSplitter) {
 			SimpleSplitter splitter = (SimpleSplitter) toDelete;
-			toDelete = splitter.getNextToDelete();
+			toDelete = splitter.getExtraLink();
 			splitter.remove();
 		}
 		deleteHeader.setNext(null);
@@ -261,18 +263,18 @@ class SimpleArraySplitterList implements ArraySplitterList {
 
 	private SimpleSplitter pullFromFresh() {
 		SimpleSplitter fresh = (SimpleSplitter) this.freshHeader.getNext();
-		this.freshHeader.setNext(fresh.getNextToDelete());
-		fresh.setNextToDelete(null);
+		this.freshHeader.setNext(fresh.getExtraLink());
+		fresh.setExtraLink(null);
 		return fresh;
 	}
 
 	private void pushToDelete(SimpleSplitter splitter) {
-		splitter.setNextToDelete(this.deleteHeader.getNext());
+		splitter.setExtraLink(this.deleteHeader.getNext());
 		this.deleteHeader.setNext(splitter);
 	}
 
 	private void pushToFresh(SimpleSplitter splitter) {
-		splitter.setNextToDelete(this.freshHeader.getNext());
+		splitter.setExtraLink(this.freshHeader.getNext());
 		this.freshHeader.setNext(splitter);
 	}
 
@@ -285,7 +287,7 @@ class SimpleArraySplitterList implements ArraySplitterList {
 	public void removeAll() {
 		int size = this.size;
 		for (int i = 0; i < size; i++)
-			this.remove(0);
+			((SimpleSplitter) this.getFirst()).remove();
 	}
 
 	@Override
