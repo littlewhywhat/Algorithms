@@ -41,22 +41,25 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		void remove(int index);
 
 		void clean();
+
+		void removeAll();
 	}
 
 	private ArraySplitterList splitterList = new SimpleArraySplitterList();
+	private int stepsToLast;
 
 	public int getGenId() {
 		return splitterList.sizeCache();
 	}
 
 	@Override
-	protected void merge(int firstHalfStart, int firstHalfLength,
+	protected void merge(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength) {
-		int sumLength = firstHalfLength + secondHalfLength;
-		if (sumLength < 1)
+		int sumLength = secondHalfStart - firstHalfStart + secondHalfLength;
+		if (sumLength < 400)
 			insertionSort(firstHalfStart, firstHalfStart + sumLength);
 		else
-			mergeSort(firstHalfStart, firstHalfLength, secondHalfStart,
+			mergeSort(firstHalfStart, secondHalfStart,
 					secondHalfLength);
 
 	}
@@ -74,74 +77,54 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		}
 	}
 
-	private void mergeSort(int firstHalfStart, int firstHalfLength,
+	private void mergeSort(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength) {
-		int lastIndex = secondHalfStart + secondHalfLength;
-		int stepsToLast = 0;
-		Splitter border = null;
-		if (lastIndex != getData().length) {
-			splitterList.addFirst(lastIndex);
-			stepsToLast++;
-			border = splitterList.getFirst();
+		int afterLastIndex = secondHalfStart + secondHalfLength;
+		int cryteria = 1;
+		stepsToLast = 0;
+		if (afterLastIndex != getData().length) {
+			splitterList.addFirst(afterLastIndex);
+			cryteria++;
+			stepsToLast = 1;
 		}
 		splitterList.addFirst(secondHalfStart);
 		splitterList.addFirst(firstHalfStart);
-		int cryteria = stepsToLast + 1;
-
 		while (splitterList.size() > cryteria) {
-			Splitter minPart = getMinLastOrPrelast(stepsToLast);
-			int min = minPart.getItem();
+			Splitter splitterWithMin = getSplitterWithMin();
+			int minItem = splitterWithMin.getItem();
+			int swapItem = splitterList.getFirst().swapItem(minItem);
+			splitterList.getFirst().move();
 			Splitter splitter = splitterList.getFirst();
-			int swap = splitter.swapItem(minPart.getItem());
 			Splitter nextSplitter;
 			Splitter afterNextSplitter;
-			splitter.move();
-			while (swap != min) {
+			while (swapItem != minItem) {
 				nextSplitter = splitter.getNextSplitter();
-				afterNextSplitter = nextSplitter.getNextSplitter();
-				if (caseLast(afterNextSplitter, border)
-						|| casePreLast(afterNextSplitter, stepsToLast, minPart)) {
+				if (nextSplitter.equals(splitterWithMin)) {
 					nextSplitter.addBefore(nextSplitter.getIndex());
-					afterNextSplitter = nextSplitter;
-					nextSplitter = nextSplitter.getPrevSplitter();
+					continue;
 				}
+				afterNextSplitter = nextSplitter.getNextSplitter();
+				swapItem = afterNextSplitter.swapItem(swapItem);
+				afterNextSplitter.move();
 				splitter = afterNextSplitter;
-				swap = splitter.swapItem(swap);
-				splitter.move();
 			}
-			// if (chain.size() > 1) {
-			// System.out.println(chain);
-			// for (int i = chain.getFirst().getItemId(); i <
-			// chain.getLast().getItemId() + chain.getLast().getLength() - 1;
-			// i++)
-			// System.out.print(getOutput()[i] + " ");
-			// System.out.println();
-			// }
 			splitterList.clean();
 		}
-		for (int i = 0; i < cryteria; i++)
-			splitterList.remove(0);
+		splitterList.removeAll();
 	}
 
-	private boolean casePreLast(Splitter afterNextSplitter, int stepsToLast,
-			Splitter minPart) {
-		return afterNextSplitter.equals(splitterList.get(splitterList.size() - stepsToLast - 1))
-				&& minPart.equals(splitterList.get(splitterList.size()
-						- stepsToLast - 2));
-	}
-
-	private boolean caseLast(Splitter afterNextSplitter, Splitter border) {
-		return afterNextSplitter == null || afterNextSplitter.equals(border);
-	}
-
-	private Splitter getMinLastOrPrelast(int stepsToLast) {
-		Splitter last = splitterList.get(splitterList.size() - stepsToLast - 1);
+	private Splitter getSplitterWithMin() {
+		Splitter last = getLast();
 		Splitter preLast = last.getPrevSplitter();
 		if (last.getItem() > preLast.getItem())
 			return preLast;
 		return last;
 	}
 
+	private Splitter getLast() {
+		return splitterList.get(splitterList.size() - stepsToLast - 1);
+	}
+	
 	@Override
 	protected void setup() {
 		setOutput(getData());

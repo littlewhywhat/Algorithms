@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.sort.merge.EfficientMergeSort.ArraySplitterList;
+import com.littlewhywhat.algorithms.sort.merge.EfficientMergeSort.Splitter;
 import com.littlewhywhat.algorithms.sort.merge.SimpleArraySplitterList.SimpleSplitter;
 
 public class TestSimpleArraySplitterList {
@@ -33,6 +34,13 @@ public class TestSimpleArraySplitterList {
 		Assert.assertEquals(1, splitterList.size());
 		splitterList.addLast(0);
 		Assert.assertEquals(2, splitterList.size());
+		int count = 0;
+		Splitter splitter = splitterList.getFirst();
+		while (splitter != null) {
+			count++;
+			splitter = splitter.getNextSplitter();
+		}
+		Assert.assertEquals(2, count);
 	}
 
 	@Test
@@ -97,7 +105,16 @@ public class TestSimpleArraySplitterList {
 			count++;
 		}
 		Assert.assertEquals(list.size(), splitterList.size());
-
+	}
+	
+	@Test
+	public void testRemoveAll() {
+		for (int i = 0; i < 5; i++)
+			splitterList.addFirst(i);
+		Assert.assertEquals(5, splitterList.size());
+		splitterList.removeAll();
+		Assert.assertEquals(null, splitterList.getFirst());
+		Assert.assertEquals(0, splitterList.size());
 	}
 
 	@Test

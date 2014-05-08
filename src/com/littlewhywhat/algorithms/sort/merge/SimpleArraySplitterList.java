@@ -80,6 +80,13 @@ class SimpleArraySplitterList implements ArraySplitterList {
 	}
 
 	@Override
+	public void removeAll() {
+		int size = this.size;
+		for (int i = 0; i < size; i++)
+			this.remove(0);		
+	}
+	
+	@Override
 	public void clean() {
 		SimpleSplitter splitter = (SimpleSplitter) this.header.getNext();
 		int size = this.size;
@@ -105,6 +112,8 @@ class SimpleArraySplitterList implements ArraySplitterList {
 		return string;
 	}
 
+	
+	
 	// private class SinglyNode {
 	// private SinglyNode next;
 	//

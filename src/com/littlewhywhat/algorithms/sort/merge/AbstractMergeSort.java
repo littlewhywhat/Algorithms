@@ -25,12 +25,12 @@ public abstract class AbstractMergeSort extends
 			int secondHalfLength = length - firstHalfLength;
 			recursiveCall(firstHalfStart, firstHalfLength);
 			recursiveCall(secondHalfStart, secondHalfLength);
-			merge(firstHalfStart, firstHalfLength, secondHalfStart,
+			merge(firstHalfStart, secondHalfStart,
 					secondHalfLength);
 		}
 	}
 
-	protected abstract void merge(int firstHalfStart, int firstHalfLength,
+	protected abstract void merge(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength);
 
 }

@@ -3,8 +3,9 @@ package com.littlewhywhat.algorithms.sort.merge;
 public class SimpleMergeSort extends AbstractMergeSort {
 
 	@Override
-	protected void merge(int firstHalfStart, int firstHalfLength,
+	protected void merge(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength) {
+		int firstHalfLength = secondHalfStart - firstHalfStart;
 		int[] data = getOutput();
 		int[] result = getData();
 		int i = firstHalfStart;
