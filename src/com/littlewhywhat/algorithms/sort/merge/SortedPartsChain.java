@@ -1,13 +1,12 @@
 package com.littlewhywhat.algorithms.sort.merge;
 
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 class SortedPartsChain {
 	private static final String EMPTY_MESSAGE = "SortedPartsChain is empty";
 	private static int GEN_ID = 0;
 	private Node header;
-	private LinkedList<SortedPart> emptyParts;
+	private Node emptyParts;
 	private Node stack;
 	private int[] array;
 
@@ -21,12 +20,15 @@ class SortedPartsChain {
 	 
 	SortedPartsChain() {
 		header = new Node();
-		emptyParts = new LinkedList<SortedPart>();
+		emptyParts = new Node();
 		stack = new Node();
 		stack.next = stack;
 		stack.prev = stack;
 		header.next = header;
 		header.prev = header;
+		emptyParts.next = emptyParts;
+		emptyParts.prev = emptyParts;
+		
 	}
 
 	SortedPart getNext(Node part) {
@@ -36,18 +38,25 @@ class SortedPartsChain {
 	}
 
 	void removeEmptyParts() {
-		SortedPart emptyPart = emptyParts.pollFirst();
-		while (emptyPart != null) {
-			emptyPart.remove();
-			emptyPart = emptyParts.pollFirst();
+		Node node = emptyParts.getNext();
+		while (node instanceof SortedPart) {
+			SortedPart part = (SortedPart)node;
+			part.remove();
+			node = part.nextToDelete;
+			part.nextToDelete = null;
+			emptyParts.setNext(node);
 		}
+		//SortedPart emptyPart = emptyParts.pollFirst();
+		//while (emptyPart != null) {
+		//	emptyPart.remove();
+		//	emptyPart = emptyParts.pollFirst();
+		//}
 	}
 
 	SortedPart getNewSortedPart() {
 		Node node = stack.getNext();
 		if (node  instanceof SortedPart) {
 			stack.setNext(node.getNext());
-			//node.setNext(null);
 			return (SortedPart) node;
 		}
 		else
@@ -174,7 +183,9 @@ class SortedPartsChain {
 		private int length;
 		private int itemId;
 		private int id;
-
+		private Node nextToDelete;
+		
+		
 		private SortedPart(int id) {
 			this.id = id;
 		}
@@ -223,8 +234,11 @@ class SortedPartsChain {
 		public void goNext() {
 			this.length--;
 			this.itemId++;
-			if (length == 0)
-				emptyParts.push(this);
+			if (length == 0) {
+				this.nextToDelete = emptyParts.getNext();
+				emptyParts.setNext(this);
+			}
+				//emptyParts.push(this);
 		}
 
 		public void incrementLength() {

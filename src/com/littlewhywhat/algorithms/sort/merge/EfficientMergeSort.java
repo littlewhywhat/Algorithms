@@ -1,20 +1,59 @@
 package com.littlewhywhat.algorithms.sort.merge;
 
-import com.littlewhywhat.algorithms.sort.merge.SortedPartsChain.SortedPart;
-
 public class EfficientMergeSort extends AbstractMergeSort {
 
-	private SortedPartsChain chain = new SortedPartsChain();
+	interface Splitter {
+		int getItem();
+
+		int getIndex();
+
+		Splitter getNextSplitter();
+
+		Splitter getPrevSplitter();
+
+		int swapItem(int newItem);
+
+		void move();
+
+		void addBefore(int itemId);
+
+		void addAfter(int itemId);
+
+	}
+
+	interface ArraySplitterList {
+		void setArray(int[] array);
+
+		int sizeCache();
+
+		int size();
+
+		void addFirst(int itemId);
+
+		void addLast(int itemId);
+
+		Splitter getFirst();
+
+		Splitter getLast();
+
+		Splitter get(int index);
+
+		void remove(int index);
+
+		void clean();
+	}
+
+	private ArraySplitterList splitterList = new SimpleArraySplitterList();
 
 	public int getGenId() {
-		return chain.getGENID();
+		return splitterList.sizeCache();
 	}
 
 	@Override
 	protected void merge(int firstHalfStart, int firstHalfLength,
 			int secondHalfStart, int secondHalfLength) {
 		int sumLength = firstHalfLength + secondHalfLength;
-		if (sumLength < 400)
+		if (sumLength < 1)
 			insertionSort(firstHalfStart, firstHalfStart + sumLength);
 		else
 			mergeSort(firstHalfStart, firstHalfLength, secondHalfStart,
@@ -37,33 +76,38 @@ public class EfficientMergeSort extends AbstractMergeSort {
 
 	private void mergeSort(int firstHalfStart, int firstHalfLength,
 			int secondHalfStart, int secondHalfLength) {
-		chain.addFirst(chain.getNewSortedPart(firstHalfStart, firstHalfLength));
-		chain.addLast(chain.getNewSortedPart(secondHalfStart, secondHalfLength));
-		while (!chain.oneRemained()) {
+		int lastIndex = secondHalfStart + secondHalfLength;
+		int stepsToLast = 0;
+		Splitter border = null;
+		if (lastIndex != getData().length) {
+			splitterList.addFirst(lastIndex);
+			stepsToLast++;
+			border = splitterList.getFirst();
+		}
+		splitterList.addFirst(secondHalfStart);
+		splitterList.addFirst(firstHalfStart);
+		int cryteria = stepsToLast + 1;
 
-			SortedPart minPart = getMinLastOrPrelast();
+		while (splitterList.size() > cryteria) {
+			Splitter minPart = getMinLastOrPrelast(stepsToLast);
 			int min = minPart.getItem();
-			SortedPart part = chain.getFirst();
-			int swap = part.swapItem(minPart.getItem());
-			SortedPart nextpart;
-			SortedPart nextnextpart;
-			part.goNext();
+			Splitter splitter = splitterList.getFirst();
+			int swap = splitter.swapItem(minPart.getItem());
+			Splitter nextSplitter;
+			Splitter afterNextSplitter;
+			splitter.move();
 			while (swap != min) {
-				nextpart = chain.getNext(part);
-				nextnextpart = chain.getNext(nextpart);
-				if (nextnextpart == null
-						|| (nextnextpart.equals(chain.getLast()) && minPart
-								.equals(chain.getFromLast(1)))) {
-					SortedPart emptyPart = chain.getNewSortedPart();
-					emptyPart.setItemId(nextpart.getItemId());
-					nextpart.addBefore(emptyPart);
-					nextnextpart = nextpart;
-					nextpart = emptyPart;
+				nextSplitter = splitter.getNextSplitter();
+				afterNextSplitter = nextSplitter.getNextSplitter();
+				if (caseLast(afterNextSplitter, border)
+						|| casePreLast(afterNextSplitter, stepsToLast, minPart)) {
+					nextSplitter.addBefore(nextSplitter.getIndex());
+					afterNextSplitter = nextSplitter;
+					nextSplitter = nextSplitter.getPrevSplitter();
 				}
-				part = nextnextpart;
-				swap = part.swapItem(swap);
-				part.goNext();
-				nextpart.incrementLength();
+				splitter = afterNextSplitter;
+				swap = splitter.swapItem(swap);
+				splitter.move();
 			}
 			// if (chain.size() > 1) {
 			// System.out.println(chain);
@@ -73,14 +117,26 @@ public class EfficientMergeSort extends AbstractMergeSort {
 			// System.out.print(getOutput()[i] + " ");
 			// System.out.println();
 			// }
-			chain.removeEmptyParts();
+			splitterList.clean();
 		}
-		chain.getFirst().remove();
+		for (int i = 0; i < cryteria; i++)
+			splitterList.remove(0);
 	}
 
-	private SortedPart getMinLastOrPrelast() {
-		SortedPart last = chain.getLast();
-		SortedPart preLast = chain.getFromLast(1);
+	private boolean casePreLast(Splitter afterNextSplitter, int stepsToLast,
+			Splitter minPart) {
+		return afterNextSplitter.equals(splitterList.get(splitterList.size() - stepsToLast - 1))
+				&& minPart.equals(splitterList.get(splitterList.size()
+						- stepsToLast - 2));
+	}
+
+	private boolean caseLast(Splitter afterNextSplitter, Splitter border) {
+		return afterNextSplitter == null || afterNextSplitter.equals(border);
+	}
+
+	private Splitter getMinLastOrPrelast(int stepsToLast) {
+		Splitter last = splitterList.get(splitterList.size() - stepsToLast - 1);
+		Splitter preLast = last.getPrevSplitter();
 		if (last.getItem() > preLast.getItem())
 			return preLast;
 		return last;
@@ -88,7 +144,7 @@ public class EfficientMergeSort extends AbstractMergeSort {
 
 	@Override
 	protected void setup() {
-		super.setup();
-		chain.setArray(getOutput());
+		setOutput(getData());
+		splitterList.setArray(getOutput());
 	}
 }

@@ -61,6 +61,7 @@ public class TestMergeSort {
 		long start1 = System.currentTimeMillis();
 		sort.execute();
 		long end1 = System.currentTimeMillis();
+		reader.read();
 		sortEff.setData(reader.getData());
 		long start2 = System.currentTimeMillis();
 		sortEff.execute();
