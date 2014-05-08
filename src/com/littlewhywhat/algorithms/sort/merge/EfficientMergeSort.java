@@ -1,5 +1,7 @@
 package com.littlewhywhat.algorithms.sort.merge;
 
+import com.littlewhywhat.algorithms.sort.InsertionSort;
+
 public class EfficientMergeSort extends AbstractMergeSort {
 
 	interface Splitter {
@@ -46,7 +48,10 @@ public class EfficientMergeSort extends AbstractMergeSort {
 	}
 
 	private ArraySplitterList splitterList = new SimpleArraySplitterList();
+	private InsertionSort insertionSort = new InsertionSort();
+	private int[] insertionSortConfig = new int[2];
 	private int stepsToLast;
+	
 
 	public int getGenId() {
 		return splitterList.sizeCache();
@@ -56,25 +61,16 @@ public class EfficientMergeSort extends AbstractMergeSort {
 	protected void merge(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength) {
 		int sumLength = secondHalfStart - firstHalfStart + secondHalfLength;
-		if (sumLength < 400)
-			insertionSort(firstHalfStart, firstHalfStart + sumLength);
+		if (sumLength < 400) {
+			insertionSortConfig[0] = firstHalfStart;
+			insertionSortConfig[1] = firstHalfStart + sumLength;
+			insertionSort.setConfig(insertionSortConfig);
+			insertionSort.execute();
+		}
 		else
 			mergeSort(firstHalfStart, secondHalfStart,
 					secondHalfLength);
 
-	}
-
-	private void insertionSort(int start, int end) {
-		int[] array = getOutput();
-		for (int j = start + 1; j < end; j++) {
-			int newItem = array[j];
-			int i = j - 1;
-			while (i > start - 1 && newItem < array[i]) {
-				array[i + 1] = array[i];
-				i--;
-			}
-			array[i + 1] = newItem;
-		}
 	}
 
 	private void mergeSort(int firstHalfStart,
@@ -129,5 +125,6 @@ public class EfficientMergeSort extends AbstractMergeSort {
 	protected void setup() {
 		setOutput(getData());
 		splitterList.setArray(getOutput());
+		insertionSort.setData(getOutput());
 	}
 }
