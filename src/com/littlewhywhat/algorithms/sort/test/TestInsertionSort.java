@@ -9,7 +9,7 @@ import com.littlewhywhat.algorithms.sort.SortingReader;
 public class TestInsertionSort {
 	private SortingReader reader;
 	private InsertionSort sort;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		reader = new SortingReader();
@@ -21,6 +21,7 @@ public class TestInsertionSort {
 		reader.setInputFilePath(SortTest.INPUT_PATH_BIG);
 		reader.read();
 		sort.setData(reader.getData());
+		sort.setConfig(new int[] { 0, reader.getData().length });
 		sort.execute();
 		System.out.println();
 	}
