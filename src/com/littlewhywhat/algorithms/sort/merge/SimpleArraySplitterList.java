@@ -5,11 +5,187 @@ import com.littlewhywhat.algorithms.sort.merge.EfficientMergeSort.Splitter;
 
 class SimpleArraySplitterList implements ArraySplitterList {
 
+	private class DoublyNode {
+		private DoublyNode next;
+		private DoublyNode prev;
+
+		protected void addAfter(DoublyNode node) {
+			node.setNext(this.next);
+			node.setPrev(this);
+			this.next.setPrev(node);
+			this.setNext(node);
+		}
+
+		protected void addBefore(DoublyNode node) {
+			node.setPrev(this.prev);
+			node.setNext(this);
+			this.prev.setNext(node);
+			this.setPrev(node);
+		}
+
+		protected DoublyNode getNext() {
+			return next;
+		}
+
+		protected DoublyNode getPrev() {
+			return prev;
+		}
+
+		protected void remove() {
+			DoublyNode next = this.next;
+			DoublyNode prev = this.prev;
+			next.setPrev(prev);
+			prev.setNext(next);
+			this.next = null;
+			this.prev = null;
+		}
+
+		protected void setNext(DoublyNode next) {
+			this.next = next;
+		}
+
+		protected void setPrev(DoublyNode prev) {
+			this.prev = prev;
+		}
+	}
+	class SimpleSplitter extends DoublyNode implements Splitter {
+
+		private DoublyNode nextToDelete;
+		private int itemId = 0;
+		private int id;
+
+		private SimpleSplitter(int id) {
+			this.id = id;
+		}
+
+		@Override
+		public void addAfter(int itemId) {
+			SimpleSplitter splitter = getFreshSimpleSplitter();
+			splitter.setItemId(itemId);
+			this.addAfter(splitter);
+			size++;
+		}
+
+		@Override
+		public void addBefore(int itemId) {
+			SimpleSplitter splitter = getFreshSimpleSplitter();
+			splitter.setItemId(itemId);
+			this.addBefore(splitter);
+			size++;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SimpleSplitter)) {
+				return false;
+			}
+			SimpleSplitter other = (SimpleSplitter) obj;
+			if (id != other.id) {
+				return false;
+			}
+			return true;
+		}
+
+		private int getId() {
+			return this.id;
+		}
+
+		@Override
+		public int getIndex() {
+			return this.itemId;
+		}
+
+		@Override
+		public int getItem() {
+			return array[itemId];
+		}
+
+		private int getItemId() {
+			return this.itemId;
+		}
+
+		int getLength() {
+			return ((SimpleSplitter) getNext()).getItemId() - this.itemId;
+		}
+
+		@Override
+		public Splitter getNextSplitter() {
+			SimpleSplitter next = (SimpleSplitter) this.getNext();
+			if (next.getId() != 0)
+				return next;
+			else
+				return null;
+		}
+
+		private DoublyNode getNextToDelete() {
+			return this.nextToDelete;
+		}
+
+		@Override
+		public Splitter getPrevSplitter() {
+			SimpleSplitter prev = (SimpleSplitter) this.getPrev();
+			if (prev.getId() != 0)
+				return prev;
+			else
+				return null;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + id;
+			return result;
+		}
+
+		@Override
+		public void move() {
+			this.itemId++;
+			if (getLength() == 0)
+				pushToDelete(this);
+		}
+
+		@Override
+		protected void remove() {
+			super.remove();
+			size--;
+			pushToFresh(this);
+		}
+
+		private void setItemId(int itemId) {
+			this.itemId = itemId;
+		}
+
+		private void setNextToDelete(DoublyNode nextToDelete) {
+			this.nextToDelete = nextToDelete;
+		}
+
+		@Override
+		public int swapItem(int newItem) {
+			int oldItem = this.getItem();
+			array[itemId] = newItem;
+			return oldItem;
+		}
+
+		@Override
+		public String toString() {
+			return "[itemId=" + itemId + ", id=" + id + "]";
+		}
+
+	}
 	private int[] array;
 	private SimpleSplitter header;
 	private DoublyNode deleteHeader;
 	private DoublyNode freshHeader;
+
 	private int size = 0;
+
 	private int genId = 0;
 
 	public SimpleArraySplitterList() {
@@ -24,29 +200,6 @@ class SimpleArraySplitterList implements ArraySplitterList {
 
 	}
 
-	private SimpleSplitter getFreshSimpleSplitter() {
-		SimpleSplitter splitter = pullFromFresh();
-		if (splitter != null)
-			return splitter;
-		return new SimpleSplitter(genId++);
-	}
-
-	@Override
-	public void setArray(int[] array) {
-		this.array = array;
-		this.header.setItemId(array.length);
-	}
-
-	@Override
-	public int sizeCache() {
-		return this.genId;
-	}
-
-	@Override
-	public int size() {
-		return this.size;
-	}
-
 	@Override
 	public void addFirst(int itemId) {
 		this.header.addAfter(itemId);
@@ -58,17 +211,14 @@ class SimpleArraySplitterList implements ArraySplitterList {
 	}
 
 	@Override
-	public Splitter getFirst() {
-		if (this.size > 0)
-			return (Splitter) this.header.getNext();
-		return null;
-	}
-
-	@Override
-	public Splitter getLast() {
-		if (this.size > 0)
-			return (Splitter) this.header.getPrev();
-		return null;
+	public void clean() {
+		DoublyNode toDelete = deleteHeader.getNext();
+		while (toDelete instanceof SimpleSplitter) {
+			SimpleSplitter splitter = (SimpleSplitter) toDelete;
+			toDelete = splitter.getNextToDelete();
+			splitter.remove();
+		}
+		deleteHeader.setNext(null);
 	}
 
 	@Override
@@ -90,6 +240,43 @@ class SimpleArraySplitterList implements ArraySplitterList {
 	}
 
 	@Override
+	public Splitter getFirst() {
+		if (this.size > 0)
+			return (Splitter) this.header.getNext();
+		return null;
+	}
+
+	private SimpleSplitter getFreshSimpleSplitter() {
+		if (this.freshHeader.getNext() instanceof SimpleSplitter)
+			return pullFromFresh();
+		return new SimpleSplitter(genId++);
+	}
+
+	@Override
+	public Splitter getLast() {
+		if (this.size > 0)
+			return (Splitter) this.header.getPrev();
+		return null;
+	}
+
+	private SimpleSplitter pullFromFresh() {
+		SimpleSplitter fresh = (SimpleSplitter) this.freshHeader.getNext();
+		this.freshHeader.setNext(fresh.getNextToDelete());
+		fresh.setNextToDelete(null);
+		return fresh;
+	}
+
+	private void pushToDelete(SimpleSplitter splitter) {
+		splitter.setNextToDelete(this.deleteHeader.getNext());
+		this.deleteHeader.setNext(splitter);
+	}
+
+	private void pushToFresh(SimpleSplitter splitter) {
+		splitter.setNextToDelete(this.freshHeader.getNext());
+		this.freshHeader.setNext(splitter);
+	}
+
+	@Override
 	public void remove(int index) {
 		((SimpleSplitter) this.get(index)).remove();
 	}
@@ -102,14 +289,19 @@ class SimpleArraySplitterList implements ArraySplitterList {
 	}
 
 	@Override
-	public void clean() {
-		DoublyNode toDelete = deleteHeader.getNext();
-		while (toDelete instanceof SimpleSplitter) {
-			SimpleSplitter splitter = (SimpleSplitter) toDelete;
-			toDelete = splitter.getNextToDelete();
-			splitter.remove();
-		}
-		deleteHeader.setNext(null);
+	public void setArray(int[] array) {
+		this.array = array;
+		this.header.setItemId(array.length);
+	}
+
+	@Override
+	public int size() {
+		return this.size;
+	}
+
+	@Override
+	public int sizeCache() {
+		return this.genId;
 	}
 
 	@Override
@@ -124,202 +316,6 @@ class SimpleArraySplitterList implements ArraySplitterList {
 			string = string.substring(0, string.length() - 1);
 		string = string + "]";
 		return string;
-	}
-
-	private void pushToDelete(SimpleSplitter splitter) {
-		splitter.setNextToDelete(this.deleteHeader.getNext());
-		this.deleteHeader.setNext(splitter);
-	}
-
-	private void pushToFresh(SimpleSplitter splitter) {
-		splitter.setNextToDelete(this.freshHeader.getNext());
-		this.freshHeader.setNext(splitter);
-	}
-
-	private SimpleSplitter pullFromFresh() {
-		if (this.freshHeader.getNext() instanceof SimpleSplitter) {
-			SimpleSplitter fresh = (SimpleSplitter) this.freshHeader.getNext();
-			this.freshHeader.setNext(fresh.getNextToDelete());
-			fresh.setNextToDelete(null);
-			return fresh;
-		}
-		return null;
-	}
-
-	private class DoublyNode {
-		private DoublyNode next;
-		private DoublyNode prev;
-
-		protected DoublyNode getPrev() {
-			return prev;
-		}
-
-		protected void setPrev(DoublyNode prev) {
-			this.prev = prev;
-		}
-
-		protected DoublyNode getNext() {
-			return next;
-		}
-
-		protected void setNext(DoublyNode next) {
-			this.next = next;
-		}
-
-		protected void remove() {
-			DoublyNode next = this.next;
-			DoublyNode prev = this.prev;
-			next.setPrev(prev);
-			prev.setNext(next);
-			this.next = null;
-			this.prev = null;
-		}
-
-		protected void addBefore(DoublyNode node) {
-			node.setPrev(this.prev);
-			node.setNext(this);
-			this.prev.setNext(node);
-			this.setPrev(node);
-		}
-
-		protected void addAfter(DoublyNode node) {
-			node.setNext(this.next);
-			node.setPrev(this);
-			this.next.setPrev(node);
-			this.setNext(node);
-		}
-	}
-
-	class SimpleSplitter extends DoublyNode implements Splitter {
-
-		private DoublyNode nextToDelete;
-		private int itemId = 0;
-		private int id;
-
-		private void setNextToDelete(DoublyNode nextToDelete) {
-			this.nextToDelete = nextToDelete;
-		}
-
-		private DoublyNode getNextToDelete() {
-			return this.nextToDelete;
-		}
-
-		private int getId() {
-			return this.id;
-		}
-
-		private SimpleSplitter(int id) {
-			this.id = id;
-		}
-
-		private void setItemId(int itemId) {
-			this.itemId = itemId;
-		}
-
-		private int getItemId() {
-			return this.itemId;
-		}
-
-		@Override
-		protected void remove() {
-			super.remove();
-			size--;
-			pushToFresh(this);
-		}
-
-		int getLength() {
-			return ((SimpleSplitter) getNext()).getItemId() - this.itemId;
-		}
-
-		@Override
-		public int getItem() {
-			return array[itemId];
-		}
-
-		@Override
-		public int getIndex() {
-			return this.itemId;
-		}
-
-		@Override
-		public Splitter getNextSplitter() {
-			SimpleSplitter next = (SimpleSplitter) this.getNext();
-			if (next.getId() != 0)
-				return next;
-			else
-				return null;
-		}
-
-		@Override
-		public Splitter getPrevSplitter() {
-			SimpleSplitter prev = (SimpleSplitter) this.getPrev();
-			if (prev.getId() != 0)
-				return prev;
-			else
-				return null;
-		}
-
-		@Override
-		public int swapItem(int newItem) {
-			int oldItem = this.getItem();
-			array[itemId] = newItem;
-			return oldItem;
-		}
-
-		@Override
-		public void move() {
-			this.itemId++;
-			if (getLength() == 0)
-				pushToDelete(this);
-		}
-
-		@Override
-		public void addBefore(int itemId) {
-			SimpleSplitter splitter = getFreshSimpleSplitter();
-			splitter.setItemId(itemId);
-			this.addBefore(splitter);
-			size++;
-		}
-
-		@Override
-		public void addAfter(int itemId) {
-			SimpleSplitter splitter = getFreshSimpleSplitter();
-			splitter.setItemId(itemId);
-			this.addAfter(splitter);
-			size++;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + id;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof SimpleSplitter)) {
-				return false;
-			}
-			SimpleSplitter other = (SimpleSplitter) obj;
-			if (id != other.id) {
-				return false;
-			}
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "[itemId=" + itemId + ", id=" + id + "]";
-		}
-
 	}
 
 }
