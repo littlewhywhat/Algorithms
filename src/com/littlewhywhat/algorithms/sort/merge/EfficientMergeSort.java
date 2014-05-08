@@ -87,10 +87,10 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		int listSizeWhenSorted = 1;
 		stepsToLast = 0;
 		int indexAfterLast = secondHalfStart + secondHalfLength;
-		if (indexAfterLast != getData().length) {
+		if (indexAfterLast < getData().length) {
 			splitterList.addFirst(indexAfterLast);
 			listSizeWhenSorted++;
-			stepsToLast = 1;
+			stepsToLast++;
 		}
 		splitterList.addFirst(secondHalfStart);
 		splitterList.addFirst(firstHalfStart);
