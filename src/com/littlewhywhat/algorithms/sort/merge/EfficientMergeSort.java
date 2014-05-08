@@ -4,88 +4,97 @@ import com.littlewhywhat.algorithms.sort.InsertionSort;
 
 public class EfficientMergeSort extends AbstractMergeSort {
 
-	interface Splitter {
-		int getItem();
-
-		int getIndex();
-
-		Splitter getNextSplitter();
-
-		Splitter getPrevSplitter();
-
-		int swapItem(int newItem);
-
-		void move();
-
-		void addBefore(int itemId);
-
-		void addAfter(int itemId);
-
-	}
-
 	interface ArraySplitterList {
-		void setArray(int[] array);
-
-		int sizeCache();
-
-		int size();
-
 		void addFirst(int itemId);
 
 		void addLast(int itemId);
+
+		void clean();
+
+		Splitter get(int index);
 
 		Splitter getFirst();
 
 		Splitter getLast();
 
-		Splitter get(int index);
-
 		void remove(int index);
 
-		void clean();
-
 		void removeAll();
+
+		void setArray(int[] array);
+
+		int size();
+
+		int sizeCache();
+	}
+
+	interface Splitter {
+		void addAfter(int itemId);
+
+		void addBefore(int itemId);
+
+		int getIndex();
+
+		int getItem();
+
+		Splitter getNextSplitter();
+
+		Splitter getPrevSplitter();
+
+		void move();
+
+		int swapItem(int newItem);
+
 	}
 
 	private ArraySplitterList splitterList = new SimpleArraySplitterList();
 	private InsertionSort insertionSort = new InsertionSort();
 	private int[] insertionSortConfig = new int[2];
 	private int stepsToLast;
-	
 
 	public int getGenId() {
 		return splitterList.sizeCache();
 	}
 
+	private Splitter getLast() {
+		return splitterList.get(splitterList.size() - stepsToLast - 1);
+	}
+
+	private Splitter getSplitterWithMin() {
+		Splitter last = getLast();
+		Splitter preLast = last.getPrevSplitter();
+		if (last.getItem() > preLast.getItem())
+			return preLast;
+		return last;
+	}
+
 	@Override
-	protected void merge(int firstHalfStart,
-			int secondHalfStart, int secondHalfLength) {
+	protected void merge(int firstHalfStart, int secondHalfStart,
+			int secondHalfLength) {
 		int sumLength = secondHalfStart - firstHalfStart + secondHalfLength;
-		if (sumLength < 400) {
+		if (sumLength < 700) {
 			insertionSortConfig[0] = firstHalfStart;
 			insertionSortConfig[1] = firstHalfStart + sumLength;
 			insertionSort.setConfig(insertionSortConfig);
 			insertionSort.execute();
-		}
-		else
-			mergeSort(firstHalfStart, secondHalfStart,
-					secondHalfLength);
+		} else
+			mergeSort(firstHalfStart, secondHalfStart, secondHalfLength);
 
 	}
 
-	private void mergeSort(int firstHalfStart,
-			int secondHalfStart, int secondHalfLength) {
-		int afterLastIndex = secondHalfStart + secondHalfLength;
-		int cryteria = 1;
+	private void mergeSort(int firstHalfStart, int secondHalfStart,
+			int secondHalfLength) {
+		int listSizeWhenSorted = 1;
 		stepsToLast = 0;
-		if (afterLastIndex != getData().length) {
-			splitterList.addFirst(afterLastIndex);
-			cryteria++;
+		int indexAfterLast = secondHalfStart + secondHalfLength;
+		if (indexAfterLast != getData().length) {
+			splitterList.addFirst(indexAfterLast);
+			listSizeWhenSorted++;
 			stepsToLast = 1;
 		}
 		splitterList.addFirst(secondHalfStart);
 		splitterList.addFirst(firstHalfStart);
-		while (splitterList.size() > cryteria) {
+		while (splitterList.size() != listSizeWhenSorted) {
 			Splitter splitterWithMin = getSplitterWithMin();
 			int minItem = splitterWithMin.getItem();
 			int swapItem = splitterList.getFirst().swapItem(minItem);
@@ -109,18 +118,6 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		splitterList.removeAll();
 	}
 
-	private Splitter getSplitterWithMin() {
-		Splitter last = getLast();
-		Splitter preLast = last.getPrevSplitter();
-		if (last.getItem() > preLast.getItem())
-			return preLast;
-		return last;
-	}
-
-	private Splitter getLast() {
-		return splitterList.get(splitterList.size() - stepsToLast - 1);
-	}
-	
 	@Override
 	protected void setup() {
 		setOutput(getData());
