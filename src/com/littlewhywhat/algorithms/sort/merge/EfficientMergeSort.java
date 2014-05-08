@@ -68,6 +68,23 @@ public class EfficientMergeSort extends AbstractMergeSort {
 		return last;
 	}
 
+	private void hopToFreed(int swapItem, int minItem, Splitter splitterWithMin) {
+		Splitter splitter = splitterList.getFirst();
+		Splitter nextSplitter;
+		Splitter afterNextSplitter;
+		while (swapItem != minItem) {
+			nextSplitter = splitter.getNextSplitter();
+			if (nextSplitter.equals(splitterWithMin)) {
+				nextSplitter.addBefore(nextSplitter.getIndex());
+				continue;
+			}
+			afterNextSplitter = nextSplitter.getNextSplitter();
+			swapItem = afterNextSplitter.swapItem(swapItem);
+			afterNextSplitter.move();
+			splitter = afterNextSplitter;
+		}		
+	}
+
 	@Override
 	protected void merge(int firstHalfStart, int secondHalfStart,
 			int secondHalfLength) {
@@ -99,20 +116,7 @@ public class EfficientMergeSort extends AbstractMergeSort {
 			int minItem = splitterWithMin.getItem();
 			int swapItem = splitterList.getFirst().swapItem(minItem);
 			splitterList.getFirst().move();
-			Splitter splitter = splitterList.getFirst();
-			Splitter nextSplitter;
-			Splitter afterNextSplitter;
-			while (swapItem != minItem) {
-				nextSplitter = splitter.getNextSplitter();
-				if (nextSplitter.equals(splitterWithMin)) {
-					nextSplitter.addBefore(nextSplitter.getIndex());
-					continue;
-				}
-				afterNextSplitter = nextSplitter.getNextSplitter();
-				swapItem = afterNextSplitter.swapItem(swapItem);
-				afterNextSplitter.move();
-				splitter = afterNextSplitter;
-			}
+			hopToFreed(swapItem, minItem, splitterWithMin);
 			splitterList.clean();
 		}
 		splitterList.removeAll();
