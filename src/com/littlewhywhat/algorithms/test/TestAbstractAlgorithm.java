@@ -15,7 +15,7 @@ public class TestAbstractAlgorithm {
 	Reader reader = new Reader();
 	Writer writer = new Writer();
 	MockAbstractAlgorithm algorithm = new MockAbstractAlgorithm();
-	private static final String FOLDER = "AbstractAlgorithmTest/";
+	private static final String FOLDER = "src/com/littlewhywhat/algorithms/test/input/";
 	private static final String INPUT_PATH = FOLDER + "test.txt";
 	private static final String OUTPUT_PATH = FOLDER + "output.txt";
 	private static final String[] INPUT = new String[] { "config", "data" };

@@ -13,8 +13,9 @@ public class TestNormalEquation {
 	private NormalEquation equation;
 	private NormalEquationReader reader;
 	private StringArrayOutputWriter writer;
-	public static final String INPUT_FILE_PATH = "NormalEquationTests/input.txt";
-	public static final String OUTPUT_FILE_PATH = "NormalEquationTests/output.txt";
+	public static final String FOLDER = "src/com/littlewhywhat/algorithms/normalequation/test/input/";
+	public static final String INPUT_FILE_PATH = FOLDER + "input.txt";
+	public static final String OUTPUT_FILE_PATH = FOLDER + "output.txt";
 	
 	@Before
 	public void setUp() throws Exception {

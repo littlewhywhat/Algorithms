@@ -6,12 +6,12 @@ import org.junit.Test;
 import com.littlewhywhat.algorithms.cakedivider.CakeDividerInputReader;
 
 public class TestCakeDividerInputReader {
-	private static final String FOLDER = "InputTest/";
+	
 	CakeDividerInputReader reader = new CakeDividerInputReader();
 
 	@Test
 	public void testInputCorrectFile() {
-		reader.setInputFilePath(FOLDER + "testSquare.txt");
+		reader.setInputFilePath(TestCakeDivider.FOLDER + "testSquare.txt");
 		reader.read();
 		Assert.assertEquals(4, reader.getData().length);
 		Assert.assertEquals(0, reader.getData()[0].getX(), 0);
@@ -22,25 +22,25 @@ public class TestCakeDividerInputReader {
 
 	@Test
 	public void testInputCorruptCountLinesOne() {
-		reader.setInputFilePath(FOLDER + "corruptCountLinesOne.txt");
+		reader.setInputFilePath(TestCakeDivider.FOLDER + "corruptCountLinesOne.txt");
 		reader.read();
 	}
 
 	@Test
 	public void testInputCorruptFirstLine() {
-		reader.setInputFilePath(FOLDER + "corruptFirstLine.txt");
+		reader.setInputFilePath(TestCakeDivider.FOLDER + "corruptFirstLine.txt");
 		reader.read();
 	}
 
 	@Test
 	public void testInputCorruptOtherLines() {
-		reader.setInputFilePath(FOLDER + "corruptOtherLines.txt");
+		reader.setInputFilePath(TestCakeDivider.FOLDER + "corruptOtherLines.txt");
 		reader.read();
 	}
 
 	@Test
 	public void testInputWrongFileName() {
-		reader.setInputFilePath(FOLDER + "t");
+		reader.setInputFilePath(TestCakeDivider.FOLDER + "t");
 		reader.read();
 	}
 

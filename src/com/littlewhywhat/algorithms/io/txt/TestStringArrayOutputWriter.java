@@ -7,7 +7,7 @@ import com.littlewhywhat.algorithms.test.TestHelper;
 
 public class TestStringArrayOutputWriter {
 	private StringArrayOutputWriter writer = new StringArrayOutputWriter();
-	private static final String FOLDER = "OutputTest/";
+	private static final String FOLDER = "src/com/littlewhywhat/algorithms/io/txt/";
 	private static final String ANSWER_FILEPATH = FOLDER + "answer.txt";
 	
 	@Test

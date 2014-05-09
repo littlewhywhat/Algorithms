@@ -11,9 +11,9 @@ public class TestCakeDivider {
 	CakeDividerInputReader reader = new CakeDividerInputReader();
 	StringArrayOutputWriter writer = new StringArrayOutputWriter();
 	CakeDivider divider = new CakeDivider();
-	private static final String FOLDER = "CakeDividerTest/";
+	public static final String FOLDER = "src/com/littlewhywhat/algorithms/cakedivider/test/input/";
 	private static final String OUTPUT_FILE_PATH = FOLDER + "answer.txt";
-	private static final String FILE_THAT_HAS_ANSWER_SQUARE = "InputTest/testSquare.txt";
+	private static final String FILE_THAT_HAS_ANSWER_SQUARE = FOLDER + "testSquare.txt";
 	private static final String FILE_THAT_HAS_ANSWER_CUSTOM_ONE = FOLDER
 			+ "testCustom1.txt";
 	private static final String FILE_THAT_HAS_ANSWER_CUSTOM_TWO = FOLDER

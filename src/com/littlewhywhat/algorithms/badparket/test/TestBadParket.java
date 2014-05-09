@@ -10,7 +10,7 @@ import com.littlewhywhat.algorithms.badparket.ParketWriter;
 import com.littlewhywhat.algorithms.test.TestHelper;
 
 public class TestBadParket {
-	public static final String FOLDER = "BadParket/";
+	public static final String FOLDER = "src/com/littlewhywhat/algorithms/badparket/test/input/";
 	public static final String INPUTFILE = FOLDER + "input.txt";
 	public static final String INPUTFILE_TWO = FOLDER + "input2.txt";
 	public static final String INPUTFILE_BIG = FOLDER + "input_big.txt";
