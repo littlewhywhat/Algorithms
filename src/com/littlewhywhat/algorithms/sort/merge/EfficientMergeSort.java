@@ -50,14 +50,15 @@ public class EfficientMergeSort extends AbstractMergeSort {
 	private ArraySplitterList splitterList = new SimpleArraySplitterList();
 	private InsertionSort insertionSort = new InsertionSort();
 	private int[] insertionSortConfig = new int[2];
-	private int stepsToLast;
+	private final int STEPS_TO_LAST = 2;
+	private final int SIZE_WHEN_SORTED = 2;
 
 	public int getGenId() {
 		return splitterList.sizeCache();
 	}
 
 	private Splitter getLast() {
-		return splitterList.get(splitterList.size() - stepsToLast - 1);
+		return splitterList.get(splitterList.size() - STEPS_TO_LAST);
 	}
 
 	private Splitter getSplitterWithMin() {
@@ -100,17 +101,10 @@ public class EfficientMergeSort extends AbstractMergeSort {
 
 	private void mergeSort(int firstHalfStart, int secondHalfStart,
 			int secondHalfLength) {
-		int listSizeWhenSorted = 1;
-		stepsToLast = 0;
-		int indexAfterLast = secondHalfStart + secondHalfLength;
-		if (indexAfterLast < getData().length) {
-			splitterList.addFirst(indexAfterLast);
-			listSizeWhenSorted++;
-			stepsToLast++;
-		}
+		splitterList.addFirst(secondHalfStart + secondHalfLength);
 		splitterList.addFirst(secondHalfStart);
 		splitterList.addFirst(firstHalfStart);
-		while (splitterList.size() != listSizeWhenSorted) {
+		while (splitterList.size() != SIZE_WHEN_SORTED) {
 			Splitter splitterWithMin = getSplitterWithMin();
 			Splitter firstSplitter = splitterList.getFirst();
 			int swapItem = firstSplitter.swapItem(splitterWithMin.getItem());
