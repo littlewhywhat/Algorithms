@@ -2,6 +2,12 @@ package com.littlewhywhat.algorithms.sort.merge;
 
 public class SimpleMergeSort extends AbstractMergeSort {
 
+	private long countInversions = 0;
+	
+	public long getInversions() {
+		return countInversions;
+	}
+	
 	@Override
 	protected void merge(int firstHalfStart,
 			int secondHalfStart, int secondHalfLength) {
@@ -21,6 +27,7 @@ public class SimpleMergeSort extends AbstractMergeSort {
 				result[i] = data[secondHalfStart];
 				secondHalfStart++;
 				secondHalfLength--;
+				countInversions += firstHalfLength;
 			}
 			i++;
 		}
