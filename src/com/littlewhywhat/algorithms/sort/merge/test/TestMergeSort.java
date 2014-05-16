@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.littlewhywhat.algorithms.AbstractAlgorithm;
+import com.littlewhywhat.algorithms.sort.QuickSort;
 import com.littlewhywhat.algorithms.sort.SortingReader;
 import com.littlewhywhat.algorithms.sort.merge.EfficientMergeSort;
 import com.littlewhywhat.algorithms.sort.merge.SimpleMergeSort;
@@ -15,12 +17,15 @@ public class TestMergeSort {
 	private SimpleMergeSort sort;
 	private SortingReader reader;
 	private EfficientMergeSort sortEff;
+	private QuickSort quickSort;
 	private IntegerArrayGenerator generator;
+	private int[] answers;
 
 	@Before
 	public void setUp() throws Exception {
 		sort = new SimpleMergeSort();
 		sortEff = new EfficientMergeSort();
+		quickSort = new QuickSort();
 		reader = new SortingReader();
 		generator = new IntegerArrayGenerator();
 	}
@@ -28,16 +33,13 @@ public class TestMergeSort {
 	@Test
 	public void testExecuteSmall() {
 		reader.setInputFilePath(SortTest.INPUT_PATH_SMALL);
-		reader.read();
 		executeAlgos();
 	}
 
 	@Test
 	public void testExecuteRandom() {
-
 		generator.generate(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_RANDOM);
-		reader.read();
 		executeAlgos();
 	}
 
@@ -45,7 +47,6 @@ public class TestMergeSort {
 	public void testExecuteBad() {
 		generator.generateBad(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_BAD);
-		reader.read();
 		executeAlgos();
 	}
 
@@ -57,19 +58,24 @@ public class TestMergeSort {
 	}
 
 	private void executeAlgos() {
-		sort.setData(reader.getData());
-		long start1 = System.currentTimeMillis();
-		sort.execute();
-		long end1 = System.currentTimeMillis();
 		reader.read();
-		sortEff.setData(reader.getData());
-		long start2 = System.currentTimeMillis();
-		sortEff.execute();
-
-		long end2 = System.currentTimeMillis();
-		System.out.println(sortEff.getGenId());
-		Assert.assertArrayEquals(sort.getOutput(), sortEff.getOutput());
-		System.out.println((end1 - start1) + "vs" + (end2 - start2));
+		sort.setData(reader.getData());
+		sort.execute();
+		answers = sort.getOutput();
+		executeAlgo(sort);
+		executeAlgo(sortEff);
+		executeAlgo(quickSort);
+		System.out.println();
+		
 	}
 
+	private void executeAlgo(AbstractAlgorithm<Void, int[], int[]> algo) {
+		reader.read();
+		algo.setData(reader.getData());
+		long start = System.currentTimeMillis();
+		algo.execute();
+		long end = System.currentTimeMillis();
+		Assert.assertArrayEquals(answers, algo.getOutput());
+		System.out.print(algo.getClass().getSimpleName() + " " + (end - start) + " ");
+	}
 }
