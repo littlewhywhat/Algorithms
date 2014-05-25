@@ -5,10 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.sort.QuickSort;
 import com.littlewhywhat.algorithms.sort.SortingReader;
 import com.littlewhywhat.algorithms.sort.merge.EfficientMergeSort;
 import com.littlewhywhat.algorithms.sort.merge.SimpleMergeSort;
+import com.littlewhywhat.algorithms.sort.quick.FirstQuickSort;
+import com.littlewhywhat.algorithms.sort.quick.LastQuickSort;
+import com.littlewhywhat.algorithms.sort.quick.MedianOfThreeQuickSort;
+import com.littlewhywhat.algorithms.sort.quick.RandomQuickSort;
 import com.littlewhywhat.algorithms.sort.test.IntegerArrayGenerator;
 import com.littlewhywhat.algorithms.sort.test.SortTest;
 
@@ -17,15 +20,22 @@ public class TestMergeSort {
 	private SimpleMergeSort sort;
 	private SortingReader reader;
 	private EfficientMergeSort sortEff;
-	private QuickSort quickSort;
+	private RandomQuickSort randomQS;
+	private FirstQuickSort firstQS;
+	private LastQuickSort lastQS;
+	private MedianOfThreeQuickSort medianOfThreeQS;
 	private IntegerArrayGenerator generator;
 	private int[] answers;
+	
 
 	@Before
 	public void setUp() throws Exception {
 		sort = new SimpleMergeSort();
 		sortEff = new EfficientMergeSort();
-		quickSort = new QuickSort();
+		randomQS = new RandomQuickSort();
+		firstQS = new FirstQuickSort();
+		lastQS = new LastQuickSort();
+		medianOfThreeQS = new MedianOfThreeQuickSort();
 		reader = new SortingReader();
 		generator = new IntegerArrayGenerator();
 	}
@@ -47,7 +57,14 @@ public class TestMergeSort {
 	public void testExecuteBad() {
 		generator.generateBad(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_BAD);
-		executeAlgos();
+		reader.read();
+		sort.setData(reader.getData());
+		sort.execute();
+		answers = sort.getOutput();
+		executeAlgo(sort);
+		executeAlgo(sortEff);
+		executeAlgo(randomQS);
+		System.out.println();
 	}
 
 	@Test
@@ -64,7 +81,10 @@ public class TestMergeSort {
 		answers = sort.getOutput();
 		executeAlgo(sort);
 		executeAlgo(sortEff);
-		executeAlgo(quickSort);
+		executeAlgo(randomQS);
+		executeAlgo(firstQS);
+		executeAlgo(lastQS);
+		executeAlgo(medianOfThreeQS);
 		System.out.println();
 		
 	}
