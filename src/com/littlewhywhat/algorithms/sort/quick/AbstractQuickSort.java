@@ -1,13 +1,11 @@
-package com.littlewhywhat.algorithms.sort;
-
-import java.util.Random;
+package com.littlewhywhat.algorithms.sort.quick;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 
-public class QuickSort extends AbstractAlgorithm<Void, int[], int[]> {
+public abstract class AbstractQuickSort extends AbstractAlgorithm<Void, int[], int[]> {
 
-	private Random random = new Random();
-
+	private long numberOfComparisons;
+	
 	@Override
 	public void execute() {
 		recursiveCall(0, getData().length - 1);
@@ -18,13 +16,16 @@ public class QuickSort extends AbstractAlgorithm<Void, int[], int[]> {
 		int length = end - start + 1;
 		if (length < 2)
 			return;
-		int pivot = random.nextInt(length) + start;
+		this.numberOfComparisons += length - 1;
+		int pivot = getPivot(start, length);
 		swap(start, pivot);
 		pivot = partition(start, length);
 		recursiveCall(pivot + 1, end);
 		recursiveCall(start, pivot - 1);
 	}
 
+	protected abstract int getPivot(int start, int length);
+	
 	private void swap(int start, int pivot) {
 		int[] array = getData();
 		int temp = array[start];
@@ -47,5 +48,9 @@ public class QuickSort extends AbstractAlgorithm<Void, int[], int[]> {
 		}
 		swap(afterSmaller - 1, start);
 		return afterSmaller - 1;
+	}
+
+	protected long getNumberOfComparisons() {
+		return numberOfComparisons;
 	}
 }
