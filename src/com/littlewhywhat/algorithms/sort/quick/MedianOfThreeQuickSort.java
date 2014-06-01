@@ -30,8 +30,15 @@ public class MedianOfThreeQuickSort extends AbstractQuickSort {
 		set.add(middle);
 		set.pollFirst();
 		int ret = 0;
+		try {
 			ret = set.pollFirst();
-
+		}
+		catch (NullPointerException ex) {
+			System.out.println(getData()[start]);
+			System.out.println(getData()[middle]);
+			System.out.println(getData()[end]);
+			System.out.println(ex.getMessage());
+		}
 		set.pollFirst();
 		return ret;
 	}

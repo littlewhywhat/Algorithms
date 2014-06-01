@@ -50,7 +50,16 @@ public class TestMergeSort {
 	public void testExecuteRandom() {
 		generator.generate(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_RANDOM);
-		executeAlgos();
+		reader.read();
+		sort.setData(reader.getData());
+		sort.execute();
+		answers = sort.getOutput();
+		executeAlgo(sort);
+		executeAlgo(sortEff);
+		executeAlgo(randomQS);
+		executeAlgo(firstQS);
+		executeAlgo(lastQS);
+		System.out.println();
 	}
 
 	@Test
