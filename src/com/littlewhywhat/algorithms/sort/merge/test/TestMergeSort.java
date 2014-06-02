@@ -1,5 +1,7 @@
 package com.littlewhywhat.algorithms.sort.merge.test;
 
+import java.util.LinkedList;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +27,7 @@ public class TestMergeSort {
 	private LastQuickSort lastQS;
 	private MedianOfThreeQuickSort medianOfThreeQS;
 	private IntegerArrayGenerator generator;
+	private LinkedList<AbstractAlgorithm<Void, int[], int[]>> algos;
 	private int[] answers;
 	
 
@@ -38,11 +41,13 @@ public class TestMergeSort {
 		medianOfThreeQS = new MedianOfThreeQuickSort();
 		reader = new SortingReader();
 		generator = new IntegerArrayGenerator();
+		algos = new LinkedList<AbstractAlgorithm<Void,int[],int[]>>();
 	}
 
 	@Test
 	public void testExecuteSmall() {
 		reader.setInputFilePath(SortTest.INPUT_PATH_SMALL);
+		addAllAlgos();
 		executeAlgos();
 	}
 
@@ -51,15 +56,8 @@ public class TestMergeSort {
 		generator.generate(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_RANDOM);
 		reader.read();
-		sort.setData(reader.getData());
-		sort.execute();
-		answers = sort.getOutput();
-		executeAlgo(sort);
-		executeAlgo(sortEff);
-		executeAlgo(randomQS);
-		executeAlgo(firstQS);
-		executeAlgo(lastQS);
-		System.out.println();
+		addAllAlgos();
+		executeAlgos();
 	}
 
 	@Test
@@ -67,33 +65,36 @@ public class TestMergeSort {
 		generator.generateBad(100000);
 		reader.setInputFilePath(SortTest.INPUT_PATH_BAD);
 		reader.read();
-		sort.setData(reader.getData());
-		sort.execute();
-		answers = sort.getOutput();
-		executeAlgo(sort);
-		executeAlgo(sortEff);
-		executeAlgo(randomQS);
-		System.out.println();
+		algos.push(sort);
+		algos.push(sortEff);
+		algos.push(randomQS);
+		executeAlgos();
 	}
 
 	@Test
 	public void testExecute() {
 		reader.setInputFilePath(SortTest.INPUT_PATH_BIG);
 		reader.read();
+		addAllAlgos();
 		executeAlgos();
 	}
 
+	private void addAllAlgos() {
+		algos.push(medianOfThreeQS);
+		algos.push(sortEff);
+		algos.push(sort);
+		algos.push(firstQS);
+		algos.push(lastQS);
+		algos.push(randomQS);
+	}
+	
 	private void executeAlgos() {
 		reader.read();
 		sort.setData(reader.getData());
 		sort.execute();
 		answers = sort.getOutput();
-		executeAlgo(sort);
-		executeAlgo(sortEff);
-		executeAlgo(randomQS);
-		executeAlgo(firstQS);
-		executeAlgo(lastQS);
-		executeAlgo(medianOfThreeQS);
+		while (!algos.isEmpty())
+			executeAlgo(algos.pop());
 		System.out.println();
 		
 	}

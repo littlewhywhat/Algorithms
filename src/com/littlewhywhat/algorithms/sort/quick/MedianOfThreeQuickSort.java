@@ -1,11 +1,10 @@
 package com.littlewhywhat.algorithms.sort.quick;
 
 import java.util.Comparator;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class MedianOfThreeQuickSort extends AbstractQuickSort {
 
-	private ConcurrentSkipListSet<Integer> set = new ConcurrentSkipListSet<Integer>(new Comparator<Integer>() {
+	private Comparator<Integer> comparator = new Comparator<Integer>() {
 
 		@Override
 		public int compare(Integer one, Integer two) {
@@ -18,29 +17,18 @@ public class MedianOfThreeQuickSort extends AbstractQuickSort {
 			return -1;
 		}
 		
-	});
+	};
 	
 	@Override
 	protected int getPivot(int start, int length) {
 		int end = start + length - 1;
 		int middle = getMiddle(start, length);
-		
-		set.add(start);
-		set.add(end);
-		set.add(middle);
-		set.pollFirst();
-		int ret = 0;
-		try {
-			ret = set.pollFirst();
-		}
-		catch (NullPointerException ex) {
-			System.out.println(getData()[start]);
-			System.out.println(getData()[middle]);
-			System.out.println(getData()[end]);
-			System.out.println(ex.getMessage());
-		}
-		set.pollFirst();
-		return ret;
+		int compare = comparator.compare(middle, end) + comparator.compare(middle, start);
+		if (compare == 2)
+			return comparator.compare(start, end) > 0 ? start : end;
+		if (compare == -2)
+			return comparator.compare(start, end) < 0 ? start : end;
+		return middle;
 	}
 
 	private int getMiddle(int start, int length) {
