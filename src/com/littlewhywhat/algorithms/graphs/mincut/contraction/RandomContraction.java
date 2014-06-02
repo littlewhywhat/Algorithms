@@ -14,17 +14,17 @@ public class RandomContraction extends AbstractAlgorithm<Void, Graph, Integer> {
 	public void execute() {
 		int end = getData().size() - 2;
 		for (int i = 0; i < end; i++) {
-			System.out.print("Start ");
+			//System.out.print("Start ");
 			Vertice randomStart = getRandomVertice();
-			System.out.println(randomStart);
-			System.out.print("End ");
+			//System.out.println(randomStart);
+			//System.out.print("End ");
 			Vertice randomEnd = getRandomConnection(randomStart);
 
-			System.out.println(randomEnd);
+			//System.out.println(randomEnd);
 			merge(randomStart, randomEnd);
 		}
 		setOutput(countEdges());
-		System.out.println(getOutput());
+		//System.out.println(getOutput());
 	}
 
 	private Integer countEdges() {
@@ -63,7 +63,7 @@ public class RandomContraction extends AbstractAlgorithm<Void, Graph, Integer> {
 				.get(random.nextInt(connections.size()));
 		Vertice temp;
 		while (connection.isMerged()) {
-			System.out.print(connection + ">");
+			//System.out.print(connection + ">");
 			temp = connection;
 			connection = connection.getMerge();
 			temp.setMerged(vertice);
@@ -76,7 +76,7 @@ public class RandomContraction extends AbstractAlgorithm<Void, Graph, Integer> {
 		while (vertice == null || vertice.getConnections().isEmpty()) {
 			vertice = getData().getVertice(random.nextInt(getData().size()));
 			if (vertice.isMerged()) {
-				System.out.print(vertice + ">");
+				//System.out.print(vertice + ">");
 				vertice = vertice.getMerge();
 			}
 		}
