@@ -28,12 +28,12 @@ public class Graph {
 				return false;
 			}
 			Vertice other = (Vertice) obj;
-			if (index != other.index) {
+			if (this.index != other.index) {
 				return false;
 			}
 			return true;
 		}
-
+		
 		Vertice getConnection(int index) {
 			return this.connections.get(index).leader();
 		}
@@ -82,13 +82,12 @@ public class Graph {
 			if (!vertice.equals(two))
 				two.connections.addLast(vertice);
 		}
-
 		for (Vertice vertice : one.connections) {
 			vertice = vertice.leader();
 			if (!vertice.equals(two))
 				two.connections.addLast(vertice);
 		}
-		one.connections.clear();
+		one.connections = null;
 	}
 
 	int size() {
