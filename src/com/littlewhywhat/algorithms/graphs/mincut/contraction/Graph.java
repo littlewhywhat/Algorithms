@@ -11,34 +11,21 @@ public class Graph {
 			this.index = index;
 		}
 		
-		LinkedList<Vertice> getConnections() {
-			return this.connections;
-		}
-		
-		void addToConnections(Vertice vertice) {
-			this.connections.add(vertice);
-		}
-		
-		void setMerged(Vertice vertice) {
-			this.merged = vertice;
+		private Vertice leader() {
+			Vertice leader = this;
+			while (leader.merged != null)
+				leader = leader.merged;
+			return leader;
 		}
 
-		boolean isMerged() {
-			return this.merged != null;
-		}
-		
 		@Override
 		public String toString() {
-			return "[" + index + "]";
+			return "[" +  index +  ">" + leader().index + "]";
 		}
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + index;
-			return result;
+			return index;
 		}
 
 		@Override
@@ -53,26 +40,23 @@ public class Graph {
 				return false;
 			}
 			Vertice other = (Vertice) obj;
-			if (!getOuterType().equals(other.getOuterType())) {
-				return false;
-			}
 			if (index != other.index) {
 				return false;
 			}
 			return true;
 		}
 
-		private Graph getOuterType() {
-			return Graph.this;
+
+		int connectionsCount() {
+			return this.connections.size();
 		}
 
-		public Vertice getMerge() {
-			return this.merged;
+		Vertice getConnection(int index) {
+			return this.connections.get(index).leader();
 		}
 
-		
-		
 	}
+	
 	private Vertice[] vertices;
 	
 	Graph(int size) {
@@ -82,10 +66,32 @@ public class Graph {
 	}
 	
 	Vertice getVertice(int index) {
-		return this.vertices[index];
+		return this.vertices[index].leader();
 	}
 	
 	int size() {
 		return this.vertices.length;
+	}
+	
+	void merge(Vertice one, Vertice two) {
+		one.merged = two;
+		int size = two.connections.size();
+		for (int i = 0; i < size; i++) {
+			Vertice vertice = two.connections.pollFirst();
+			vertice = vertice.leader();
+			if (!vertice.equals(two))
+				two.connections.addLast(vertice);
+		}
+		
+		for (Vertice vertice : one.connections) {
+			vertice = vertice.leader();
+			if (!vertice.equals(two))
+				two.connections.addLast(vertice);
+		}
+		one.connections.clear();
+	}
+	
+	void connect(int one, int two) {
+		this.getVertice(one).connections.push(this.getVertice(two));
 	}
 }

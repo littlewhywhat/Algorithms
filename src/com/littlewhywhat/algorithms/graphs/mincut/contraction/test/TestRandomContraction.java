@@ -11,10 +11,12 @@ import com.littlewhywhat.algorithms.graphs.mincut.contraction.RandomContraction;
 public class TestRandomContraction {
 
 	public static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/mincut/contraction/test/input/";
-	private static final String INPUT_FILE_PATH_SMALL = FOLDER + "SmallGraph";
+	private static final String INPUT_FILE_PATH_SMALL_ONE = FOLDER + "smallGraphOne.txt";
 	private static final String INPUT_FILE_PATH_BIG = FOLDER + "kargerMinCut.txt";
-	private static final int ANSWER_SMALL = 2;
+	private static final int ANSWER_SMALL_ONE = 2;
 	private static final int ANSWER_BIG = 17;
+	private static final String INPUT_FILE_PATH_SMALL_TWO = FOLDER + "smallGraphTwo.txt";
+	private static final int ANSWER_SMALL_TWO = 1;
 	private RandomContraction randomContraction;
 	private GraphReader reader;
 	
@@ -32,15 +34,21 @@ public class TestRandomContraction {
 	}
 
 	@Test
-	public void testSmall() {
-		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL);
-		test(ANSWER_SMALL);
+	public void testSmallOne() {
+		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_ONE);
+		test(ANSWER_SMALL_ONE);
+	}
+	
+	@Test
+	public void testSmallTwo() {
+		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_TWO);
+		test(ANSWER_SMALL_TWO);
 	}
 	
 	private void test(int answer) {
 		int min = 999999999;
-		for (int i = 0; i < 300; i++) {
-			reader.read();
+		reader.read();
+		for (int i = 0; i < 5000; i++) {
 			randomContraction.setData(reader.getData());
 			randomContraction.execute();
 			if (randomContraction.getOutput() < min)
