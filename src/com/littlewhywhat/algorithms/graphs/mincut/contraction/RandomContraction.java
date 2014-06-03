@@ -22,7 +22,8 @@ public class RandomContraction extends AbstractAlgorithm<Void, Graph, Integer> {
 	}
 
 	private Vertice getRandomConnection(Vertice vertice) {
-		return vertice.getConnection(random.nextInt(vertice.connectionsCount()));
+		return vertice
+				.getConnection(random.nextInt(vertice.connectionsCount()));
 	}
 
 	private Vertice getRandomVertice() {

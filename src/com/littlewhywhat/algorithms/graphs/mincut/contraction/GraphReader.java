@@ -10,6 +10,16 @@ public class GraphReader extends TextFileInputReader<Void, Graph> {
 
 	private ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 
+	private Graph createGraph() {
+		Graph graph = new Graph(list.size());
+		for (ArrayList<Integer> line : list) {
+			int verticeIndex = line.get(0);
+			for (int i = 1; i < line.size(); i++)
+				graph.connect(verticeIndex, line.get(i));
+		}
+		return graph;
+	}
+
 	@Override
 	protected void extractInputData(Scanner scanner)
 			throws InputMismatchException {
@@ -23,16 +33,6 @@ public class GraphReader extends TextFileInputReader<Void, Graph> {
 				line.add(lineScanner.nextInt() - 1);
 			lineScanner.close();
 		}
-	}
-
-	private Graph createGraph() {
-		Graph graph = new Graph(list.size());
-		for (ArrayList<Integer> line : list) {
-			int verticeIndex = line.get(0);
-			for (int i = 1; i < line.size(); i++)
-				graph.connect(verticeIndex, line.get(i));
-		}
-		return graph;
 	}
 
 	@Override

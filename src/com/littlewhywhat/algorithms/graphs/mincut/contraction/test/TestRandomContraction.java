@@ -10,13 +10,13 @@ import com.littlewhywhat.algorithms.graphs.mincut.contraction.RandomContraction;
 
 public class TestRandomContraction {
 
-	public static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/mincut/contraction/test/input/";
-	private static final String INPUT_FILE_PATH_SMALL_ONE = FOLDER + "smallGraphOne.txt";
-	private static final String INPUT_FILE_PATH_BIG = FOLDER + "kargerMinCut.txt";
-	private static final int ANSWER_SMALL_ONE = 2;
 	private static final int ANSWER_BIG = 17;
-	private static final String INPUT_FILE_PATH_SMALL_TWO = FOLDER + "smallGraphTwo.txt";
+	private static final int ANSWER_SMALL_ONE = 2;
 	private static final int ANSWER_SMALL_TWO = 1;
+	public static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/mincut/contraction/test/input/";
+	private static final String INPUT_FILE_PATH_BIG = FOLDER + "kargerMinCut.txt";
+	private static final String INPUT_FILE_PATH_SMALL_ONE = FOLDER + "smallGraphOne.txt";
+	private static final String INPUT_FILE_PATH_SMALL_TWO = FOLDER + "smallGraphTwo.txt";
 	private RandomContraction randomContraction;
 	private GraphReader reader;
 	
@@ -27,24 +27,6 @@ public class TestRandomContraction {
 		
 	}
 
-	@Test
-	public void testBig() {
-		this.reader.setInputFilePath(INPUT_FILE_PATH_BIG);
-		test(ANSWER_BIG);
-	}
-
-	@Test
-	public void testSmallOne() {
-		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_ONE);
-		test(ANSWER_SMALL_ONE);
-	}
-	
-	@Test
-	public void testSmallTwo() {
-		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_TWO);
-		test(ANSWER_SMALL_TWO);
-	}
-	
 	private void test(int answer) {
 		int min = 999999999;
 		reader.read();
@@ -55,6 +37,24 @@ public class TestRandomContraction {
 				min = randomContraction.getOutput();
 		}
 		Assert.assertEquals(answer, min);		
+	}
+
+	@Test
+	public void testBig() {
+		this.reader.setInputFilePath(INPUT_FILE_PATH_BIG);
+		test(ANSWER_BIG);
+	}
+	
+	@Test
+	public void testSmallOne() {
+		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_ONE);
+		test(ANSWER_SMALL_ONE);
+	}
+	
+	@Test
+	public void testSmallTwo() {
+		this.reader.setInputFilePath(INPUT_FILE_PATH_SMALL_TWO);
+		test(ANSWER_SMALL_TWO);
 	}
 
 }
