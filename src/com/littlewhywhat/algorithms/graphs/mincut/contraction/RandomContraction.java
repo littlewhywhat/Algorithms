@@ -3,15 +3,15 @@ package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 import java.util.Random;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.mincut.contraction.Graph.Vertice;
+import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph.Vertice;
 
-public class RandomContraction extends AbstractAlgorithm<Void, Graph, Integer> {
+public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph, Integer> {
 
 	private Random random = new Random();
 
 	@Override
 	public void execute() {
-		Graph graph = getData();
+		ContractionGraph graph = getData();
 		int end = graph.size() - 2;
 		for (int i = 0; i < end; i++) {
 			Vertice randomStart = getRandomVertice();

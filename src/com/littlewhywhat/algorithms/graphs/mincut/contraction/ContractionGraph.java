@@ -2,7 +2,9 @@ package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 
 import java.util.LinkedList;
 
-public class Graph {
+import com.littlewhywhat.algorithms.graphs.Graph;
+
+public class ContractionGraph implements Graph {
 	class Vertice {
 		private LinkedList<Vertice> connections = new LinkedList<Vertice>();
 		private int index;
@@ -59,13 +61,14 @@ public class Graph {
 
 	private Vertice[] vertices;
 
-	Graph(int size) {
+	ContractionGraph(int size) {
 		this.vertices = new Vertice[size];
 		for (int i = 0; i < size; i++)
 			this.vertices[i] = new Vertice(i);
 	}
-
-	void connect(int one, int two) {
+	
+	@Override
+	public void connect(int one, int two) {
 		this.getVertice(one).connections.push(this.getVertice(two));
 	}
 

@@ -1,4 +1,4 @@
-package com.littlewhywhat.algorithms.graphs.mincut.contraction;
+package com.littlewhywhat.algorithms.graphs;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
-public class GraphReader extends TextFileInputReader<Void, Graph> {
+public abstract class GraphReader extends TextFileInputReader<Void, Graph> {
 
 	private ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 
 	private Graph createGraph() {
-		Graph graph = new Graph(list.size());
+		Graph graph = getNewGraph(list.size());
 		for (ArrayList<Integer> line : list) {
 			int verticeIndex = line.get(0);
 			for (int i = 1; i < line.size(); i++)
@@ -19,6 +19,8 @@ public class GraphReader extends TextFileInputReader<Void, Graph> {
 		}
 		return graph;
 	}
+
+	protected abstract Graph getNewGraph(int size);
 
 	@Override
 	protected void extractInputData(Scanner scanner)

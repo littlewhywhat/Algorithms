@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.littlewhywhat.algorithms.graphs.mincut.contraction.GraphReader;
+import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraphReader;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.RandomContraction;
 
 public class TestRandomContraction {
@@ -18,12 +18,12 @@ public class TestRandomContraction {
 	private static final String INPUT_FILE_PATH_SMALL_ONE = FOLDER + "smallGraphOne.txt";
 	private static final String INPUT_FILE_PATH_SMALL_TWO = FOLDER + "smallGraphTwo.txt";
 	private RandomContraction randomContraction;
-	private GraphReader reader;
+	private ContractionGraphReader reader;
 	
 	@Before
 	public void setUp() throws Exception {
 		this.randomContraction = new RandomContraction();
-		this.reader = new GraphReader();
+		this.reader = new ContractionGraphReader();
 		
 	}
 
@@ -31,7 +31,7 @@ public class TestRandomContraction {
 		int min = 999999999;
 		reader.read();
 		for (int i = 0; i < 5000; i++) {
-			randomContraction.setData(reader.getData());
+			randomContraction.setData(reader.getContractionGraph());
 			randomContraction.execute();
 			if (randomContraction.getOutput() < min)
 				min = randomContraction.getOutput();
