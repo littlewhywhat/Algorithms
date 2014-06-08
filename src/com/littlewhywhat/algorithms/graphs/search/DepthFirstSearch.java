@@ -24,7 +24,7 @@ public class DepthFirstSearch extends
 		setOutput(graph);
 	}
 
-	private void recursiveCall(SearchGraph graph, Vertice vertice) {
+	protected void recursiveCall(SearchGraph graph, Vertice vertice) {
 		vertice.markAsExplored();
 		for (Vertice connection : vertice.getConnections())
 			if (!connection.isExplored())

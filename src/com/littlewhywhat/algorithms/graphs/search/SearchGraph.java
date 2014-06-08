@@ -66,15 +66,11 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 
 			@Override
 			public Vertice next() {
-				Vertice vertice = getVertice(i);
-				i++;
-				return vertice;
+				return getVertice(i++);
 			}
 
 			@Override
-			public void remove() {
-				
-			}
+			public void remove() {	}
 			
 		};
 	}

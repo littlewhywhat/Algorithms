@@ -43,9 +43,12 @@ public class TestDepthFirstSearch {
 		}
 		search.setData(reader.getData());
 		search.execute();
+		int i = 0;
 		for (Vertice vertice : graph) {
+			i++;
 			Assert.assertEquals(true, vertice.isExplored());
 		}
+		Assert.assertEquals(graph.size(), i);
 	}
 
 }
