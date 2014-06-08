@@ -1,24 +1,34 @@
 package com.littlewhywhat.algorithms.graphs.search;
 
+import java.util.Stack;
+
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
 
 public class DepthFirstSearch extends
 		AbstractAlgorithm<Void, SearchGraph, SearchGraph> {
 
+	private final Stack<Vertice> stack = new Stack<Vertice>();
+
 	@Override
 	public void execute() {
 		SearchGraph graph = getData();
-		Vertice startVertice = graph.getVertice(0);
-		recursiveCall(graph, startVertice);
+		for (int i = 0; i < graph.size(); i++) {
+			Vertice startVertice = graph.getVertice(i);
+			if (!startVertice.isExplored()) {
+				stack.push(startVertice);
+				while (!stack.empty())
+					recursiveCall(graph, stack.pop());
+			}
+		}
 		setOutput(graph);
 	}
 
-	private void recursiveCall(SearchGraph graph, Vertice startVertice) {
-		startVertice.markAsExplored();
-		for (Vertice vertice : startVertice.getConnections())
-			if (!vertice.isExplored())
-				recursiveCall(graph, vertice);
+	private void recursiveCall(SearchGraph graph, Vertice vertice) {
+		vertice.markAsExplored();
+		for (Vertice connection : vertice.getConnections())
+			if (!connection.isExplored())
+				stack.push(connection);
 	}
-	
+
 }
