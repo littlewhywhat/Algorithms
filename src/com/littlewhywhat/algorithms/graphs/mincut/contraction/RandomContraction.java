@@ -3,7 +3,8 @@ package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 import java.util.Random;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph.Vertice;
+import com.littlewhywhat.algorithms.graphs.Vertice;
+import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph.ContractionVertice;
 
 public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph, Integer> {
 
@@ -14,20 +15,20 @@ public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph,
 		ContractionGraph graph = getData();
 		int end = graph.size() - 2;
 		for (int i = 0; i < end; i++) {
-			Vertice randomStart = getRandomVertice();
-			Vertice randomEnd = getRandomConnection(randomStart);
+			ContractionVertice randomStart = getRandomVertice();
+			ContractionVertice randomEnd = getRandomConnection(randomStart);
 			graph.merge(randomStart, randomEnd);
 		}
 		setOutput(graph.getVertice(0).sizeConnections());
 	}
 
-	private Vertice getRandomConnection(Vertice vertice) {
-		return vertice
+	private ContractionVertice getRandomConnection(Vertice vertice) {
+		return (ContractionVertice) vertice
 				.getConnection(random.nextInt(vertice.sizeConnections()));
 	}
 
-	private Vertice getRandomVertice() {
-		return getData().getVertice(random.nextInt(getData().size()));
+	private ContractionVertice getRandomVertice() {
+		return (ContractionVertice) getData().getVertice(random.nextInt(getData().size()));
 	}
 
 }

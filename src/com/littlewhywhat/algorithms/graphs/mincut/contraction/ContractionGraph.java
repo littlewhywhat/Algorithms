@@ -1,53 +1,21 @@
 package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.AbstractListGraph;
+import com.littlewhywhat.algorithms.graphs.Vertice;
 
-public class ContractionGraph implements Graph {
-	class Vertice implements com.littlewhywhat.algorithms.graphs.Vertice {
-		private LinkedList<com.littlewhywhat.algorithms.graphs.Vertice> connections = new LinkedList<com.littlewhywhat.algorithms.graphs.Vertice>();
-		private int index;
-		private Vertice mergedTo;
+public class ContractionGraph extends AbstractListGraph {
 
-		Vertice(int index) {
-			this.index = index;
+	class ContractionVertice extends SimpleVertice {
+		public ContractionVertice(int index) {
+			super(index);
 		}
 
-		public int sizeConnections() {
-			return this.connections.size();
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof Vertice)) {
-				return false;
-			}
-			Vertice other = (Vertice) obj;
-			if (this.index != other.index) {
-				return false;
-			}
-			return true;
-		}
-		
-		public Vertice getConnection(int index) {
-			return ((Vertice)this.connections.get(index)).leader();
-		}
+		private ContractionVertice mergedTo;
 
-		@Override
-		public int hashCode() {
-			return index;
-		}
-
-		private Vertice leader() {
-			Vertice leader = this;
+		private ContractionVertice leader() {
+			ContractionVertice leader = this;
 			while (leader.mergedTo != null)
 				leader = leader.mergedTo;
 			return leader;
@@ -55,62 +23,50 @@ public class ContractionGraph implements Graph {
 
 		@Override
 		public String toString() {
-			return "[" + index + ">" + leader().index + "]";
+			return "[" + super.toString() + ">" + leader().getIndex() + "]";
 		}
 
 		@Override
-		public Iterable<com.littlewhywhat.algorithms.graphs.Vertice> getConnections() {
-			// TODO Auto-generated method stub
-			return connections;
+		public Vertice getConnection(int index) {
+			return ((ContractionVertice) super.getConnection(index)).leader();
+		};
+
+		private LinkedList<Vertice> getConnectionsList() {
+			return (LinkedList<Vertice>) this.connections;
 		}
 
-		@Override
-		public int getIndex() {
-			return index;
-		}
-
 	}
 
-	private Vertice[] vertices;
-
-	ContractionGraph(int size) {
-		this.vertices = new Vertice[size];
-		for (int i = 0; i < size; i++)
-			this.vertices[i] = new Vertice(i);
-	}
-	
-	@Override
-	public void connect(int one, int two) {
-		this.getVertice(one).connections.push(this.getVertice(two));
+	public ContractionGraph(int size) {
+		super(size);
 	}
 
-	public Vertice getVertice(int index) {
-		return this.vertices[index].leader();
-	}
-
-	void merge(Vertice one, Vertice two) {
+	void merge(ContractionVertice one, ContractionVertice two) {
 		one.mergedTo = two;
-		int size = two.connections.size();
+		int size = two.sizeConnections();
 		for (int i = 0; i < size; i++) {
-			Vertice vertice = (Vertice) two.connections.pollFirst();
+			ContractionVertice vertice = (ContractionVertice) two
+					.getConnectionsList().pollFirst();
 			vertice = vertice.leader();
 			if (!vertice.equals(two))
-				two.connections.addLast(vertice);
+				two.getConnectionsList().addLast(vertice);
 		}
-		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : one.connections) {
-			vertice = ((Vertice)vertice).leader();
+		for (Vertice vertice : one.getConnections()) {
+			vertice = ((ContractionVertice) vertice).leader();
 			if (!vertice.equals(two))
-				two.connections.addLast(vertice);
+				two.getConnectionsList().addLast(vertice);
 		}
-		one.connections = null;
-	}
-
-	public int size() {
-		return this.vertices.length;
+		one.getConnectionsList().clear();
 	}
 
 	@Override
-	public Iterator<com.littlewhywhat.algorithms.graphs.Vertice> iterator() {
-		return null;
+	protected Vertice getNewVertice(int index) {
+		return new ContractionVertice(index);
 	}
+
+	@Override
+	public Vertice getVertice(int index) {
+		return ((ContractionVertice) super.getVertice(index)).leader();
+	}
+
 }

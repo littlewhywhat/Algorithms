@@ -24,9 +24,7 @@ public abstract class AbstractListGraph implements Graph {
 	
 	public class SimpleVertice implements Vertice {
 
-		
-
-		private final List<Vertice> connections = new LinkedList<Vertice>();
+		protected final List<Vertice> connections = new LinkedList<Vertice>();
 		private final int index;
 
 		public SimpleVertice(int index) {

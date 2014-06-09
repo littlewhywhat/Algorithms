@@ -4,8 +4,7 @@ import com.littlewhywhat.algorithms.graphs.AbstractListGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
 public class SearchGraph extends AbstractListGraph {
-	public class SearchVertice extends
-			SimpleVertice {
+	public class SearchVertice extends SimpleVertice {
 		private boolean isExplored = false;
 
 		public SearchVertice(int index) {
@@ -24,7 +23,6 @@ public class SearchGraph extends AbstractListGraph {
 		public String toString() {
 			return super.toString() + " [" + isExplored + "]";
 		}
-
 	}
 
 	public SearchGraph(int size) {
