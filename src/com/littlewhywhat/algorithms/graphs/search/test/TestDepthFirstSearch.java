@@ -38,17 +38,20 @@ public class TestDepthFirstSearch {
 	public void test() {
 		reader.read();
 		SearchGraph graph = reader.getData();
-		for (Vertice vertice : graph) {
-			Assert.assertEquals(false, vertice.isExplored());
-		}
+		testIsExplored(graph, false);
 		search.setData(reader.getData());
 		search.execute();
+		testIsExplored(graph, true);
+		graph.reset();
+		testIsExplored(graph, false);
+	}
+
+	public void testIsExplored(SearchGraph graph, boolean value) {
 		int i = 0;
 		for (Vertice vertice : graph) {
 			i++;
-			Assert.assertEquals(true, vertice.isExplored());
+			Assert.assertEquals(value, vertice.isExplored());
 		}
 		Assert.assertEquals(graph.size(), i);
 	}
-
 }

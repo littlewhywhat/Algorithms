@@ -85,4 +85,10 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 	public int size() {
 		return vertices.length;
 	}
+	
+	public void reset() {
+		for (Vertice vertice : this) {
+			vertice.isExplored = false;
+		}
+	}
 }

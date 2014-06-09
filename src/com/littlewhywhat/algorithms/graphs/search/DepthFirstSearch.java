@@ -26,7 +26,7 @@ public class DepthFirstSearch extends
 
 	protected void recursiveCall(SearchGraph graph, Vertice vertice) {
 		if (vertice.isExplored()) {
-			System.out.println(vertice);
+			//System.out.println(vertice);
 			return;
 		} else {
 			vertice.markAsExplored();
