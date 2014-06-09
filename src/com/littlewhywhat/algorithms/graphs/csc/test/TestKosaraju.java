@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.graphs.csc.test;
 
-
 import java.util.Collections;
 
 import org.junit.Assert;
@@ -8,18 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.csc.KosarajuAlgo;
-import com.littlewhywhat.algorithms.graphs.csc.ReversibleGraph;
 import com.littlewhywhat.algorithms.graphs.csc.ReversibleGraphReader;
-import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
 import com.littlewhywhat.algorithms.graphs.search.test.TestDepthFirstSearch;
 
 public class TestKosaraju {
 
 	private KosarajuAlgo algo;
-	private DepthFirstSearch search;
 	private ReversibleGraphReader reader;
-	
+	private final int[] ANSWERS_BIG = new int[] { 434821, 968, 459, 313, 211 };
+	private final int[] ANSWERS_SMALL = new int[] { 3, 3, 3 };
+
 	@Before
 	public void setUp() throws Exception {
 		reader = new ReversibleGraphReader();
@@ -27,31 +24,23 @@ public class TestKosaraju {
 	}
 
 	@Test
-	public void test() {
-		reader.setInputFilePath(TestDepthFirstSearch.INPUT_GRAPH_BIG);
+	public void testSmall() {
+		test(TestDepthFirstSearch.INPUT_GRAPH, ANSWERS_SMALL);
+	}
+	
+	@Test
+	public void testBig() {
+		test(TestDepthFirstSearch.INPUT_GRAPH_BIG, ANSWERS_BIG);
+	}
+	
+	public void test(String inputFilePath, int[] answers) {
+		reader.setInputFilePath(inputFilePath);
 		reader.read();
 		algo.setData(reader.getData());
 		algo.execute();
 		Collections.sort(algo.getOutput());
-		for (int i = 0; i < 5; i++)
-			System.out.println(algo.getOutput().pollLast());
-	}
-	
-	public void test1() {
-		reader.setInputFilePath(TestDepthFirstSearch.INPUT_GRAPH);
-		reader.read();
-		ReversibleGraph graph = reader.getData();
-		search = new DepthFirstSearch();
-		search.setData(graph.getGraph());
-		search.execute();
-		for (Vertice vertice : graph.getGraph())
-			Assert.assertEquals(true, vertice.isExplored());
-		System.out.println();
-		search.setData(graph.getReversed());
-		search.execute();
-		for (Vertice vertice : graph.getReversed())
-			Assert.assertEquals(true, vertice.isExplored());
-		
+		for (int i = 0; i < answers.length; i++)
+			Assert.assertEquals(answers[i], algo.getOutput().pollLast().intValue());
 	}
 
 }
