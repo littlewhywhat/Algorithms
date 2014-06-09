@@ -25,10 +25,18 @@ public class DepthFirstSearch extends
 	}
 
 	protected void recursiveCall(SearchGraph graph, Vertice vertice) {
+		if (vertice.isExplored()) {
+			System.out.println(vertice);
+			return;
+		}
+		else {
 		vertice.markAsExplored();
+		stack.push(vertice);
+		
 		for (Vertice connection : vertice.getConnections())
 			if (!connection.isExplored())
 				stack.push(connection);
+		}
 	}
 
 }

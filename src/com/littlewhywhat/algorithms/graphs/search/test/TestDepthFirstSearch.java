@@ -12,8 +12,8 @@ import com.littlewhywhat.algorithms.graphs.search.SearchGraphReader;
 public class TestDepthFirstSearch {
 
 	private static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/csc/test/input/";
-	private static final String INPUT_GRAPH = FOLDER + "SCCsmall.txt";
-	private static final String INPUT_GRAPH_BIG = FOLDER + "SCC.txt";
+	public static final String INPUT_GRAPH = FOLDER + "SCCsmall.txt";
+	public static final String INPUT_GRAPH_BIG = FOLDER + "SCC.txt";
 	private SearchGraphReader reader;
 	private DepthFirstSearch search;
 	

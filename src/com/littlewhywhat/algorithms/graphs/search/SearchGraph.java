@@ -31,6 +31,9 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 		public String toString() {
 			return index + " [" + isExplored + "]";
 		}
+		public int getIndex() {
+			return this.index;
+		}
 		
 	}
 
