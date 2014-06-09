@@ -32,9 +32,11 @@ public class DepthFirstSearch extends
 			vertice.markAsExplored();
 			stack.push(vertice);
 
-			for (Vertice connection : vertice.getConnections())
-				if (!connection.isExplored())
-					stack.push(connection);
+			for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
+				Vertice vConnection = (Vertice) connection;
+				if (!vConnection.isExplored())
+					stack.push(vConnection);
+			}
 		}
 	}
 

@@ -6,11 +6,11 @@ import java.util.List;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
 
-public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
-	public class Vertice {
+public class SearchGraph implements Graph {
+	public class Vertice implements com.littlewhywhat.algorithms.graphs.Vertice {
 		private boolean isExplored = false;
 		private final int index;
-		private List<Vertice> connections = new LinkedList<Vertice>();
+		private List<com.littlewhywhat.algorithms.graphs.Vertice> connections = new LinkedList<com.littlewhywhat.algorithms.graphs.Vertice>();
 
 		public Vertice(int index) {
 			this.index = index;
@@ -20,7 +20,7 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 			isExplored = true;
 		}
 
-		public List<Vertice> getConnections() {
+		public Iterable<com.littlewhywhat.algorithms.graphs.Vertice> getConnections() {
 			return this.connections;
 		}
 
@@ -35,6 +35,17 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 
 		public int getIndex() {
 			return this.index;
+		}
+
+		@Override
+		public com.littlewhywhat.algorithms.graphs.Vertice getConnection(
+				int index) {
+			return this.connections.get(index);
+		}
+
+		@Override
+		public int sizeConnections() {
+			return this.connections.size();
 		}
 
 	}
@@ -55,13 +66,13 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 	public void connect(int one, int two) {
 		Vertice oneVertice = this.getVertice(one);
 		Vertice twoVertice = this.getVertice(two);
-		List<Vertice> connectionsOfOne = oneVertice.getConnections();
+		List<com.littlewhywhat.algorithms.graphs.Vertice> connectionsOfOne = oneVertice.connections;
 		connectionsOfOne.add(twoVertice);
 	}
 
 	@Override
-	public Iterator<Vertice> iterator() {
-		return new Iterator<Vertice>() {
+	public Iterator<com.littlewhywhat.algorithms.graphs.Vertice> iterator() {
+		return new Iterator<com.littlewhywhat.algorithms.graphs.Vertice>() {
 
 			private int i = 0;
 
@@ -87,8 +98,8 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 	}
 	
 	public void reset() {
-		for (Vertice vertice : this) {
-			vertice.isExplored = false;
+		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : this) {
+			((Vertice)vertice).isExplored = false;
 		}
 	}
 }

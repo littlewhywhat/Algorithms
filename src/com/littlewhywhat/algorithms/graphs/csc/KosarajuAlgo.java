@@ -34,9 +34,11 @@ public class KosarajuAlgo extends
 		@Override
 		protected void recursiveCall(SearchGraph graph, Vertice vertice) {
 			vertice.markAsExplored();
-			for (Vertice connection : vertice.getConnections())
-				if (!connection.isExplored())
-					stack.push(connection);
+			for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
+				Vertice mConnection = (Vertice) connection;
+				if (!mConnection.isExplored())
+					stack.push(mConnection);
+			}
 		}
 
 		@Override
@@ -73,9 +75,11 @@ public class KosarajuAlgo extends
 				vertice.markAsExplored();
 				stack.push(vertice.getIndex());
 
-				for (Vertice connection : vertice.getConnections())
-					if (!connection.isExplored())
-						stack.push(connection);
+				for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
+					Vertice mConnection = (Vertice) connection;
+					if (!mConnection.isExplored())
+						stack.push(mConnection);
+				}
 			}
 		}
 

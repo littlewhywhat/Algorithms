@@ -18,12 +18,12 @@ public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph,
 			Vertice randomEnd = getRandomConnection(randomStart);
 			graph.merge(randomStart, randomEnd);
 		}
-		setOutput(graph.getVertice(0).connectionsCount());
+		setOutput(graph.getVertice(0).sizeConnections());
 	}
 
 	private Vertice getRandomConnection(Vertice vertice) {
 		return vertice
-				.getConnection(random.nextInt(vertice.connectionsCount()));
+				.getConnection(random.nextInt(vertice.sizeConnections()));
 	}
 
 	private Vertice getRandomVertice() {

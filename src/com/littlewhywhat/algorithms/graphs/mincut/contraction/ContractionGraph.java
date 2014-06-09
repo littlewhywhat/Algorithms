@@ -1,12 +1,13 @@
 package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
 
 public class ContractionGraph implements Graph {
-	class Vertice {
-		private LinkedList<Vertice> connections = new LinkedList<Vertice>();
+	class Vertice implements com.littlewhywhat.algorithms.graphs.Vertice {
+		private LinkedList<com.littlewhywhat.algorithms.graphs.Vertice> connections = new LinkedList<com.littlewhywhat.algorithms.graphs.Vertice>();
 		private int index;
 		private Vertice mergedTo;
 
@@ -14,10 +15,9 @@ public class ContractionGraph implements Graph {
 			this.index = index;
 		}
 
-		int connectionsCount() {
+		public int sizeConnections() {
 			return this.connections.size();
 		}
-
 		
 		@Override
 		public boolean equals(Object obj) {
@@ -37,8 +37,8 @@ public class ContractionGraph implements Graph {
 			return true;
 		}
 		
-		Vertice getConnection(int index) {
-			return this.connections.get(index).leader();
+		public Vertice getConnection(int index) {
+			return ((Vertice)this.connections.get(index)).leader();
 		}
 
 		@Override
@@ -58,6 +58,17 @@ public class ContractionGraph implements Graph {
 			return "[" + index + ">" + leader().index + "]";
 		}
 
+		@Override
+		public Iterable<com.littlewhywhat.algorithms.graphs.Vertice> getConnections() {
+			// TODO Auto-generated method stub
+			return connections;
+		}
+
+		@Override
+		public int getIndex() {
+			return index;
+		}
+
 	}
 
 	private Vertice[] vertices;
@@ -73,7 +84,7 @@ public class ContractionGraph implements Graph {
 		this.getVertice(one).connections.push(this.getVertice(two));
 	}
 
-	Vertice getVertice(int index) {
+	public Vertice getVertice(int index) {
 		return this.vertices[index].leader();
 	}
 
@@ -81,20 +92,25 @@ public class ContractionGraph implements Graph {
 		one.mergedTo = two;
 		int size = two.connections.size();
 		for (int i = 0; i < size; i++) {
-			Vertice vertice = two.connections.pollFirst();
+			Vertice vertice = (Vertice) two.connections.pollFirst();
 			vertice = vertice.leader();
 			if (!vertice.equals(two))
 				two.connections.addLast(vertice);
 		}
-		for (Vertice vertice : one.connections) {
-			vertice = vertice.leader();
+		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : one.connections) {
+			vertice = ((Vertice)vertice).leader();
 			if (!vertice.equals(two))
 				two.connections.addLast(vertice);
 		}
 		one.connections = null;
 	}
 
-	int size() {
+	public int size() {
 		return this.vertices.length;
+	}
+
+	@Override
+	public Iterator<com.littlewhywhat.algorithms.graphs.Vertice> iterator() {
+		return null;
 	}
 }
