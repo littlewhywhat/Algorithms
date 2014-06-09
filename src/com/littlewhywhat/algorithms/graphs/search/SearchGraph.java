@@ -1,7 +1,6 @@
 package com.littlewhywhat.algorithms.graphs.search;
 
 import com.littlewhywhat.algorithms.graphs.AbstractListGraph;
-import com.littlewhywhat.algorithms.graphs.SimpleVertice;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
 public class SearchGraph extends AbstractListGraph {
@@ -26,11 +25,6 @@ public class SearchGraph extends AbstractListGraph {
 			return super.toString() + " [" + isExplored + "]";
 		}
 
-		@Override
-		protected void connectTo(SimpleVertice vertice) {
-			super.connectTo(vertice);
-		}
-
 	}
 
 	public SearchGraph(int size) {
@@ -48,8 +42,4 @@ public class SearchGraph extends AbstractListGraph {
 		return new SearchVertice(index);
 	}
 
-	@Override
-	protected void connectVertices(Vertice one, Vertice two) {
-		((SearchVertice)one).connectTo((SearchVertice) two);
-	}
 }
