@@ -28,14 +28,13 @@ public class DepthFirstSearch extends
 		if (vertice.isExplored()) {
 			System.out.println(vertice);
 			return;
-		}
-		else {
-		vertice.markAsExplored();
-		stack.push(vertice);
-		
-		for (Vertice connection : vertice.getConnections())
-			if (!connection.isExplored())
-				stack.push(connection);
+		} else {
+			vertice.markAsExplored();
+			stack.push(vertice);
+
+			for (Vertice connection : vertice.getConnections())
+				if (!connection.isExplored())
+					stack.push(connection);
 		}
 	}
 

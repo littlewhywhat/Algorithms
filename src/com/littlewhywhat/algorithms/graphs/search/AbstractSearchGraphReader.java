@@ -7,16 +7,18 @@ import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.io.AbstractInputReader;
 
-public abstract class AbstractSearchGraphReader extends AbstractInputReader<Void, SearchGraph> {
+public abstract class AbstractSearchGraphReader extends
+		AbstractInputReader<Void, SearchGraph> {
 	private interface Command {
 		void execute(Scanner scanner);
 	}
 
 	public interface GraphWriter extends Command {
 		void setGraph(SearchGraph graph);
+
 		SearchGraph getGraph();
 	}
-	
+
 	private class VerticesCounter implements Command {
 
 		private int count;
@@ -35,11 +37,8 @@ public abstract class AbstractSearchGraphReader extends AbstractInputReader<Void
 		}
 	}
 
-	
-
 	private String inputFilePath;
 	private final VerticesCounter counter = new VerticesCounter();
-	
 
 	public void setInputFilePath(String inputFilePath) {
 		this.inputFilePath = inputFilePath;

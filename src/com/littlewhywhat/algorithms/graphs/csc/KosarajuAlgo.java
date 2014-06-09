@@ -19,7 +19,6 @@ public class KosarajuAlgo extends
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		firstPass.setData(getData().getReversed());
 		firstPass.execute();
 		System.out.println(order.size());
@@ -34,10 +33,10 @@ public class KosarajuAlgo extends
 
 		@Override
 		protected void recursiveCall(SearchGraph graph, Vertice vertice) {
-				vertice.markAsExplored();
-				for (Vertice connection : vertice.getConnections())
-					if (!connection.isExplored())
-						stack.push(connection);
+			vertice.markAsExplored();
+			for (Vertice connection : vertice.getConnections())
+				if (!connection.isExplored())
+					stack.push(connection);
 		}
 
 		@Override
@@ -51,10 +50,9 @@ public class KosarajuAlgo extends
 					while (!stack.empty()) {
 						if (!stack.peek().isExplored()) {
 							count++;
-						
+
 							recursiveCall(graph, stack.pop());
-						}
-						else
+						} else
 							stack.pop();
 					}
 					counts.add(count);
@@ -74,7 +72,7 @@ public class KosarajuAlgo extends
 			if (!vertice.isExplored()) {
 				vertice.markAsExplored();
 				stack.push(vertice.getIndex());
-				
+
 				for (Vertice connection : vertice.getConnections())
 					if (!connection.isExplored())
 						stack.push(connection);
@@ -90,9 +88,9 @@ public class KosarajuAlgo extends
 					stack.push(startVertice);
 					while (!stack.empty()) {
 						if (stack.peek() instanceof Vertice)
-							recursiveCall(graph, (Vertice)stack.pop());
+							recursiveCall(graph, (Vertice) stack.pop());
 						else
-							order.add((Integer)stack.pop());
+							order.add((Integer) stack.pop());
 					}
 				}
 			}
@@ -101,5 +99,4 @@ public class KosarajuAlgo extends
 
 	}
 
-	
 }

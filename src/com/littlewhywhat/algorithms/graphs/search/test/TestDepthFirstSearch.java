@@ -16,7 +16,7 @@ public class TestDepthFirstSearch {
 	public static final String INPUT_GRAPH_BIG = FOLDER + "SCC.txt";
 	private SearchGraphReader reader;
 	private DepthFirstSearch search;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		reader = new SearchGraphReader();
@@ -28,13 +28,13 @@ public class TestDepthFirstSearch {
 		reader.setInputFilePath(INPUT_GRAPH);
 		test();
 	}
-	
+
 	@Test
 	public void testBig() {
 		reader.setInputFilePath(INPUT_GRAPH_BIG);
 		test();
 	}
-	
+
 	public void test() {
 		reader.read();
 		SearchGraph graph = reader.getData();

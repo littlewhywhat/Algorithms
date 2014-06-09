@@ -6,7 +6,7 @@ public class ReversibleGraph {
 
 	private final SearchGraph graph;
 	private final SearchGraph reversed;
-	
+
 	public ReversibleGraph(SearchGraph graph, SearchGraph reversed) {
 		this.graph = graph;
 		this.reversed = reversed;
@@ -19,5 +19,5 @@ public class ReversibleGraph {
 	public SearchGraph getReversed() {
 		return this.reversed;
 	}
-	
+
 }

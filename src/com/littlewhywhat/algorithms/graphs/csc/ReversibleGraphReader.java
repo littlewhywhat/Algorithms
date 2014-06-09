@@ -26,7 +26,7 @@ public class ReversibleGraphReader extends
 	private class ReversedSearchGraphReader extends AbstractSearchGraphReader {
 
 		private ReversedGraphWriter writer = new ReversedGraphWriter();
-		
+
 		@Override
 		protected GraphWriter getGraphWriter() {
 			return writer;
@@ -41,7 +41,7 @@ public class ReversibleGraphReader extends
 		reader.setInputFilePath(inputFilePath);
 		reversedReader.setInputFilePath(inputFilePath);
 	}
-	
+
 	@Override
 	public void read() {
 		reader.read();

@@ -11,10 +11,11 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 		private boolean isExplored = false;
 		private final int index;
 		private List<Vertice> connections = new LinkedList<Vertice>();
-		
+
 		public Vertice(int index) {
 			this.index = index;
 		}
+
 		public void markAsExplored() {
 			isExplored = true;
 		}
@@ -31,14 +32,15 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 		public String toString() {
 			return index + " [" + isExplored + "]";
 		}
+
 		public int getIndex() {
 			return this.index;
 		}
-		
+
 	}
 
 	private final Vertice[] vertices;
-	
+
 	public SearchGraph(int size) {
 		this.vertices = new Vertice[size];
 		for (int index = 0; index < size; index++)
@@ -62,6 +64,7 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 		return new Iterator<Vertice>() {
 
 			private int i = 0;
+
 			@Override
 			public boolean hasNext() {
 				return i < vertices.length;
@@ -73,8 +76,9 @@ public class SearchGraph implements Graph, Iterable<SearchGraph.Vertice> {
 			}
 
 			@Override
-			public void remove() {	}
-			
+			public void remove() {
+			}
+
 		};
 	}
 
