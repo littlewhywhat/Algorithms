@@ -2,12 +2,12 @@ package com.littlewhywhat.algorithms.graphs.csc;
 
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
 
-public class ReversibleGraph {
+public class KosarajuGraphs {
 
 	private final SearchGraph graph;
 	private final SearchGraph reversed;
 
-	public ReversibleGraph(SearchGraph graph, SearchGraph reversed) {
+	public KosarajuGraphs(SearchGraph graph, SearchGraph reversed) {
 		this.graph = graph;
 		this.reversed = reversed;
 	}

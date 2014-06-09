@@ -7,8 +7,8 @@ import com.littlewhywhat.algorithms.graphs.search.SearchGraphReader;
 import com.littlewhywhat.algorithms.graphs.search.SimpleGraphWriter;
 import com.littlewhywhat.algorithms.io.AbstractInputReader;
 
-public class ReversibleGraphReader extends
-		AbstractInputReader<Void, ReversibleGraph> {
+public class KosarajuGraphsReader extends
+		AbstractInputReader<Void, KosarajuGraphs> {
 
 	private class ReversedGraphWriter extends SimpleGraphWriter {
 
@@ -46,7 +46,7 @@ public class ReversibleGraphReader extends
 	public void read() {
 		reader.read();
 		reversedReader.read();
-		setData(new ReversibleGraph(reader.getData(), reversedReader.getData()));
+		setData(new KosarajuGraphs(reader.getData(), reversedReader.getData()));
 
 	}
 

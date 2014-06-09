@@ -7,19 +7,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.csc.KosarajuAlgo;
-import com.littlewhywhat.algorithms.graphs.csc.ReversibleGraphReader;
+import com.littlewhywhat.algorithms.graphs.csc.KosarajuGraphsReader;
 import com.littlewhywhat.algorithms.graphs.search.test.TestDepthFirstSearch;
 
 public class TestKosaraju {
 
 	private KosarajuAlgo algo;
-	private ReversibleGraphReader reader;
+	private KosarajuGraphsReader reader;
 	private final int[] ANSWERS_BIG = new int[] { 434821, 968, 459, 313, 211 };
 	private final int[] ANSWERS_SMALL = new int[] { 3, 3, 3 };
 
 	@Before
 	public void setUp() throws Exception {
-		reader = new ReversibleGraphReader();
+		reader = new KosarajuGraphsReader();
 		algo = new KosarajuAlgo();
 	}
 

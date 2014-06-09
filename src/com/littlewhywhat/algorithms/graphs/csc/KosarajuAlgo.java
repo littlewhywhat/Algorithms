@@ -10,7 +10,7 @@ import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
 
 public class KosarajuAlgo extends
-		AbstractAlgorithm<Void, ReversibleGraph, LinkedList<Integer>> {
+		AbstractAlgorithm<Void, KosarajuGraphs, LinkedList<Integer>> {
 
 	private LinkedList<Integer> counts = new LinkedList<Integer>();
 	private FirstPass firstPass = new FirstPass();
