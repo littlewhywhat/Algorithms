@@ -7,7 +7,7 @@ import java.util.Stack;
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
+import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
 
 public class KosarajuAlgo extends
 		AbstractAlgorithm<Void, KosarajuGraphs, LinkedList<Integer>> {
@@ -29,13 +29,13 @@ public class KosarajuAlgo extends
 
 	public class SecondPass extends DepthFirstSearch {
 
-		private final Stack<Vertice> stack = new Stack<Vertice>();
+		private final Stack<SearchVertice> stack = new Stack<SearchVertice>();
 
 		@Override
-		protected void recursiveCall(SearchGraph graph, Vertice vertice) {
+		protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
 			vertice.markAsExplored();
 			for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
-				Vertice mConnection = (Vertice) connection;
+				SearchVertice mConnection = (SearchVertice) connection;
 				if (!mConnection.isExplored())
 					stack.push(mConnection);
 			}
@@ -45,7 +45,7 @@ public class KosarajuAlgo extends
 		public void execute() {
 			SearchGraph graph = getData();
 			for (int i = order.size() - 1; i > -1; i--) {
-				Vertice startVertice = graph.getVertice(order.get(i));
+				SearchVertice startVertice = (SearchVertice) graph.getVertice(order.get(i));
 				if (!startVertice.isExplored()) {
 					stack.push(startVertice);
 					int count = 0;
@@ -70,13 +70,13 @@ public class KosarajuAlgo extends
 		private final Stack<Object> stack = new Stack<Object>();
 
 		@Override
-		protected void recursiveCall(SearchGraph graph, Vertice vertice) {
+		protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
 			if (!vertice.isExplored()) {
 				vertice.markAsExplored();
 				stack.push(vertice.getIndex());
 
 				for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
-					Vertice mConnection = (Vertice) connection;
+					SearchVertice mConnection = (SearchVertice) connection;
 					if (!mConnection.isExplored())
 						stack.push(mConnection);
 				}
@@ -87,12 +87,12 @@ public class KosarajuAlgo extends
 		public void execute() {
 			SearchGraph graph = getData();
 			for (int i = 0; i < graph.size(); i++) {
-				Vertice startVertice = graph.getVertice(i);
+				SearchVertice startVertice = (SearchVertice) graph.getVertice(i);
 				if (!startVertice.isExplored()) {
 					stack.push(startVertice);
 					while (!stack.empty()) {
-						if (stack.peek() instanceof Vertice)
-							recursiveCall(graph, (Vertice) stack.pop());
+						if (stack.peek() instanceof SearchVertice)
+							recursiveCall(graph, (SearchVertice) stack.pop());
 						else
 							order.add((Integer) stack.pop());
 					}

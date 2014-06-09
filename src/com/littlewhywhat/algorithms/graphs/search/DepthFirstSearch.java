@@ -3,18 +3,19 @@ package com.littlewhywhat.algorithms.graphs.search;
 import java.util.Stack;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
+import com.littlewhywhat.algorithms.graphs.Vertice;
+import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
 
 public class DepthFirstSearch extends
 		AbstractAlgorithm<Void, SearchGraph, SearchGraph> {
 
-	private final Stack<Vertice> stack = new Stack<Vertice>();
+	private final Stack<SearchVertice> stack = new Stack<SearchVertice>();
 
 	@Override
 	public void execute() {
 		SearchGraph graph = getData();
 		for (int i = 0; i < graph.size(); i++) {
-			Vertice startVertice = graph.getVertice(i);
+			SearchVertice startVertice = (SearchVertice) graph.getVertice(i);
 			if (!startVertice.isExplored()) {
 				stack.push(startVertice);
 				while (!stack.empty())
@@ -24,7 +25,7 @@ public class DepthFirstSearch extends
 		setOutput(graph);
 	}
 
-	protected void recursiveCall(SearchGraph graph, Vertice vertice) {
+	protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
 		if (vertice.isExplored()) {
 			//System.out.println(vertice);
 			return;
@@ -32,8 +33,8 @@ public class DepthFirstSearch extends
 			vertice.markAsExplored();
 			stack.push(vertice);
 
-			for (com.littlewhywhat.algorithms.graphs.Vertice connection : vertice.getConnections()) {
-				Vertice vConnection = (Vertice) connection;
+			for (Vertice connection : vertice.getConnections()) {
+				SearchVertice vConnection = (SearchVertice) connection;
 				if (!vConnection.isExplored())
 					stack.push(vConnection);
 			}

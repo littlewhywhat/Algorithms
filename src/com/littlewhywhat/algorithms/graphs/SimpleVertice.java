@@ -28,6 +28,10 @@ public class SimpleVertice implements Vertice {
 		this.index = index;
 	}
 
+	protected void connectTo(SimpleVertice vertice) {
+		this.connections.add(vertice);
+	}
+	
 	@Override
 	public Vertice getConnection(int index) {
 		return connections.get(index);

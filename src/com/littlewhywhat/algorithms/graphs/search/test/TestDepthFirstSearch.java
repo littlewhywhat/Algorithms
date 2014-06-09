@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.Vertice;
+import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraphReader;
 
 public class TestDepthFirstSearch {
@@ -50,7 +50,7 @@ public class TestDepthFirstSearch {
 		int i = 0;
 		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : graph) {
 			i++;
-			Assert.assertEquals(value, ((Vertice)vertice).isExplored());
+			Assert.assertEquals(value, ((SearchVertice)vertice).isExplored());
 		}
 		Assert.assertEquals(graph.size(), i);
 	}
