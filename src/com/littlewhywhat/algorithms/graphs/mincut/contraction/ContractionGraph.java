@@ -8,7 +8,7 @@ public class ContractionGraph implements Graph {
 	class Vertice {
 		private LinkedList<Vertice> connections = new LinkedList<Vertice>();
 		private int index;
-		private Vertice merged;
+		private Vertice mergedTo;
 
 		Vertice(int index) {
 			this.index = index;
@@ -18,6 +18,7 @@ public class ContractionGraph implements Graph {
 			return this.connections.size();
 		}
 
+		
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj) {
@@ -47,8 +48,8 @@ public class ContractionGraph implements Graph {
 
 		private Vertice leader() {
 			Vertice leader = this;
-			while (leader.merged != null)
-				leader = leader.merged;
+			while (leader.mergedTo != null)
+				leader = leader.mergedTo;
 			return leader;
 		}
 
@@ -77,7 +78,7 @@ public class ContractionGraph implements Graph {
 	}
 
 	void merge(Vertice one, Vertice two) {
-		one.merged = two;
+		one.mergedTo = two;
 		int size = two.connections.size();
 		for (int i = 0; i < size; i++) {
 			Vertice vertice = two.connections.pollFirst();
