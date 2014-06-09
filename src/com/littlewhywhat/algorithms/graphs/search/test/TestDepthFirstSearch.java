@@ -48,9 +48,9 @@ public class TestDepthFirstSearch {
 
 	public void testIsExplored(SearchGraph graph, boolean value) {
 		int i = 0;
-		for (Vertice vertice : graph) {
+		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : graph) {
 			i++;
-			Assert.assertEquals(value, vertice.isExplored());
+			Assert.assertEquals(value, ((Vertice)vertice).isExplored());
 		}
 		Assert.assertEquals(graph.size(), i);
 	}
