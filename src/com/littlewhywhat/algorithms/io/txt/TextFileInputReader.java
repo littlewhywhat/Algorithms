@@ -5,26 +5,17 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.littlewhywhat.algorithms.io.AbstractInputReader;
-
 public abstract class TextFileInputReader<ConfigData, DataType> extends
-		AbstractInputReader<ConfigData, DataType> {
-
-	private String inputFilePath;
-
-	public void setInputFilePath(String inputFilePath) {
-		this.inputFilePath = inputFilePath;
-	}
+		FileInputReader<ConfigData, DataType> {
 
 	@Override
-	public void read() {
-		File file = new File(inputFilePath);
+	public void readFile(File file) {
 		try (Scanner scanner = new Scanner(file)) {
 			extractInputData(scanner);
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found: " + inputFilePath);
+			System.out.println("File not found: " + this.getInputFilePath());
 		} catch (InputMismatchException e) {
-			System.out.println("Unable to read file: " + inputFilePath);
+			System.out.println("Unable to read file: " + this.getInputFilePath());
 		}
 	}
 
