@@ -1,13 +1,12 @@
 package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 
-import java.util.LinkedList;
-
-import com.littlewhywhat.algorithms.graphs.AbstractListGraph;
+import com.littlewhywhat.algorithms.graphs.LinkedGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
-public class ContractionGraph extends AbstractListGraph {
+public class ContractionGraph extends LinkedGraph {
 
 	class ContractionVertice extends SimpleVertice {
+
 		public ContractionVertice(int index) {
 			super(index);
 		}
@@ -31,10 +30,6 @@ public class ContractionGraph extends AbstractListGraph {
 			return ((ContractionVertice) super.getConnection(index)).leader();
 		};
 
-		private LinkedList<Vertice> getConnectionsList() {
-			return (LinkedList<Vertice>) this.connections;
-		}
-
 	}
 
 	public ContractionGraph(int size) {
@@ -45,18 +40,17 @@ public class ContractionGraph extends AbstractListGraph {
 		one.mergedTo = two;
 		int size = two.sizeConnections();
 		for (int i = 0; i < size; i++) {
-			ContractionVertice vertice = (ContractionVertice) two
-					.getConnectionsList().pollFirst();
+			ContractionVertice vertice = (ContractionVertice) this.getConnections(two).pollFirst();
 			vertice = vertice.leader();
 			if (!vertice.equals(two))
-				two.getConnectionsList().addLast(vertice);
+				this.getConnections(two).addLast(vertice);
 		}
 		for (Vertice vertice : one.getConnections()) {
 			vertice = ((ContractionVertice) vertice).leader();
 			if (!vertice.equals(two))
-				two.getConnectionsList().addLast(vertice);
+				this.getConnections(two).addLast(vertice);
 		}
-		one.getConnectionsList().clear();
+		this.getConnections(one).clear();
 	}
 
 	@Override

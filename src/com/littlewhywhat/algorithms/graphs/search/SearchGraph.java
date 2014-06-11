@@ -1,9 +1,9 @@
 package com.littlewhywhat.algorithms.graphs.search;
 
-import com.littlewhywhat.algorithms.graphs.AbstractListGraph;
+import com.littlewhywhat.algorithms.graphs.LinkedGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
-public class SearchGraph extends AbstractListGraph {
+public class SearchGraph extends LinkedGraph {
 	public class SearchVertice extends SimpleVertice {
 		private boolean isExplored = false;
 
