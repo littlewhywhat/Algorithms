@@ -32,6 +32,10 @@ public class ContractionGraph extends LinkedGraph {
 
 	}
 
+	public ContractionGraph() {
+		super();
+	}
+
 	public ContractionGraph(int size) {
 		super(size);
 	}
@@ -40,7 +44,8 @@ public class ContractionGraph extends LinkedGraph {
 		one.mergedTo = two;
 		int size = two.sizeConnections();
 		for (int i = 0; i < size; i++) {
-			ContractionVertice vertice = (ContractionVertice) this.getConnections(two).pollFirst();
+			ContractionVertice vertice = (ContractionVertice) this
+					.getConnections(two).pollFirst();
 			vertice = vertice.leader();
 			if (!vertice.equals(two))
 				this.getConnections(two).addLast(vertice);

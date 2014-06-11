@@ -18,9 +18,9 @@ public abstract class AbstractListGraph implements Graph {
 			this.connections = connections;
 		}
 	}
-	
+
 	private static final ConnectionsIterable iterable = new ConnectionsIterable();
-	
+
 	public class SimpleVertice implements Vertice {
 
 		protected final List<Vertice> connections = getNewConnectionsList();
@@ -80,23 +80,33 @@ public abstract class AbstractListGraph implements Graph {
 		}
 
 	}
-	
+
 	private final List<Vertice> vertices = new ArrayList<Vertice>();
 
+	public AbstractListGraph() { }
+	
 	public AbstractListGraph(int size) {
-		for (int index = 0; index < size; index++)
-			this.vertices.add(getNewVertice(index));
+		this.setSize(size);
+	}
+
+	@Override
+	public void setSize(int size) {
+		if (this.vertices.isEmpty()) {
+			for (int index = 0; index < size; index++)
+				this.vertices.add(getNewVertice(index));
+		}
 	}
 
 	protected Vertice getNewVertice(int index) {
 		return new SimpleVertice(index);
 	}
+
 	protected abstract List<Vertice> getNewConnectionsList();
-	
+
 	protected List<Vertice> getConnections(Vertice vertice) {
-		return ((SimpleVertice)vertice).connections;
+		return ((SimpleVertice) vertice).connections;
 	}
-	
+
 	@Override
 	public Iterator<Vertice> iterator() {
 		return this.vertices.iterator();

@@ -4,22 +4,32 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.io.GraphReader;
 import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
+import com.littlewhywhat.algorithms.graphs.search.SearchSizeCounter;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraphReader;
+import com.littlewhywhat.algorithms.graphs.search.SearchGraphFiller;
 
 public class TestDepthFirstSearch {
 
 	private static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/csc/test/input/";
 	public static final String INPUT_GRAPH = FOLDER + "SCCsmall.txt";
 	public static final String INPUT_GRAPH_BIG = FOLDER + "SCC.txt";
-	private SearchGraphReader reader;
+	private GraphReader reader;
 	private DepthFirstSearch search;
+	private SearchGraphFiller filler;
+	private SearchSizeCounter sizeCounter;
 
 	@Before
 	public void setUp() throws Exception {
-		reader = new SearchGraphReader();
+		filler = new SearchGraphFiller();
+		sizeCounter = new SearchSizeCounter();
+		reader = new GraphReader();
+		reader.setGraphFiller(filler);
+		reader.setSizeCounter(sizeCounter);
+		reader.setGraph(new SearchGraph());
 		search = new DepthFirstSearch();
 	}
 
@@ -37,16 +47,16 @@ public class TestDepthFirstSearch {
 
 	public void test() {
 		reader.read();
-		SearchGraph graph = reader.getData();
+		Graph graph = reader.getData();
 		testIsExplored(graph, false);
-		search.setData(reader.getData());
+		search.setData((SearchGraph) reader.getData());
 		search.execute();
 		testIsExplored(graph, true);
-		graph.reset();
+		((SearchGraph) graph).reset();
 		testIsExplored(graph, false);
 	}
 
-	public void testIsExplored(SearchGraph graph, boolean value) {
+	public void testIsExplored(Graph graph, boolean value) {
 		int i = 0;
 		for (com.littlewhywhat.algorithms.graphs.Vertice vertice : graph) {
 			i++;

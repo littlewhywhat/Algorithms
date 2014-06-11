@@ -5,6 +5,10 @@ import java.util.List;
 
 public class LinkedGraph extends AbstractListGraph {
 
+	public LinkedGraph() {
+		super();
+	}
+
 	public LinkedGraph(int size) {
 		super(size);
 	}

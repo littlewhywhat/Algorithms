@@ -3,8 +3,12 @@ package com.littlewhywhat.algorithms.graphs.csc;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
 
-public class ReversibleGraph extends SearchGraph {	
-	
+public class ReversibleGraph extends SearchGraph {
+
+	public ReversibleGraph() {
+		super();
+	}
+
 	public ReversibleGraph(int size) {
 		super(size);
 	}

@@ -6,7 +6,8 @@ import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph.ContractionVertice;
 
-public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph, Integer> {
+public class RandomContraction extends
+		AbstractAlgorithm<Void, ContractionGraph, Integer> {
 
 	private Random random = new Random();
 
@@ -23,12 +24,13 @@ public class RandomContraction extends AbstractAlgorithm<Void, ContractionGraph,
 	}
 
 	private ContractionVertice getRandomConnection(Vertice vertice) {
-		return (ContractionVertice) vertice
-				.getConnection(random.nextInt(vertice.sizeConnections()));
+		return (ContractionVertice) vertice.getConnection(random
+				.nextInt(vertice.sizeConnections()));
 	}
 
 	private ContractionVertice getRandomVertice() {
-		return (ContractionVertice) getData().getVertice(random.nextInt(getData().size()));
+		return (ContractionVertice) getData().getVertice(
+				random.nextInt(getData().size()));
 	}
 
 }

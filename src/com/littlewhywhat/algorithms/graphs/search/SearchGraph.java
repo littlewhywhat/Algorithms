@@ -29,6 +29,10 @@ public class SearchGraph extends LinkedGraph {
 		super(size);
 	}
 
+	public SearchGraph() {
+		super();
+	}
+
 	public void reset() {
 		for (Vertice vertice : this) {
 			((SearchVertice) vertice).isExplored = false;
