@@ -19,9 +19,12 @@ public class ReversibleGraph extends SearchGraph {
 			this.getConnections(vertice).addLast(border);
 		}
 		for (Vertice vertice : this) {
-			Vertice connection = this.getConnections(vertice).pollFirst();
-			while (connection != border)
+
+			while (this.getConnections(vertice).peekFirst() != border) {
+				Vertice connection = this.getConnections(vertice).pollFirst();
 				this.getConnections(connection).addLast(vertice);
+			}
+			this.getConnections(vertice).pollFirst();
 		}
 	}
 }
