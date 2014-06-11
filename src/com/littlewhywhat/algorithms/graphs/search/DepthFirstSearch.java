@@ -14,10 +14,10 @@ public class DepthFirstSearch extends
 	@Override
 	public void execute() {
 		SearchGraph graph = getData();
-		for (int i = 0; i < graph.size(); i++) {
-			SearchVertice startVertice = (SearchVertice) graph.getVertice(i);
+		for (Vertice vertice : graph) {
+			SearchVertice startVertice = (SearchVertice) vertice;
 			if (!startVertice.isExplored()) {
-				stack.push(startVertice);
+				addToStack(startVertice);
 				while (!stack.empty())
 					recursiveCall(graph, stack.pop());
 			}
@@ -25,20 +25,17 @@ public class DepthFirstSearch extends
 		setOutput(graph);
 	}
 
+	private void addToStack(SearchVertice vertice) {
+		vertice.markAsExplored();
+		stack.push(vertice);
+	}
+	
 	protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
-		if (vertice.isExplored()) {
-			//System.out.println(vertice);
-			return;
-		} else {
-			vertice.markAsExplored();
-			stack.push(vertice);
-
 			for (Vertice connection : vertice.getConnections()) {
 				SearchVertice vConnection = (SearchVertice) connection;
 				if (!vConnection.isExplored())
-					stack.push(vConnection);
+					addToStack(vConnection);
 			}
-		}
 	}
 
 }
