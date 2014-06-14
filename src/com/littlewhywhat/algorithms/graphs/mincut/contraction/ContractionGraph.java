@@ -28,6 +28,14 @@ public class ContractionGraph extends LinkedGraph {
 		@Override
 		public Vertice getConnection(int index) {
 			return ((ContractionVertice) super.getConnection(index)).leader();
+		}
+
+		private void addConnectionsOf(ContractionVertice one) {
+			for (Vertice vertice : one.getConnections()) {
+				vertice = ((ContractionVertice) vertice).leader();
+				if (!vertice.equals(this))
+					ContractionGraph.this.getConnections(this).addLast(vertice);
+			}
 		};
 
 	}
@@ -42,20 +50,20 @@ public class ContractionGraph extends LinkedGraph {
 
 	void merge(ContractionVertice one, ContractionVertice two) {
 		one.mergedTo = two;
-		int size = two.sizeConnections();
-		for (int i = 0; i < size; i++) {
-			ContractionVertice vertice = (ContractionVertice) this
-					.getConnections(two).pollFirst();
-			vertice = vertice.leader();
-			if (!vertice.equals(two))
-				this.getConnections(two).addLast(vertice);
-		}
-		for (Vertice vertice : one.getConnections()) {
-			vertice = ((ContractionVertice) vertice).leader();
-			if (!vertice.equals(two))
-				this.getConnections(two).addLast(vertice);
-		}
+		clearConnections(two);
+		two.addConnectionsOf(one);
 		this.getConnections(one).clear();
+	}
+
+	private void clearConnections(ContractionVertice vertice) {
+		int size = vertice.sizeConnections();
+		for (int i = 0; i < size; i++) {
+			ContractionVertice connection = (ContractionVertice) this
+					.getConnections(vertice).pollFirst();
+			connection = connection.leader();
+			if (!connection.equals(vertice))
+				this.getConnections(vertice).addLast(connection);
+		}
 	}
 
 	@Override
