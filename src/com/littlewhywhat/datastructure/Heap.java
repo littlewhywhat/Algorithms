@@ -1,7 +1,11 @@
 package com.littlewhywhat.datastructure;
 
-public interface Heap<T extends Comparable<T>> {
+import java.util.Comparator;
+
+public interface Heap<T> {
+	void setComparator(Comparator<T> comparator);
 	void insert(T item);
 	void remove(T item);
 	T poll();
+	T peek();
 }
