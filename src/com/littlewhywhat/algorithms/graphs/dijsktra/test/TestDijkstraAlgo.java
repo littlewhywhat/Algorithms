@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraAlgo;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraphFiller;
 import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
@@ -18,6 +19,7 @@ public class TestDijkstraAlgo {
 	private Graph graph = new DijkstraGraph(0);
 	private GraphFiller filler = new DijkstraGraphFiller();
 	private SizeCounter sizeCounter = new SimpleSizeCounter();
+	private DijkstraAlgo algo = new DijkstraAlgo();
 
 	@Before
 	public void setUp() throws Exception {

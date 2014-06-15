@@ -6,18 +6,18 @@ import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph;
 public class DijkstraGraph extends ContractionGraph {
 	class DijkstraVertice extends ContractionVertice {
 
-		private int distanceToSource;
+		protected int intValue;
 
 		public DijkstraVertice(int index) {
 			super(index);
 		}
 
 		public int getDistanceToSource() {
-			return distanceToSource;
+			return intValue;
 		}
 
 		public void setDistanceToSource(int distanceToSource) {
-			this.distanceToSource = distanceToSource;
+			this.intValue = distanceToSource;
 		}
 
 		public Connection getConnectionByIndex(int index) {
@@ -26,83 +26,48 @@ public class DijkstraGraph extends ContractionGraph {
 				if (connection.getIndex() == index)
 					return connection;
 			}
-
 			return null;
 		}
 
 		@Override
 		public String toString() {
-			return "[" + super.toString() + ", " + distanceToSource + "]";
+			return "[" + super.toString() + ", " + intValue + "]";
 		}
 
 	}
 
-	class Connection implements Vertice {
+	class Connection extends DijkstraVertice {
 
-		private final Vertice vertice;
-		private int weight;
-
-		public Connection(Vertice vertice) {
-			this.vertice = vertice;
+		public Connection(int index) {
+			super(index);
 		}
 
-		int getWeight() {
-			return this.weight;
+		public void addToWeight(int value) {
+			this.intValue += value;
 		}
-
-		void setWeight(int value) {
-			this.weight = value;
+		
+		public void setWeight(int value) {
+			this.intValue = value;
+		}
+		
+		public int getWeight() {
+			return this.intValue;
+		}
+		
+		@Override
+		public int getDistanceToSource() {
+			return getConnection().getDistanceToSource();
 		}
 
 		@Override
-		public Vertice getConnection(int index) {
-			return this.vertice.getConnection(index);
+		public void setDistanceToSource(int distanceToSource) {
+			getConnection().setDistanceToSource(distanceToSource);
 		}
-
-		@Override
-		public Iterable<Vertice> getConnections() {
-			return this.vertice.getConnections();
+		
+		private DijkstraVertice getConnection() {
+			return (DijkstraVertice) getVertice(this.getIndex());
 		}
-
-		@Override
-		public int sizeConnections() {
-			return this.vertice.sizeConnections();
-		}
-
-		@Override
-		public int getIndex() {
-			return this.vertice.getIndex();
-		}
-
-		@Override
-		public int hashCode() {
-			return ((DijkstraVertice) this.vertice).hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof Connection)) {
-				return false;
-			}
-			DijkstraVertice other = (DijkstraVertice) ((Connection) obj).vertice;
-			return ((DijkstraVertice) this.vertice).equals(other);
-		}
-
-		@Override
-		public String toString() {
-			return "[" + (DijkstraVertice)vertice + ", " + weight + "]";
-		}
-
-		public void addWeight(int value) {
-			this.weight += value;
-		}
-
+		
 	}
 
 	private final int sourceIndex;
@@ -118,22 +83,11 @@ public class DijkstraGraph extends ContractionGraph {
 	@Override
 	public void connect(int one, int two) {
 		this.getConnections(getVertice(one)).add(
-				new Connection(getVertice(two)));
+				new Connection(two));
 	}
 
 	@Override
 	protected Vertice getNewVertice(int index) {
 		return new DijkstraVertice(index);
 	}
-
-	
-	public void mergeDijkstra(DijkstraVertice source, Connection connection) {
-		DijkstraVertice vertice = (DijkstraVertice)connection.vertice;
-		vertice.setDistanceToSource(connection.weight);
-		for (Vertice connectionOfConnection : vertice.getConnections())
-			((Connection)connectionOfConnection).addWeight(connection.weight);
-		this.merge(vertice, source);
-	}
-	
-
 }
