@@ -15,6 +15,7 @@ import com.littlewhywhat.algorithms.graphs.io.SizeCounter;
 public class TestDijkstraAlgo {
 	
 	private static final String INPUT_FILE_PATH_SMALL = "src/com/littlewhywhat/algorithms/graphs/dijsktra/test/input/dijkstraDataSmall.txt";
+	private static final String INPUT_FILE_PATH = "src/com/littlewhywhat/algorithms/graphs/dijsktra/test/input/dijkstraData.txt";
 	private GraphReader reader = new GraphReader();
 	private Graph graph = new DijkstraGraph(0);
 	private GraphFiller filler = new DijkstraGraphFiller();
@@ -26,12 +27,15 @@ public class TestDijkstraAlgo {
 		reader.setGraph(graph);
 		reader.setGraphFiller(filler);
 		reader.setSizeCounter(sizeCounter );
-		reader.setInputFilePath(INPUT_FILE_PATH_SMALL);
+		reader.setInputFilePath(INPUT_FILE_PATH);
 	}
 
 	@Test
 	public void test() {
 		reader.read();
+		algo.setData((DijkstraGraph) reader.getData());
+		algo.execute();
+		System.out.println(algo.getOutput().toString());
 	}
 
 }

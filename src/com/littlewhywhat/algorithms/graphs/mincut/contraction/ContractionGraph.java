@@ -81,4 +81,7 @@ public class ContractionGraph extends LinkedGraph {
 		return ((ContractionVertice) super.getVertice(index)).leader();
 	}
 
+	protected Vertice getVerticeSimple(int index) {
+		return super.getVertice(index);
+	}
 }

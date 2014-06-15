@@ -1,5 +1,6 @@
 package com.littlewhywhat.algorithms.graphs.dijsktra;
 
+import com.littlewhywhat.algorithms.graphs.LinkedGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph;
 
@@ -34,6 +35,22 @@ public class DijkstraGraph extends ContractionGraph {
 			return "[" + super.toString() + ", " + intValue + "]";
 		}
 
+		@Override
+		protected boolean leaderEquals(ContractionVertice contractionVertice) {
+			return super.leaderEquals(contractionVertice);
+		}
+
+		@Override
+		protected void setMergedTo(ContractionVertice two) {
+			super.setMergedTo(two);
+		}
+
+		@Override
+		public Vertice getConnection(int index) {
+			return DijkstraGraph.this.getConnections(this).get(index);
+		}
+
+		
 	}
 
 	class Connection extends DijkstraVertice {
@@ -65,12 +82,27 @@ public class DijkstraGraph extends ContractionGraph {
 		}
 		
 		private DijkstraVertice getConnection() {
-			return (DijkstraVertice) getVertice(this.getIndex());
+			return (DijkstraVertice) DijkstraGraph.this.getVertice(this.getIndex());
 		}
-
+ 
+		@Override
+		public Iterable<Vertice> getConnections() {
+			return getConnection().getConnections();
+		}
+		
 		@Override
 		public String toString() {
 			return "Connection to " + getConnection() + " with weight " + intValue;
+		}
+
+		@Override
+		protected boolean leaderEquals(ContractionVertice contractionVertice) {
+			return this.getConnection().leaderEquals(contractionVertice);
+		}
+
+		@Override
+		protected void setMergedTo(ContractionVertice two) {
+			this.getConnection().setMergedTo(two);
 		}
 		
 		
@@ -78,6 +110,8 @@ public class DijkstraGraph extends ContractionGraph {
 
 	private final int sourceIndex;
 
+	
+	
 	public DijkstraGraph(int sourceIndex) {
 		this.sourceIndex = sourceIndex;
 	}
@@ -95,5 +129,30 @@ public class DijkstraGraph extends ContractionGraph {
 	@Override
 	protected Vertice getNewVertice(int index) {
 		return new DijkstraVertice(index);
+	}
+	
+	public void mergeDijkstra() {
+		DijkstraVertice source = this.getSource();
+		Connection connection = getMinConnection();
+		int weight = connection.intValue;
+		connection.setDistanceToSource(weight);
+		for (Vertice vertice : connection.getConnections())
+			((Connection) vertice).addToWeight(weight);
+		merge(connection, source);
+	}
+
+	private Connection getMinConnection() {
+		Connection min = (Connection) this.getSource().getConnection(0);
+		for (Vertice vertice : getSource().getConnections()) {
+			Connection connection = (Connection) vertice;
+			if (min.getWeight() > connection.getWeight())
+				min = connection;
+		}
+		return min;
+	}
+
+	@Override
+	public Vertice getVertice(int index) {
+		return super.getVerticeSimple(index);
 	}
 }
