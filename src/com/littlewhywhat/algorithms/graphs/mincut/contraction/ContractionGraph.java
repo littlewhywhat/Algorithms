@@ -5,7 +5,7 @@ import com.littlewhywhat.algorithms.graphs.Vertice;
 
 public class ContractionGraph extends LinkedGraph {
 
-	class ContractionVertice extends SimpleVertice {
+	public class ContractionVertice extends SimpleVertice {
 
 		public ContractionVertice(int index) {
 			super(index);
@@ -48,7 +48,7 @@ public class ContractionGraph extends LinkedGraph {
 		super(size);
 	}
 
-	void merge(ContractionVertice one, ContractionVertice two) {
+	public void merge(ContractionVertice one, ContractionVertice two) {
 		one.mergedTo = two;
 		clearConnections(two);
 		two.addConnectionsOf(one);
