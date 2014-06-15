@@ -67,6 +67,12 @@ public class DijkstraGraph extends ContractionGraph {
 		private DijkstraVertice getConnection() {
 			return (DijkstraVertice) getVertice(this.getIndex());
 		}
+
+		@Override
+		public String toString() {
+			return "Connection to " + getConnection() + " with weight " + intValue;
+		}
+		
 		
 	}
 

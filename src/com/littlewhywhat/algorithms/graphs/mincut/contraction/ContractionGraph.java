@@ -31,11 +31,17 @@ public class ContractionGraph extends LinkedGraph {
 		}
 
 		private void addConnectionsOf(ContractionVertice one) {
-			for (Vertice vertice : one.getConnections()) {
-				vertice = ((ContractionVertice) vertice).leader();
-				if (!vertice.equals(this))
+			for (Vertice vertice : one.getConnections())
+				if (!((ContractionVertice) vertice).leaderEquals(this))
 					ContractionGraph.this.getConnections(this).addLast(vertice);
-			}
+		}
+
+		protected boolean leaderEquals(ContractionVertice contractionVertice) {
+			return ((ContractionVertice) this).leader().equals(contractionVertice);
+		}
+
+		protected void setMergedTo(ContractionVertice two) {
+			this.mergedTo = two;
 		};
 
 	}
@@ -49,7 +55,7 @@ public class ContractionGraph extends LinkedGraph {
 	}
 
 	public void merge(ContractionVertice one, ContractionVertice two) {
-		one.mergedTo = two;
+		one.setMergedTo(two);
 		clearConnections(two);
 		two.addConnectionsOf(one);
 		this.getConnections(one).clear();
@@ -60,8 +66,7 @@ public class ContractionGraph extends LinkedGraph {
 		for (int i = 0; i < size; i++) {
 			ContractionVertice connection = (ContractionVertice) this
 					.getConnections(vertice).pollFirst();
-			connection = connection.leader();
-			if (!connection.equals(vertice))
+			if (!connection.leaderEquals(vertice))
 				this.getConnections(vertice).addLast(connection);
 		}
 	}
