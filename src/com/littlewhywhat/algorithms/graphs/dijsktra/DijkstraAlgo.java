@@ -12,11 +12,9 @@ public class DijkstraAlgo extends AbstractAlgorithm<Void, DijkstraGraph, int[]> 
 		while(source.sizeConnections() != 0) {
 			graph.mergeDijkstra();
 		}
-		int[] output = new int[10];
-		int[] outputIndices = new int[] { 6, 36, 58, 81, 98, 114, 132, 164, 187, 196};
-		
-		for (int i = 0; i < outputIndices.length; i++) {
-			output[i] = ((DijkstraVertice)graph.getVertice(outputIndices[i])).getDistanceToSource();
+		int[] output = new int[graph.size()];
+		for (int i = 0; i < output.length; i++) {
+			output[i] = ((DijkstraVertice)graph.getVertice(i)).getDistanceToSource();
 		}
 		setOutput(output);
 	}
