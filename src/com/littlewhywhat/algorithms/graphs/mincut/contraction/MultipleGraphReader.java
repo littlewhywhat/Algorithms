@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.io.AbstractGraphFiller;
 import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
 import com.littlewhywhat.algorithms.graphs.io.GraphReader;
 import com.littlewhywhat.algorithms.graphs.io.SimpleSizeCounter;
@@ -13,7 +14,7 @@ public class MultipleGraphReader {
 	private final ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 	private final GraphReader reader = new GraphReader();
 	private final SizeCounter sizeCounter = new SimpleSizeCounter();
-	private final GraphFiller filler = new GraphFiller() {
+	private final GraphFiller filler = new AbstractGraphFiller() {
 
 		@Override
 		public void fill(Graph graph, Scanner scanner) {
@@ -21,7 +22,7 @@ public class MultipleGraphReader {
 				Scanner line = new Scanner(scanner.nextLine());
 				ArrayList<Integer> connections = new ArrayList<Integer>();
 				while (line.hasNext())
-					connections.add(line.nextInt() - 1);
+					connections.add(convertVerticeIndex(line.nextInt()));
 				line.close();
 				list.add(connections);
 			}
