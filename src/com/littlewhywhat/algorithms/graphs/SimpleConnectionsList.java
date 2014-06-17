@@ -3,7 +3,7 @@ package com.littlewhywhat.algorithms.graphs;
 import java.util.Iterator;
 import java.util.List;
 
-class SimpleConnectionsList implements ConnectionsList {
+public class SimpleConnectionsList implements ConnectionsList {
 
 	private final List<Vertice> list;
 	
