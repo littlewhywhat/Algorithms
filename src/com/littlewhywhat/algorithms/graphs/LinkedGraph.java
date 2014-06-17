@@ -14,7 +14,7 @@ public class LinkedGraph extends AbstractListGraph {
 	}
 
 	@Override
-	protected List<Vertice> getNewConnectionsList() {
+	protected List<Vertice> getNewList() {
 		return new LinkedList<Vertice>();
 	}
 
