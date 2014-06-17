@@ -4,14 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.littlewhywhat.algorithms.Algorithm;
 import com.littlewhywhat.algorithms.graphs.Graph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraAlgo;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph;
-import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraphFiller;
-import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
-import com.littlewhywhat.algorithms.graphs.io.GraphReader;
-import com.littlewhywhat.algorithms.graphs.io.SimpleSizeCounter;
-import com.littlewhywhat.algorithms.graphs.io.SizeCounter;
+import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraphReader;
+import com.littlewhywhat.algorithms.io.txt.FileInputReader;
 
 public class TestDijkstraAlgo {
 
@@ -21,20 +19,14 @@ public class TestDijkstraAlgo {
 	private static final int[] ANSWERS_BIG = new int[] { 2599, 2610, 2947,
 			2052, 2367, 2399, 2029, 2442, 2505, 3068 };
 	private static final int[] ANSWERS_SMALL = new int[] { 0, 7, 7, 5 };
-	private GraphReader reader = new GraphReader();
-	private Graph graph = new DijkstraGraph(0);
-	private GraphFiller filler = new DijkstraGraphFiller();
-	private SizeCounter sizeCounter = new SimpleSizeCounter();
-	private DijkstraAlgo algo = new DijkstraAlgo();
+	private FileInputReader<Void, Graph> reader = new DijkstraGraphReader(0);
+	private Algorithm<Void, DijkstraGraph, int[]> algo = new DijkstraAlgo();
 
 	private int[] indices = new int[] { 6, 36, 58, 81, 98, 114, 132, 164, 187,
 			196 };
 
 	@Before
 	public void setUp() throws Exception {
-		reader.setGraph(graph);
-		reader.setGraphFiller(filler);
-		reader.setSizeCounter(sizeCounter);
 		reader.setInputFilePath(INPUT_FILE_PATH);
 	}
 
