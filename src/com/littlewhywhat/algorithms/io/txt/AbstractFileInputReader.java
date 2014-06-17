@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.littlewhywhat.algorithms.io.AbstractInputReader;
 
-public abstract class FileInputReader<ConfigType, DataType> extends AbstractInputReader<ConfigType, DataType> {
+public abstract class AbstractFileInputReader<ConfigType, DataType> extends AbstractInputReader<ConfigType, DataType> {
 
 	private String inputFilePath;
 

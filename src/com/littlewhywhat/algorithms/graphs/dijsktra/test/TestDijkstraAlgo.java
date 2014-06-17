@@ -9,7 +9,7 @@ import com.littlewhywhat.algorithms.graphs.Graph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraAlgo;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraphReader;
-import com.littlewhywhat.algorithms.io.txt.FileInputReader;
+import com.littlewhywhat.algorithms.io.txt.AbstractFileInputReader;
 
 public class TestDijkstraAlgo {
 
@@ -19,7 +19,7 @@ public class TestDijkstraAlgo {
 	private static final int[] ANSWERS_BIG = new int[] { 2599, 2610, 2947,
 			2052, 2367, 2399, 2029, 2442, 2505, 3068 };
 	private static final int[] ANSWERS_SMALL = new int[] { 0, 7, 7, 5 };
-	private FileInputReader<Void, Graph> reader = new DijkstraGraphReader(0);
+	private AbstractFileInputReader<Void, Graph> reader = new DijkstraGraphReader(0);
 	private Algorithm<Void, DijkstraGraph, int[]> algo = new DijkstraAlgo();
 
 	private int[] indices = new int[] { 6, 36, 58, 81, 98, 114, 132, 164, 187,

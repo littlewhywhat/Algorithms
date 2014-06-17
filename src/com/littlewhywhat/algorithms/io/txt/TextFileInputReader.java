@@ -6,7 +6,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class TextFileInputReader<ConfigData, DataType> extends
-		FileInputReader<ConfigData, DataType> {
+		AbstractFileInputReader<ConfigData, DataType> {
 
 	@Override
 	public void readFile(File file) {

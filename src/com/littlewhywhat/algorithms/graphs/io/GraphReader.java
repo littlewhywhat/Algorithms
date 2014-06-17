@@ -6,9 +6,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
-import com.littlewhywhat.algorithms.io.txt.FileInputReader;
+import com.littlewhywhat.algorithms.io.txt.AbstractFileInputReader;
 
-public class GraphReader extends FileInputReader<Void, Graph> {
+public class GraphReader extends AbstractFileInputReader<Void, Graph> {
 
 	private SizeCounter sizeCounter;
 	private GraphFiller filler;
