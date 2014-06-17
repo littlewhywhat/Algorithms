@@ -9,7 +9,7 @@ public class DijkstraAlgo extends AbstractAlgorithm<Void, DijkstraGraph, int[]> 
 	public void execute() {
 		DijkstraGraph graph = getData();
 		DijkstraVertice source = graph.getSource();
-		while(source.sizeConnections() != 0) {
+		while(source.getConnections().size() != 0) {
 			graph.mergeDijkstra();
 		}
 		setOutput();
