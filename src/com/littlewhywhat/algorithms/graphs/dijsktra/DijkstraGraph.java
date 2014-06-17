@@ -3,24 +3,24 @@ package com.littlewhywhat.algorithms.graphs.dijsktra;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph;
 
-public class DijkstraGraph extends ContractionGraph {
-	public class DijkstraVertice extends ContractionVertice {
+class DijkstraGraph extends ContractionGraph {
+	class DijkstraVertice extends ContractionVertice {
 
 		protected int intValue;
 
-		public DijkstraVertice(int index) {
+		DijkstraVertice(int index) {
 			super(index);
 		}
 
-		public int getDistanceToSource() {
+		int getDistanceToSource() {
 			return intValue;
 		}
 
-		public void setDistanceToSource(int distanceToSource) {
+		void setDistanceToSource(int distanceToSource) {
 			this.intValue = distanceToSource;
 		}
 
-		public Connection getConnectionByIndex(int index) {
+		Connection getConnectionByIndex(int index) {
 			for (Vertice vertice : this.getConnections()) {
 				Connection connection = (Connection) vertice;
 				if (connection.getIndex() == index)
@@ -54,19 +54,19 @@ public class DijkstraGraph extends ContractionGraph {
 
 	class Connection extends DijkstraVertice {
 
-		public Connection(int index) {
+		Connection(int index) {
 			super(index);
 		}
 
-		public void addToWeight(int value) {
+		void addToWeight(int value) {
 			this.intValue += value;
 		}
 		
-		public void setWeight(int value) {
+		void setWeight(int value) {
 			this.intValue = value;
 		}
 		
-		public int getWeight() {
+		int getWeight() {
 			return this.intValue;
 		}
 		
@@ -111,11 +111,11 @@ public class DijkstraGraph extends ContractionGraph {
 
 	
 	
-	public DijkstraGraph(int sourceIndex) {
+	DijkstraGraph(int sourceIndex) {
 		this.sourceIndex = sourceIndex;
 	}
 
-	public DijkstraVertice getSource() {
+	DijkstraVertice getSource() {
 		return (DijkstraVertice) this.getVertice(sourceIndex);
 	}
 
@@ -130,7 +130,7 @@ public class DijkstraGraph extends ContractionGraph {
 		return new DijkstraVertice(index);
 	}
 	
-	public void mergeDijkstra() {
+	void mergeDijkstra() {
 		DijkstraVertice source = this.getSource();
 		Connection connection = getMinConnection();
 		int weight = connection.intValue;
