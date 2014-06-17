@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class AbstractListGraph implements Graph {
 
-	private static class ConnectionsIterable implements Iterable<Vertice> {
+	private class ConnectionsIterable implements Iterable<Vertice> {
 		private Iterable<Vertice> connections;
 
 		@Override
@@ -14,16 +14,16 @@ public abstract class AbstractListGraph implements Graph {
 			return this.connections.iterator();
 		}
 
-		protected void setConnections(Iterable<Vertice> connections) {
+		public ConnectionsIterable(Iterable<Vertice> connections) {
 			this.connections = connections;
 		}
 	}
 
-	private static final ConnectionsIterable iterable = new ConnectionsIterable();
-
 	public class SimpleVertice implements Vertice {
 
 		protected final List<Vertice> connections = getNewConnectionsList();
+		private final ConnectionsIterable iterable = new ConnectionsIterable(
+				connections);
 		private final int index;
 
 		public SimpleVertice(int index) {
@@ -37,7 +37,6 @@ public abstract class AbstractListGraph implements Graph {
 
 		@Override
 		public Iterable<Vertice> getConnections() {
-			iterable.setConnections(this.connections);
 			return iterable;
 		}
 
@@ -83,8 +82,9 @@ public abstract class AbstractListGraph implements Graph {
 
 	private final List<Vertice> vertices = new ArrayList<Vertice>();
 
-	public AbstractListGraph() { }
-	
+	public AbstractListGraph() {
+	}
+
 	public AbstractListGraph(int size) {
 		this.setSize(size);
 	}
