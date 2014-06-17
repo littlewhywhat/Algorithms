@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class ConnectionsList implements Iterable<Vertice>, Collection<Vertice> {
+public class SimpleConnectionsList implements Iterable<Vertice>, Collection<Vertice> {
 
 	private final List<Vertice> list;
 	
-	public ConnectionsList(List<Vertice> list) {
+	public SimpleConnectionsList(List<Vertice> list) {
 		this.list = list;
 	}
 	
