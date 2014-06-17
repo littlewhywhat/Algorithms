@@ -8,9 +8,8 @@ public abstract class AbstractListGraph implements Graph {
 
 	public class SimpleVertice implements Vertice {
 
-		protected final List<Vertice> connections = getNewConnectionsList();
-		private final ConnectionsList connectionsList = new SimpleConnectionsList(
-				connections);
+		protected final List<Vertice> connections = getNewList();
+		private final ConnectionsList connectionsList = getNewConnectionsList(connections);
 		private final int index;
 
 		public SimpleVertice(int index) {
@@ -78,8 +77,10 @@ public abstract class AbstractListGraph implements Graph {
 		return new SimpleVertice(index);
 	}
 
-	protected abstract List<Vertice> getNewConnectionsList();
-
+	protected abstract List<Vertice> getNewList();
+	protected ConnectionsList getNewConnectionsList(List<Vertice> list) {
+		return new SimpleConnectionsList(list);
+	}
 	protected List<Vertice> getConnections(Vertice vertice) {
 		return ((SimpleVertice) vertice).connections;
 	}
