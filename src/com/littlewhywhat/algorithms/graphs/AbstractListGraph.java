@@ -6,23 +6,10 @@ import java.util.List;
 
 public abstract class AbstractListGraph implements Graph {
 
-	private class ConnectionsIterable implements Iterable<Vertice> {
-		private Iterable<Vertice> connections;
-
-		@Override
-		public Iterator<Vertice> iterator() {
-			return this.connections.iterator();
-		}
-
-		public ConnectionsIterable(Iterable<Vertice> connections) {
-			this.connections = connections;
-		}
-	}
-
 	public class SimpleVertice implements Vertice {
 
 		protected final List<Vertice> connections = getNewConnectionsList();
-		private final ConnectionsIterable iterable = new ConnectionsIterable(
+		private final ConnectionsList connectionsList = new SimpleConnectionsList(
 				connections);
 		private final int index;
 
@@ -31,18 +18,8 @@ public abstract class AbstractListGraph implements Graph {
 		}
 
 		@Override
-		public Vertice getConnection(int index) {
-			return connections.get(index);
-		}
-
-		@Override
-		public Iterable<Vertice> getConnections() {
-			return iterable;
-		}
-
-		@Override
-		public int sizeConnections() {
-			return this.connections.size();
+		public ConnectionsList getConnections() {
+			return connectionsList;
 		}
 
 		@Override
