@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.littlewhywhat.algorithms.Algorithm;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.MultipleGraphReader;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.RandomContraction;
@@ -20,7 +21,7 @@ public class TestRandomContraction {
 			+ "smallGraphOne.txt";
 	private static final String INPUT_FILE_PATH_SMALL_TWO = FOLDER
 			+ "smallGraphTwo.txt";
-	private RandomContraction randomContraction;
+	private Algorithm<Void, ContractionGraph, Integer> randomContraction;
 	private MultipleGraphReader reader;
 
 	@Before
