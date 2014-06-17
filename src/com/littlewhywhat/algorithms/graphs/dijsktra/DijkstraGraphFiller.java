@@ -9,7 +9,7 @@ import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph.Connection;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph.DijkstraVertice;
 import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
 
-public class DijkstraGraphFiller implements GraphFiller {
+class DijkstraGraphFiller implements GraphFiller {
 
 	private class ConnectionInfo {
 		private int connectionIndex;
