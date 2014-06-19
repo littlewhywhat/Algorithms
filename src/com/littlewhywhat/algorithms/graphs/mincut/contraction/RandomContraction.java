@@ -20,12 +20,12 @@ public class RandomContraction extends
 			ContractionVertice randomEnd = getRandomConnection(randomStart);
 			graph.merge(randomStart, randomEnd);
 		}
-		setOutput(graph.getVertice(0).sizeConnections());
+		setOutput(graph.getVertice(0).getConnections().size());
 	}
 
 	private ContractionVertice getRandomConnection(Vertice vertice) {
-		return (ContractionVertice) vertice.getConnection(random
-				.nextInt(vertice.sizeConnections()));
+		return (ContractionVertice) vertice.getConnections().get(random
+				.nextInt(vertice.getConnections().size()));
 	}
 
 	private ContractionVertice getRandomVertice() {
