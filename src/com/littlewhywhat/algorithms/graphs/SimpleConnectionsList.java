@@ -7,7 +7,7 @@ public class SimpleConnectionsList implements ConnectionsList {
 
 	private final List<Vertice> list;
 	
-	SimpleConnectionsList(List<Vertice> list) {
+	public SimpleConnectionsList(List<Vertice> list) {
 		this.list = list;
 	}
 
