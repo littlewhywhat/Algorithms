@@ -1,9 +1,14 @@
 package com.littlewhywhat.algorithms.graphs.dijsktra;
 
+import java.util.List;
+
+import com.littlewhywhat.algorithms.graphs.ConnectionsList;
+import com.littlewhywhat.algorithms.graphs.SimpleConnectionsList;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.mincut.contraction.ContractionGraph;
 
 public class DijkstraGraph extends ContractionGraph {
+	
 	class DijkstraVertice extends ContractionVertice {
 
 		protected int intValue;
@@ -44,12 +49,6 @@ public class DijkstraGraph extends ContractionGraph {
 			super.setMergedTo(two);
 		}
 
-		@Override
-		public Vertice getConnection(int index) {
-			return DijkstraGraph.this.getConnections(this).get(index);
-		}
-
-		
 	}
 
 	class Connection extends DijkstraVertice {
@@ -85,7 +84,7 @@ public class DijkstraGraph extends ContractionGraph {
 		}
  
 		@Override
-		public Iterable<Vertice> getConnections() {
+		public ConnectionsList getConnections() {
 			return getConnection().getConnections();
 		}
 		
@@ -109,8 +108,6 @@ public class DijkstraGraph extends ContractionGraph {
 
 	private final int sourceIndex;
 
-	
-	
 	DijkstraGraph(int sourceIndex) {
 		this.sourceIndex = sourceIndex;
 	}
@@ -141,7 +138,7 @@ public class DijkstraGraph extends ContractionGraph {
 	}
 
 	private Connection getMinConnection() {
-		Connection min = (Connection) this.getSource().getConnection(0);
+		Connection min = (Connection) this.getSource().getConnections().get(0);
 		for (Vertice vertice : getSource().getConnections()) {
 			Connection connection = (Connection) vertice;
 			if (min.getWeight() > connection.getWeight())
@@ -154,4 +151,11 @@ public class DijkstraGraph extends ContractionGraph {
 	public Vertice getVertice(int index) {
 		return super.getVerticeSimple(index);
 	}
+
+	@Override
+	protected ConnectionsList getNewConnectionsList(List<Vertice> list) {
+		return new SimpleConnectionsList(list);
+	}
+	
+	
 }
