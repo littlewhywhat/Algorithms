@@ -1,6 +1,10 @@
 package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 
+import java.util.List;
+
+import com.littlewhywhat.algorithms.graphs.ConnectionsList;
 import com.littlewhywhat.algorithms.graphs.LinkedGraph;
+import com.littlewhywhat.algorithms.graphs.SimpleConnectionsList;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
 public class ContractionGraph extends LinkedGraph {
@@ -25,11 +29,6 @@ public class ContractionGraph extends LinkedGraph {
 			return "[" + super.toString() + ">" + leader().getIndex() + "]";
 		}
 
-		@Override
-		public Vertice getConnection(int index) {
-			return ((ContractionVertice) super.getConnection(index)).leader();
-		}
-
 		private void addConnectionsOf(ContractionVertice one) {
 			for (Vertice vertice : one.getConnections())
 				if (!((ContractionVertice) vertice).leaderEquals(this))
@@ -46,6 +45,19 @@ public class ContractionGraph extends LinkedGraph {
 
 	}
 
+	class ContractionConnections extends SimpleConnectionsList {
+
+		ContractionConnections(List<Vertice> list) {
+			super(list);
+		}
+
+		@Override
+		public Vertice get(int index) {
+			return ((ContractionVertice)super.get(index)).leader();
+		}
+		
+	}
+	
 	public ContractionGraph() {
 		super();
 	}
@@ -62,7 +74,7 @@ public class ContractionGraph extends LinkedGraph {
 	}
 
 	private void clearConnections(ContractionVertice vertice) {
-		int size = vertice.sizeConnections();
+		int size = vertice.getConnections().size();
 		for (int i = 0; i < size; i++) {
 			ContractionVertice connection = (ContractionVertice) this
 					.getConnections(vertice).pollFirst();
@@ -83,5 +95,10 @@ public class ContractionGraph extends LinkedGraph {
 
 	protected Vertice getVerticeSimple(int index) {
 		return super.getVertice(index);
+	}
+	
+	@Override
+	protected ConnectionsList getNewConnectionsList(List<Vertice> list) {
+		return new ContractionConnections(list);
 	}
 }
