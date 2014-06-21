@@ -18,14 +18,13 @@ public class MMAlgo extends AbstractAlgorithm<Void, int[], Integer> {
 		};
 		private final Heap<Integer> heapMax = SimpleHeap.getMaxHeap(comparator);
 		private final Heap<Integer> heapMin = SimpleHeap.getMinHeap(comparator);
-		private int median;
 
 		private MedianMaintenance(int initMedian) {
-			this.median = initMedian;
+			this.heapMax.insert(initMedian);
 		}
 
 		private int getMedian() {
-			return this.median;
+			return this.heapMax.peek();
 		}
 
 		private int getSizeDiff() {
@@ -33,31 +32,40 @@ public class MMAlgo extends AbstractAlgorithm<Void, int[], Integer> {
 		}
 
 		private boolean heapMaxOverflow() {
-			return getSizeDiff() < 0;
+			return getSizeDiff() < -1;
 		}
 
 		private boolean heapMinOverflow() {
-			return getSizeDiff() > 1;
+			return getSizeDiff() > 0;
 		}
 
 		private void insert(int item) {
-			if (item > this.median)
-				heapMin.insert(item);
+			if (item > getMedian())
+				insertInHeapMin(item);
 			else
-				heapMax.insert(item);
+				insertInHeapMax(item);
 			this.stable();
+		}
+
+		private void insertInHeapMax(int item) {
+			int median = this.heapMax.poll();
+			heapMax.insert(item);
+			heapMax.insert(median);
+		}
+
+		private void insertInHeapMin(int item) {
+			heapMin.insert(item);
 		}
 
 		private void stable() {
 			if (heapMaxOverflow()) {
-				stable(heapMin, heapMax);
-			} else if (heapMinOverflow())
 				stable(heapMax, heapMin);
+			} else if (heapMinOverflow())
+				stable(heapMin, heapMax);
 		}
 
-		private void stable(Heap<Integer> underflow, Heap<Integer> overflow) {
-			underflow.insert(this.median);
-			this.median = overflow.poll();
+		private void stable(Heap<Integer> overflow, Heap<Integer> underflow) {
+			underflow.insert(overflow.poll());
 		}
 	}
 
