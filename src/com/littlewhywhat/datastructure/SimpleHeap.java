@@ -57,7 +57,6 @@ public class SimpleHeap<T> implements Heap<T> {
 		int itemIndex = items.size();
 		items.add(item);
 		bubbleUp(itemIndex);
-		System.out.println(this);
 	}
 
 	private boolean isInHeapCondition(int child) {
@@ -120,10 +119,8 @@ public class SimpleHeap<T> implements Heap<T> {
 	private void removeAt(int itemIndex) {
 		int lastIndex = this.items.size() - 1;
 		swap(itemIndex, lastIndex);
-		System.out.println("after swap" + this);
 		this.items.remove(lastIndex);
 		pushDown(itemIndex);
-		System.out.println("after push" + this);
 	}
 
 	@Override
