@@ -23,12 +23,12 @@ public class TestMMAlgo {
 	}
 
 	@Test
-	public void testBig() {
+	public void testSmall() {
 		test(INPUT_SMALL, 0);
 	}
 
 	@Test
-	public void testSmall() {
+	public void testBig() {
 		test(INPUT_BIG, 0);
 	}
 
