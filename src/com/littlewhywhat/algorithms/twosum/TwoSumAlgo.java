@@ -1,37 +1,48 @@
 package com.littlewhywhat.algorithms.twosum;
 
 import java.util.HashSet;
+import java.util.List;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 
-public class TwoSumAlgo extends AbstractAlgorithm<TwoSumConfig, int[], Integer> {
+public class TwoSumAlgo extends
+		AbstractAlgorithm<TwoSumConfig, List<Long>, Integer> {
 
-	private final HashSet<Integer> hashSet = new HashSet<Integer>();
+	private final HashSet<Long> hashSet = new HashSet<Long>();
+	private final HashSet<Integer> resultsSet = new HashSet<Integer>();
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
 		initHashSet();
-		int count = 0;
+		System.out.println();
 		final int upperBound = getConfig().getUpperBound();
 		final int lowerBound = getConfig().getLowerBound();
-		for (int integer : getData()) {
-			if (hashSet.contains(integer)) {
-				hashSet.remove(integer);
-				int result;
-				for (int inBorders = lowerBound; inBorders <= upperBound; inBorders++) {
-					result = inBorders - integer;
-					if (hashSet.contains(result) && !hashSet.contains(integer))
-						count++;
-				}
+		for (long longInteger : getData()) {
+			hashSet.remove(longInteger);
+			long lowerResultBound = lowerBound - longInteger;
+			long upperResultBound = upperBound - longInteger;
+			for (long result = lowerResultBound; result <= upperResultBound; result++) {
+				if (hashSet.contains(result))
+					resultsSet.add((int) (result + longInteger));
 			}
 		}
-		setOutput(count);
+		System.out.println(resultsSet.size());
+		setOutput(resultsSet.size());
 	}
 
 	private void initHashSet() {
-		for (int integer : getData())
-			hashSet.add(integer);
+		int size = getData().size();
+		for (int i = 0; i < size; i++) {
+			Long longInteger = getData().get(i);
+			if (!hashSet.contains(longInteger))
+				hashSet.add(longInteger);
+			else {
+				getData().remove(i);
+				i--;
+				size--;
+			}
+		}
 	}
 
 }
