@@ -8,4 +8,5 @@ public interface Heap<T> {
 	void remove(T item);
 	T poll();
 	T peek();
+	int size();
 }
