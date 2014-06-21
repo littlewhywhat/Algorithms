@@ -8,12 +8,15 @@ public class SimpleHeap<T> implements Heap<T> {
 
 	private static final boolean MAX_HEAP_CODE = true;
 	private static final boolean MIN_HEAP_CODE = false;
+
 	public static <B> SimpleHeap<B> getMaxHeap(Comparator<B> comparator) {
 		return new SimpleHeap<B>(comparator, MAX_HEAP_CODE);
 	}
+
 	public static <B> SimpleHeap<B> getMinHeap(Comparator<B> comparator) {
 		return new SimpleHeap<B>(comparator, MIN_HEAP_CODE);
 	}
+
 	private Comparator<T> comparator;
 
 	private boolean isMax;
@@ -138,6 +141,7 @@ public class SimpleHeap<T> implements Heap<T> {
 	public String toString() {
 		return this.items.toString();
 	}
+
 	@Override
 	public int size() {
 		return this.items.size();
