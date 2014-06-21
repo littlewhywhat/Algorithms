@@ -138,5 +138,9 @@ public class SimpleHeap<T> implements Heap<T> {
 	public String toString() {
 		return this.items.toString();
 	}
+	@Override
+	public int size() {
+		return this.items.size();
+	}
 
 }
