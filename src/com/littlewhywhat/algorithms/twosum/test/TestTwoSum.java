@@ -1,21 +1,23 @@
 package com.littlewhywhat.algorithms.twosum.test;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 import com.littlewhywhat.algorithms.io.txt.FileInputReader;
-import com.littlewhywhat.algorithms.sort.SortingReader;
 import com.littlewhywhat.algorithms.twosum.TwoSumAlgo;
 import com.littlewhywhat.algorithms.twosum.TwoSumConfig;
+import com.littlewhywhat.algorithms.twosum.TwoSumReader;
 
 public class TestTwoSum {
 
 	private static final String FOLDER = "src/com/littlewhywhat/algorithms/twosum/test/input/";
 	private static final String INPUT_SMALL = FOLDER + "2sumSmall.txt";
 	private static final String INPUT_BIG = FOLDER + "2sum.txt";
-	private final AbstractAlgorithm<TwoSumConfig, int[], Integer> algo = new TwoSumAlgo();
-	private final FileInputReader<Void, int[]> reader = new SortingReader();
+	private final AbstractAlgorithm<TwoSumConfig, List<Long>, Integer> algo = new TwoSumAlgo();
+	private final FileInputReader<Void, List<Long>> reader = new TwoSumReader();
 	
 	@Before
 	public void setUp() throws Exception {
