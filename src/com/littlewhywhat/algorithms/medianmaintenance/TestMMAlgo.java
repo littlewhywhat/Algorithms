@@ -10,22 +10,34 @@ import com.littlewhywhat.algorithms.sort.SortingReader;
 
 public class TestMMAlgo {
 
-	private final String FOLDER = "src/com/littlewhywhat/algorithms/medianmaintenance/test/input/";
-	private final String INPUT_BIG = FOLDER + "Median.txt";
-	private final FileInputReader<Void, int[]> reader = new SortingReader();
-	private final Algorithm<Void, int[], Integer> algo = new MMAlgo();
+	private static final String FOLDER = "src/com/littlewhywhat/algorithms/medianmaintenance/test/input/";
+	private static final String INPUT_BIG = FOLDER + "Median.txt";
+	private static final String INPUT_SMALL = FOLDER + "MedianSmall.txt";
+	private FileInputReader<Void, int[]> reader;
+	private Algorithm<Void, int[], Integer> algo;
 
 	@Before
 	public void setUp() throws Exception {
+		reader = new SortingReader();
+		algo = new MMAlgo();
 	}
 
 	@Test
-	public void test() {
-		reader.setInputFilePath(INPUT_BIG);
+	public void testBig() {
+		test(INPUT_SMALL, 0);
+	}
+
+	@Test
+	public void testSmall() {
+		test(INPUT_BIG, 0);
+	}
+
+	public void test(String inputFilePath, int answer) {
+		reader.setInputFilePath(inputFilePath);
 		reader.read();
 		algo.setData(reader.getData());
 		algo.execute();
-		Assert.assertEquals(null, algo.getOutput());
+		Assert.assertEquals(answer, algo.getOutput().intValue());
 	}
 
 }
