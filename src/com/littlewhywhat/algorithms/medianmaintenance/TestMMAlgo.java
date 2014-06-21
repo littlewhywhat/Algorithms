@@ -13,6 +13,8 @@ public class TestMMAlgo {
 	private static final String FOLDER = "src/com/littlewhywhat/algorithms/medianmaintenance/test/input/";
 	private static final String INPUT_BIG = FOLDER + "Median.txt";
 	private static final String INPUT_SMALL = FOLDER + "MedianSmall.txt";
+	private static final int ANSWER_BIG = 1213;
+	private static final int ANSWER_SMALL = 30;
 	private FileInputReader<Void, int[]> reader;
 	private Algorithm<Void, int[], Integer> algo;
 
@@ -24,12 +26,12 @@ public class TestMMAlgo {
 
 	@Test
 	public void testSmall() {
-		test(INPUT_SMALL, 0);
+		test(INPUT_SMALL, ANSWER_SMALL);
 	}
 
 	@Test
 	public void testBig() {
-		test(INPUT_BIG, 0);
+		test(INPUT_BIG, ANSWER_BIG);
 	}
 
 	public void test(String inputFilePath, int answer) {
