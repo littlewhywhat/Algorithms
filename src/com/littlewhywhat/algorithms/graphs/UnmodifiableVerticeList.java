@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class UnmodifiableVerticeList implements List<Vertice> {
+class UnmodifiableVerticeList implements List<Vertice> {
 
-	private List<Vertice> list;
-	
-	public UnmodifiableVerticeList(List<Vertice> list) {
+	private final List<Vertice> list;
+
+	UnmodifiableVerticeList(List<Vertice> list) {
 		this.list = list;
 	}
-	
+
 	@Override
 	public boolean add(Vertice arg0) {
 		return false;
