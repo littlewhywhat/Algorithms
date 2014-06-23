@@ -1,7 +1,7 @@
 package com.littlewhywhat.algorithms.graphs;
 
-import java.util.List;
+import java.util.Map;
 
-public interface Graph extends List<Vertice> {
+public interface Graph extends Map<Integer, Vertice> {
 	void connect(int one, int two);
 }
