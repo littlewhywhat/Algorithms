@@ -1,30 +1,32 @@
 package com.littlewhywhat.algorithms.graphs.csc;
 
-import com.littlewhywhat.algorithms.graphs.Vertice;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
+import java.util.Collection;
+import java.util.LinkedList;
 
-public class ReversibleGraph extends SearchGraph {
+import com.littlewhywhat.algorithms.graphs.SimpleGraph;
+import com.littlewhywhat.algorithms.graphs.Vertice;
+
+public class ReversibleGraph extends SimpleGraph {
 
 	public ReversibleGraph() {
 		super();
 	}
 
-	public ReversibleGraph(int size) {
-		super(size);
-	}
-
 	public void reverse() {
 		Vertice border = getNewVertice(this.size());
-		for (Vertice vertice : this) {
-			this.getConnections(vertice).addLast(border);
+		Collection<Vertice> vertices = getVertices().values();
+		for (Vertice vertice : vertices) {
+			getLinkedConnections(vertice).addLast(border);
 		}
-		for (Vertice vertice : this) {
-
-			while (this.getConnections(vertice).peekFirst() != border) {
-				Vertice connection = this.getConnections(vertice).pollFirst();
-				this.getConnections(connection).addLast(vertice);
+		LinkedList<Vertice> connections;
+		for (Vertice vertice : vertices) {
+			connections = getLinkedConnections(vertice);
+			Vertice connection;
+			while (connections.peekFirst() != border) {
+				connection = connections.pollFirst();
+				getLinkedConnections(connection).addLast(vertice);
 			}
-			this.getConnections(vertice).pollFirst();
+			connections.pollFirst();
 		}
 	}
 }
