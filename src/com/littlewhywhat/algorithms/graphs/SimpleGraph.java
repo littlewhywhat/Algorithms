@@ -59,6 +59,10 @@ public class SimpleGraph implements Graph {
 		vertices = new HashMap<Integer, Vertice>();
 	}
 
+	protected HashMap<Integer, Vertice> getVertices() {
+		return vertices;
+	}
+	
 	protected Vertice getNewVertice(int index) {
 		return new SimpleVertice(index);
 	}
