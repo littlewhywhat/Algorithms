@@ -68,7 +68,15 @@ public class SimpleGraph implements Graph {
 	}
 
 	public List<Vertice> getConnections(Vertice vertice) {
+		return getUnmodifiableConnections(vertice);
+	}
+	
+	private UnmodifiableVerticeList getUnmodifiableConnections(Vertice vertice) {
 		return ((SimpleVertice) vertice).connections;
+	}
+	
+	protected LinkedList<Vertice> getLinkedConnections(Vertice vertice) {
+		return (LinkedList<Vertice>) getUnmodifiableConnections(vertice).getList();
 	}
 
 	@Override
