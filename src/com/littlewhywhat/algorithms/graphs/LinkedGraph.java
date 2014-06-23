@@ -3,7 +3,7 @@ package com.littlewhywhat.algorithms.graphs;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LinkedGraph extends AbstractListGraph {
+public class LinkedGraph extends SimpleGraph {
 
 	public LinkedGraph() {
 		super();
