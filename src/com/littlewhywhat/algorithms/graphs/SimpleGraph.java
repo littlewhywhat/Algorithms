@@ -146,7 +146,7 @@ public class SimpleGraph implements Graph {
 
 	@Override
 	public Collection<Vertice> values() {
-		throw new UnsupportedOperationException();
+		return vertices.values();
 	}
 
 }
