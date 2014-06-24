@@ -14,7 +14,7 @@ public class DepthFirstSearch extends
 	@Override
 	public void execute() {
 		SearchGraph graph = getData();
-		for (Vertice vertice : graph) {
+		for (Vertice vertice : graph.values()) {
 			SearchVertice startVertice = (SearchVertice) vertice;
 			if (!startVertice.isExplored()) {
 				addToStack(startVertice);
@@ -31,7 +31,7 @@ public class DepthFirstSearch extends
 	}
 	
 	protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
-			for (Vertice connection : vertice.getConnections()) {
+			for (Vertice connection : graph.getConnections(vertice)) {
 				SearchVertice vConnection = (SearchVertice) connection;
 				if (!vConnection.isExplored())
 					addToStack(vConnection);
