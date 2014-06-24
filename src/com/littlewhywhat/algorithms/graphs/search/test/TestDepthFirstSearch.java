@@ -10,8 +10,7 @@ import com.littlewhywhat.algorithms.graphs.io.GraphReader;
 import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraphFiller;
-import com.littlewhywhat.algorithms.graphs.search.SearchSizeCounter;
+import com.littlewhywhat.algorithms.graphs.search.SearchGraphReader;
 
 public class TestDepthFirstSearch {
 
@@ -20,16 +19,10 @@ public class TestDepthFirstSearch {
 	public static final String INPUT_GRAPH_BIG = FOLDER + "SCC.txt";
 	private GraphReader reader;
 	private DepthFirstSearch search;
-	private SearchGraphFiller filler;
-	private SearchSizeCounter sizeCounter;
 
 	@Before
 	public void setUp() throws Exception {
-		filler = new SearchGraphFiller();
-		sizeCounter = new SearchSizeCounter();
-		reader = new GraphReader();
-		reader.setGraphFiller(filler);
-		reader.setSizeCounter(sizeCounter);
+		reader = new SearchGraphReader();
 		reader.setGraph(new SearchGraph());
 		search = new DepthFirstSearch();
 	}
@@ -59,7 +52,7 @@ public class TestDepthFirstSearch {
 
 	public void testIsExplored(Graph graph, boolean value) {
 		int i = 0;
-		for (Vertice vertice : graph) {
+		for (Vertice vertice : graph.values()) {
 			i++;
 			Assert.assertEquals(value, ((SearchVertice)vertice).isExplored());
 		}
