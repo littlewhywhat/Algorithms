@@ -1,9 +1,9 @@
 package com.littlewhywhat.algorithms.graphs.search;
 
-import com.littlewhywhat.algorithms.graphs.LinkedGraph;
+import com.littlewhywhat.algorithms.graphs.SimpleGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
-public class SearchGraph extends LinkedGraph {
+public class SearchGraph extends SimpleGraph {
 	public class SearchVertice extends SimpleVertice {
 		private boolean isExplored = false;
 
@@ -25,16 +25,8 @@ public class SearchGraph extends LinkedGraph {
 		}
 	}
 
-	public SearchGraph(int size) {
-		super(size);
-	}
-
-	public SearchGraph() {
-		super();
-	}
-
 	public void reset() {
-		for (Vertice vertice : this) {
+		for (Vertice vertice : getVertices().values()) {
 			((SearchVertice) vertice).isExplored = false;
 		}
 	}
