@@ -52,7 +52,7 @@ public class TestDepthFirstSearch {
 
 	public void testIsExplored(Graph graph, boolean value) {
 		int i = 0;
-		for (Vertice vertice : graph.values()) {
+		for (Vertice vertice : graph) {
 			i++;
 			Assert.assertEquals(value, ((SearchVertice)vertice).isExplored());
 		}
