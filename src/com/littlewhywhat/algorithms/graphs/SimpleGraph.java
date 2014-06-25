@@ -4,29 +4,58 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class SimpleGraph implements Graph {
 
+	private class GraphIterator implements Iterator<Vertice> {
+
+		private final Iterator<Vertice> iterator;
+
+		private GraphIterator(Iterator<Vertice> iterator) {
+			this.iterator = iterator;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public Vertice next() {
+			return iterator.next();
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	public class SimpleConnection implements Connection {
+
+		private final Vertice vertice;
+
+		public SimpleConnection(Vertice vertice) {
+			this.vertice = vertice;
+		}
+
+		@Override
+		public Vertice getVertice() {
+			return vertice;
+		}
+
+	}
+
 	public class SimpleVertice implements Vertice {
 
-		private final UnmodifiableVerticeList connections = new UnmodifiableVerticeList(new LinkedList<Vertice>());
+		private final UnmodifiableList<Connection> connections = new UnmodifiableList<Connection>(
+				new LinkedList<Connection>());
 		private final int index;
 
 		public SimpleVertice(int index) {
 			this.index = index;
-		}
-
-		@Override
-		public int getIndex() {
-			return this.index;
-		}
-
-		@Override
-		public int hashCode() {
-			return index;
 		}
 
 		@Override
@@ -48,59 +77,31 @@ public class SimpleGraph implements Graph {
 		}
 
 		@Override
+		public int getIndex() {
+			return this.index;
+		}
+
+		@Override
+		public int hashCode() {
+			return index;
+		}
+
+		@Override
 		public String toString() {
 			return String.valueOf(index);
 		}
 
-	}
-	
-	private class GraphIterator implements Iterator<Vertice> {
-		
-		private final Iterator<Vertice> iterator;
-
-		private GraphIterator(Iterator<Vertice> iterator) {
-			this.iterator = iterator;
-		}
-		
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-		
-		@Override
-		public Vertice next() {
-			return iterator.next();
-		}
-		
-		@Override
-		public boolean hasNext() {
-			return iterator.hasNext();
-		}
 	};
-	private final HashMap<Integer,Vertice> vertices;
-	
+
+	private final HashMap<Integer, Vertice> vertices;
+
 	public SimpleGraph() {
 		vertices = new HashMap<Integer, Vertice>();
 	}
 
-	protected HashMap<Integer, Vertice> getVertices() {
-		return vertices;
-	}
-	
-	protected Vertice getNewVertice(int index) {
-		return new SimpleVertice(index);
-	}
-
-	public List<Vertice> getConnections(Vertice vertice) {
-		return getUnmodifiableConnections(vertice);
-	}
-	
-	private UnmodifiableVerticeList getUnmodifiableConnections(Vertice vertice) {
-		return ((SimpleVertice) vertice).connections;
-	}
-	
-	protected LinkedList<Vertice> getLinkedConnections(Vertice vertice) {
-		return (LinkedList<Vertice>) getUnmodifiableConnections(vertice).getList();
+	@Override
+	public void clear() {
+		vertices.clear();
 	}
 
 	@Override
@@ -110,12 +111,7 @@ public class SimpleGraph implements Graph {
 		if (!containsKey(two))
 			vertices.put(two, getNewVertice(two));
 		SimpleVertice verticeOne = (SimpleVertice) this.get(one);
-		getLinkedConnections(verticeOne).add(this.get(two));
-	}
-
-	@Override
-	public void clear() {
-		vertices.clear();
+		getLinkedConnections(verticeOne).add(getNewConnection(this.get(two)));
 	}
 
 	@Override
@@ -139,8 +135,40 @@ public class SimpleGraph implements Graph {
 	}
 
 	@Override
+	public UnmodifiableList<Connection> getConnections(Vertice vertice) {
+		return getUnmodifiableConnections(vertice);
+	}
+
+	protected LinkedList<Connection> getLinkedConnections(Vertice vertice) {
+		return (LinkedList<Connection>) getUnmodifiableConnections(vertice)
+				.getList();
+	}
+
+	protected Connection getNewConnection(Vertice vertice) {
+		return new SimpleConnection(vertice);
+	}
+
+	protected Vertice getNewVertice(int index) {
+		return new SimpleVertice(index);
+	}
+
+	private UnmodifiableList<Connection> getUnmodifiableConnections(
+			Vertice vertice) {
+		return ((SimpleVertice) vertice).connections;
+	}
+
+	protected HashMap<Integer, Vertice> getVertices() {
+		return vertices;
+	}
+
+	@Override
 	public boolean isEmpty() {
 		return vertices.isEmpty();
+	}
+
+	@Override
+	public Iterator<Vertice> iterator() {
+		return new GraphIterator(vertices.values().iterator());
 	}
 
 	@Override
@@ -171,11 +199,6 @@ public class SimpleGraph implements Graph {
 	@Override
 	public Collection<Vertice> values() {
 		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Iterator<Vertice> iterator() {
-		return new GraphIterator(vertices.values().iterator());
 	}
 
 }
