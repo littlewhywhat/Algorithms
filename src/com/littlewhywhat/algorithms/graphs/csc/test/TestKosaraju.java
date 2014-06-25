@@ -7,12 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.csc.KosarajuAlgo;
-import com.littlewhywhat.algorithms.graphs.csc.ReversedGraphFiller;
+import com.littlewhywhat.algorithms.graphs.csc.ReversedGraphReader;
 import com.littlewhywhat.algorithms.graphs.csc.ReversibleGraph;
-import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
 import com.littlewhywhat.algorithms.graphs.io.GraphReader;
-import com.littlewhywhat.algorithms.graphs.io.SizeCounter;
-import com.littlewhywhat.algorithms.graphs.search.SearchSizeCounter;
 import com.littlewhywhat.algorithms.graphs.search.test.TestDepthFirstSearch;
 
 public class TestKosaraju {
@@ -21,14 +18,10 @@ public class TestKosaraju {
 	private GraphReader reader;
 	private final int[] ANSWERS_BIG = new int[] { 434821, 968, 459, 313, 211 };
 	private final int[] ANSWERS_SMALL = new int[] { 3, 3, 3 };
-	private final SizeCounter sizeCounter = new SearchSizeCounter();
-	private final GraphFiller filler = new ReversedGraphFiller();
 
 	@Before
 	public void setUp() throws Exception {
-		reader = new GraphReader();
-		reader.setGraphFiller(filler);
-		reader.setSizeCounter(sizeCounter);
+		reader = new ReversedGraphReader();
 		reader.setGraph(new ReversibleGraph());
 		algo = new KosarajuAlgo();
 	}
