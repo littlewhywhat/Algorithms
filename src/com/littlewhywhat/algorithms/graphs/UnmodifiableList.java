@@ -5,31 +5,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-class UnmodifiableList implements List<Vertice> {
+class UnmodifiableList<T> implements List<T> {
 
-	private final List<Vertice> list;
+	private final List<T> list;
 
-	UnmodifiableList(List<Vertice> list) {
+	UnmodifiableList(List<T> list) {
 		this.list = list;
 	}
 
 	@Override
-	public boolean add(Vertice arg0) {
+	public boolean add(T arg0) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void add(int arg0, Vertice arg1) {
+	public void add(int arg0, T arg1) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends Vertice> arg0) {
+	public boolean addAll(Collection<? extends T> arg0) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean addAll(int arg0, Collection<? extends Vertice> arg1) {
+	public boolean addAll(int arg0, Collection<? extends T> arg1) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -49,7 +49,7 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public Vertice get(int index) {
+	public T get(int index) {
 		return list.get(index);
 	}
 
@@ -64,7 +64,7 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public Iterator<Vertice> iterator() {
+	public Iterator<T> iterator() {
 		return list.iterator();
 	}
 
@@ -74,12 +74,12 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public ListIterator<Vertice> listIterator() {
+	public ListIterator<T> listIterator() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ListIterator<Vertice> listIterator(int arg0) {
+	public ListIterator<T> listIterator(int arg0) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -89,7 +89,7 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public Vertice remove(int arg0) {
+	public T remove(int arg0) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -104,7 +104,7 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public Vertice set(int arg0, Vertice arg1) {
+	public T set(int arg0, T arg1) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -114,7 +114,7 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public List<Vertice> subList(int arg0, int arg1) {
+	public List<T> subList(int arg0, int arg1) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -124,11 +124,11 @@ class UnmodifiableList implements List<Vertice> {
 	}
 
 	@Override
-	public <T> T[] toArray(T[] arg0) {
+	public <P> P[] toArray(P[] arg0) {
 		throw new UnsupportedOperationException();
 	}
 
-	List<Vertice> getList() {
+	List<T> getList() {
 		return list;
 	}
 }
