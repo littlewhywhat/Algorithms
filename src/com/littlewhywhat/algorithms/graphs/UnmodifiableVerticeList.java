@@ -15,7 +15,7 @@ class UnmodifiableVerticeList implements List<Vertice> {
 
 	@Override
 	public boolean add(Vertice arg0) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -25,12 +25,12 @@ class UnmodifiableVerticeList implements List<Vertice> {
 
 	@Override
 	public boolean addAll(Collection<? extends Vertice> arg0) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean addAll(int arg0, Collection<? extends Vertice> arg1) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -85,7 +85,7 @@ class UnmodifiableVerticeList implements List<Vertice> {
 
 	@Override
 	public boolean remove(Object arg0) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -95,12 +95,12 @@ class UnmodifiableVerticeList implements List<Vertice> {
 
 	@Override
 	public boolean removeAll(Collection<?> arg0) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> arg0) {
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
