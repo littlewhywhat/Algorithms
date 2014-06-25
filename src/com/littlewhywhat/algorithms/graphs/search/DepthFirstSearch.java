@@ -14,7 +14,7 @@ public class DepthFirstSearch extends
 	@Override
 	public void execute() {
 		SearchGraph graph = getData();
-		for (Vertice vertice : graph.values()) {
+		for (Vertice vertice : graph) {
 			SearchVertice startVertice = (SearchVertice) vertice;
 			if (!startVertice.isExplored()) {
 				addToStack(startVertice);
