@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
-import com.littlewhywhat.algorithms.graphs.io.AbstractGraphFiller;
-import com.littlewhywhat.algorithms.graphs.io.GraphFiller;
 import com.littlewhywhat.algorithms.graphs.io.GraphReader;
-import com.littlewhywhat.algorithms.graphs.io.SimpleSizeCounter;
-import com.littlewhywhat.algorithms.graphs.io.SizeCounter;
 
 public class MultipleGraphReader {
 	private final ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
-	private final GraphReader reader = new GraphReader();
-	private final SizeCounter sizeCounter = new SimpleSizeCounter();
-	private final GraphFiller filler = new AbstractGraphFiller() {
+	private final GraphReader reader = new GraphReader() {
 
 		@Override
-		public void fill(Graph graph, Scanner scanner) {
+		protected void fillGraph(Graph data, Scanner scanner) {
 			while (scanner.hasNextLine()) {
 				Scanner line = new Scanner(scanner.nextLine());
 				ArrayList<Integer> connections = new ArrayList<Integer>();
@@ -26,13 +20,9 @@ public class MultipleGraphReader {
 				line.close();
 				list.add(connections);
 			}
-
-		}
-	};
+		}};
 
 	public MultipleGraphReader() {
-		reader.setGraphFiller(filler);
-		reader.setSizeCounter(sizeCounter);
 		reader.setGraph(getEmptyGraph());
 	}
 
@@ -46,7 +36,6 @@ public class MultipleGraphReader {
 
 	private Graph createGraph() {
 		Graph graph = getEmptyGraph();
-		graph.setSize(list.size());
 		for (ArrayList<Integer> line : list) {
 			int verticeIndex = line.get(0);
 			for (int i = 1; i < line.size(); i++)
