@@ -4,4 +4,5 @@ import java.util.Map;
 
 public interface Graph extends Map<Integer, Vertice>, Iterable<Vertice> {
 	void connect(int one, int two);
+	UnmodifiableList<Connection> getConnections(Vertice vertice);
 }
