@@ -105,13 +105,15 @@ public class SimpleGraph implements Graph {
 	}
 
 	@Override
-	public void connect(int one, int two) {
+	public Connection connect(int one, int two) {
 		if (!containsKey(one))
 			vertices.put(one, getNewVertice(one));
 		if (!containsKey(two))
 			vertices.put(two, getNewVertice(two));
 		SimpleVertice verticeOne = (SimpleVertice) this.get(one);
-		getLinkedConnections(verticeOne).add(getNewConnection(this.get(two)));
+		Connection connection = getNewConnection(this.get(two));
+		getLinkedConnections(verticeOne).add(connection);
+		return connection;
 	}
 
 	@Override
