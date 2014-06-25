@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-class UnmodifiableList<T> implements List<T> {
+public class UnmodifiableList<T> implements List<T> {
 
 	private final List<T> list;
 
