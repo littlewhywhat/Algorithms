@@ -12,6 +12,10 @@ public abstract class GraphReader extends TextFileInputReader<Void, Graph> {
 		this.setData(graph);
 	}
 
+	protected int convertVerticeIndex(int verticeIndex) {
+		return verticeIndex - 1;
+	}
+	
 	@Override
 	protected void extractInputData(Scanner scanner)
 			throws InputMismatchException {
