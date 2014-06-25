@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
+import com.littlewhywhat.algorithms.graphs.Connection;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
 import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
@@ -37,10 +38,10 @@ public class KosarajuAlgo extends
 		@Override
 		protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
 			vertice.markAsExplored();
-			for (Vertice connection : vertice.getConnections()) {
-				SearchVertice mConnection = (SearchVertice) connection;
-				if (!mConnection.isExplored())
-					stack.push(mConnection);
+			for (Connection connection : graph.getConnections(vertice)) {
+				SearchVertice verticeOther = (SearchVertice) connection.getVertice();
+				if (!verticeOther.isExplored())
+					stack.push(verticeOther);
 			}
 		}
 
@@ -49,7 +50,7 @@ public class KosarajuAlgo extends
 			SearchGraph graph = getData();
 			for (Integer index : order) {
 				SearchVertice startVertice = (SearchVertice) graph
-						.getVertice(index);
+						.get(index);
 				if (!startVertice.isExplored()) {
 					stack.push(startVertice);
 					int count = 0;
@@ -79,10 +80,10 @@ public class KosarajuAlgo extends
 				vertice.markAsExplored();
 				stack.push(vertice.getIndex());
 
-				for (Vertice connection : vertice.getConnections()) {
-					SearchVertice mConnection = (SearchVertice) connection;
-					if (!mConnection.isExplored())
-						stack.push(mConnection);
+				for (Connection connection : graph.getConnections(vertice)) {
+					SearchVertice verticeOther = (SearchVertice) connection.getVertice();
+					if (!verticeOther.isExplored())
+						stack.push(verticeOther);
 				}
 			}
 		}
