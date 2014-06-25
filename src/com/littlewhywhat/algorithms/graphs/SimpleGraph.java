@@ -86,7 +86,7 @@ public class SimpleGraph implements Graph {
 		if (!containsKey(two))
 			vertices.put(two, getNewVertice(two));
 		SimpleVertice verticeOne = (SimpleVertice) this.get(one);
-		verticeOne.connections.add(this.get(two));
+		getLinkedConnections(verticeOne).add(this.get(two));
 	}
 
 	@Override
