@@ -61,11 +61,12 @@ public class ContractionGraph extends SimpleGraph {
 	}
 
 	@Override
-	public void connect(int one, int two) {
-		super.connect(one, two);
+	public Connection connect(int one, int two) {
+		Connection connection = super.connect(one, two);
 		ContractionVertice verticeOne = (ContractionVertice) get(one);
 		ContractionVertice verticeTwo = (ContractionVertice) get(two);
 		verticeTwo.feedback.add(verticeOne);
+		return connection;
 	}
 
 	
