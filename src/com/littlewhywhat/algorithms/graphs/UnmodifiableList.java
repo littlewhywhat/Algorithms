@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-class UnmodifiableVerticeList implements List<Vertice> {
+class UnmodifiableList implements List<Vertice> {
 
 	private final List<Vertice> list;
 
-	UnmodifiableVerticeList(List<Vertice> list) {
+	UnmodifiableList(List<Vertice> list) {
 		this.list = list;
 	}
 
