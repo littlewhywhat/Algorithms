@@ -2,6 +2,7 @@ package com.littlewhywhat.algorithms.graphs;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,30 @@ public class SimpleGraph implements Graph {
 		}
 
 	}
+	
+	private class GraphIterator implements Iterator<Vertice> {
+		
+		private final Iterator<Vertice> iterator;
 
+		private GraphIterator(Iterator<Vertice> iterator) {
+			this.iterator = iterator;
+		}
+		
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+		
+		@Override
+		public Vertice next() {
+			return iterator.next();
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+	};
 	private final HashMap<Integer,Vertice> vertices;
 	
 	public SimpleGraph() {
@@ -146,7 +170,12 @@ public class SimpleGraph implements Graph {
 
 	@Override
 	public Collection<Vertice> values() {
-		return vertices.values();
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Iterator<Vertice> iterator() {
+		return new GraphIterator(vertices.values().iterator());
 	}
 
 }
