@@ -41,7 +41,7 @@ public class RandomContraction extends
 
 	private ContractionVertice getRandomConnection(Graph graph, Vertice vertice) {
 		return (ContractionVertice) ((ContractionGraph) graph).getConnections(vertice).get(random
-				.nextInt(((ContractionGraph) graph).getConnections(vertice).size()));
+				.nextInt(((ContractionGraph) graph).getConnections(vertice).size())).getVertice();
 	}
 
 }
