@@ -3,6 +3,7 @@ package com.littlewhywhat.algorithms.graphs.mincut.contraction;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.littlewhywhat.algorithms.graphs.Connection;
 import com.littlewhywhat.algorithms.graphs.SimpleGraph;
 import com.littlewhywhat.algorithms.graphs.Vertice;
 
@@ -20,14 +21,21 @@ public class ContractionGraph extends SimpleGraph {
 				ContractionVertice fresh) {
 			while(feedback.remove(old))
 				feedback.add(fresh);
-			while(getLinkedConnections(this).remove(old))
-				getLinkedConnections(this).add(fresh);
+			int count = 0;
+			Iterator<Connection> iterator = getLinkedConnections(this).listIterator();
+			while (iterator.hasNext())
+				if (iterator.next().getVertice().equals(old)) {
+					iterator.remove();
+					count++;
+				}
+			for (int i = 0; i < count; i++) 
+				getLinkedConnections(this).add(getNewConnection(fresh));
 		}
 
 		private void removeSelfLoops() {
-			Iterator<Vertice> iterator = getLinkedConnections(this).listIterator();
+			Iterator<Connection> iterator = getLinkedConnections(this).listIterator();
 			while (iterator.hasNext())
-				if (iterator.next().equals(this))
+				if (iterator.next().getVertice().equals(this))
 					iterator.remove();
 			Iterator<ContractionVertice> fbIterator = feedback.listIterator();
 			while (fbIterator.hasNext())
