@@ -22,14 +22,6 @@ public class DijkstraGraph extends ContractionGraph {
 			this.distanceToSource = distanceToSource;
 		}
 
-		Connection getConnectionByIndex(int index) {
-			for (Connection connection : getConnections(this)) {
-				if (connection.getVertice().getIndex() == index)
-					return connection;
-			}
-			return null;
-		}
-
 		@Override
 		public String toString() {
 			return "[" + super.toString() + ", " + distanceToSource + "]";
