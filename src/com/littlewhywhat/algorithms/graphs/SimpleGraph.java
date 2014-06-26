@@ -35,7 +35,7 @@ public class SimpleGraph implements Graph {
 
 	public class SimpleConnection implements Connection {
 
-		private final Vertice vertice;
+		private Vertice vertice;
 
 		public SimpleConnection(Vertice vertice) {
 			this.vertice = vertice;
@@ -44,6 +44,11 @@ public class SimpleGraph implements Graph {
 		@Override
 		public Vertice getVertice() {
 			return vertice;
+		}
+
+		@Override
+		public void setVertice(Vertice vertice) {
+			this.vertice = vertice;
 		}
 
 	}
