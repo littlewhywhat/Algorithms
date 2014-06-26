@@ -5,11 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.Algorithm;
-import com.littlewhywhat.algorithms.graphs.Graph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraAlgo;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph;
 import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraphReader;
-import com.littlewhywhat.algorithms.io.txt.AbstractFileInputReader;
+import com.littlewhywhat.algorithms.graphs.io.GraphReader;
 
 public class TestDijkstraAlgo {
 
@@ -19,7 +18,7 @@ public class TestDijkstraAlgo {
 	private static final int[] ANSWERS_BIG = new int[] { 2599, 2610, 2947,
 			2052, 2367, 2399, 2029, 2442, 2505, 3068 };
 	private static final int[] ANSWERS_SMALL = new int[] { 0, 7, 7, 5 };
-	private AbstractFileInputReader<Void, Graph> reader = new DijkstraGraphReader(0);
+	private GraphReader reader = new DijkstraGraphReader();
 	private Algorithm<Void, DijkstraGraph, int[]> algo = new DijkstraAlgo();
 
 	private int[] indices = new int[] { 6, 36, 58, 81, 98, 114, 132, 164, 187,
@@ -33,6 +32,7 @@ public class TestDijkstraAlgo {
 	@Test
 	public void testBig() {
 		reader.setInputFilePath(INPUT_FILE_PATH);
+		reader.setGraph(new DijkstraGraph(0));
 		executeAlgo();
 		int[] answers = new int[indices.length];
 		for (int i = 0; i < answers.length; i++) {
@@ -44,6 +44,7 @@ public class TestDijkstraAlgo {
 	@Test
 	public void testSmall() {
 		reader.setInputFilePath(INPUT_FILE_PATH_SMALL);
+		reader.setGraph(new DijkstraGraph(0));
 		executeAlgo();
 		Assert.assertArrayEquals(ANSWERS_SMALL, algo.getOutput());
 	}
