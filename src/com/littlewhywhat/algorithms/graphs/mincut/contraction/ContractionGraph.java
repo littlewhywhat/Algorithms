@@ -49,29 +49,16 @@ public class ContractionGraph extends SimpleGraph {
 	}
 
 	public void merge(ContractionVertice one, ContractionVertice two) {
-		//System.out.println("premerge");
-		//System.out.println(one + " " + getLinkedConnections(one));
-		//System.out.println(two + " " + getLinkedConnections(two));
-		//System.out.println("feedback: " + one + one.feedback);
 		for (ContractionVertice vertice : one.feedback)
 			vertice.changeConnection(one, two);
-		//System.out.println("afterchangingfeedback");
-		//System.out.println(one + " " + getLinkedConnections(one));
-		//System.out.println(two + " " + getLinkedConnections(two));
-		for (Connection connection : getLinkedConnections(one))
+		final LinkedList<Connection> oneConnections = getLinkedConnections(one);
+		for (Connection connection : oneConnections)
 			((ContractionVertice) connection.getVertice()).changeFeedback(one,
 					two);
-		//System.out.println("afterchangingconnections");
-		//System.out.println(one + " " + getLinkedConnections(one));
-		//System.out.println(two + " " + getLinkedConnections(two));
-		getLinkedConnections(two).addAll(getLinkedConnections(one));
+		getLinkedConnections(two).addAll(oneConnections);
 		two.feedback.addAll(one.feedback);
 		two.removeSelfLoops();
 		getVertices().remove(one.getIndex());
-		getLinkedConnections(one).clear();
-		//System.out.println("aftermerge");
-		//System.out.println(one + " " + getLinkedConnections(one));
-		//System.out.println(two + " " + getLinkedConnections(two));
 	}
 
 	@Override
