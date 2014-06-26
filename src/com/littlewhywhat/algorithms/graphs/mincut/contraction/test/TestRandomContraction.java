@@ -33,7 +33,7 @@ public class TestRandomContraction {
 
 	private void test(int answer) {
 		int min = 999999999;
-		for (int i = 0; i < 5000; i++) {
+		for (int i = 0; i < 50; i++) {
 			randomContraction
 					.setData((ContractionGraph) reader.getGraphClone());
 			randomContraction.execute();
