@@ -19,16 +19,13 @@ public class ContractionGraph extends SimpleGraph {
 
 		private void changeConnection(ContractionVertice old,
 				ContractionVertice fresh) {
-			int count = 0;
 			Iterator<Connection> iterator = getLinkedConnections(this)
 					.listIterator();
-			while (iterator.hasNext())
-				if (iterator.next().getVertice().equals(old)) {
-					iterator.remove();
-					count++;
-				}
-			for (int i = 0; i < count; i++)
-				getLinkedConnections(this).add(getNewConnection(fresh));
+			while (iterator.hasNext()) {
+				Connection connection = iterator.next();
+				if (connection.getVertice().equals(old)) 
+					connection.setVertice(fresh);
+			}
 		}
 
 		private void changeFeedback(ContractionVertice old,
