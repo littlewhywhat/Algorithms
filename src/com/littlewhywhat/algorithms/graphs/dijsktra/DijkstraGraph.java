@@ -89,11 +89,12 @@ public class DijkstraGraph extends ContractionGraph {
 		DijkstraVertice source = this.getSource();
 		WeightedConnection connection = getMinConnection();
 		int weight = connection.getWeight();
-		((DijkstraVertice) connection.getVertice()).setDistanceToSource(weight);
-		for (Connection vertice : getConnections(connection.getVertice()))
+		DijkstraVertice destination = (DijkstraVertice) connection.getVertice();
+		destination.setDistanceToSource(weight);
+		for (Connection vertice : getConnections(destination))
 			((WeightedConnection) vertice).addToWeight(weight);
-		merge((ContractionVertice) connection.getVertice(), source);
-		getVertices().put(connection.getVertice().getIndex(), connection.getVertice());
+		merge(destination, source);
+		getVertices().put(destination.getIndex(), destination);
 	}
 
 	private WeightedConnection getMinConnection() {
