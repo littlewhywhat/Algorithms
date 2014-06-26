@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.graphs.csc;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 import com.littlewhywhat.algorithms.graphs.Connection;
@@ -14,21 +13,23 @@ public class ReversibleGraph extends SearchGraph {
 	}
 
 	public void reverse() {
-		Vertice border = getNewVertice(this.size());
-		Connection borderConnection = getNewConnection(border);
-		Collection<Vertice> vertices = getVertices().values();
-		for (Vertice vertice : vertices) {
-			getLinkedConnections(vertice).addLast(borderConnection);
+		final Connection border = getNewConnection(getNewVertice(this.size()));
+		for (Vertice vertice : this) {
+			getLinkedConnections(vertice).addLast(border);
 		}
 		LinkedList<Connection> connections;
-		for (Vertice vertice : vertices) {
+		for (Vertice vertice : this) {
 			connections = getLinkedConnections(vertice);
-			Vertice connection;
-			while (connections.peekFirst().getVertice() != border) {
-				connection = connections.pollFirst().getVertice();
-				getLinkedConnections(connection).addLast(getNewConnection(vertice));
-			}
+			while (connections.peekFirst() != border)
+				reverseConnection(connections.pollFirst(), vertice);
 			connections.pollFirst();
 		}
+	}
+
+	private void reverseConnection(Connection connection, Vertice vertice) {
+		LinkedList<Connection> connections = getLinkedConnections(connection
+				.getVertice());
+		connection.setVertice(vertice);
+		connections.addLast(connection);
 	}
 }
