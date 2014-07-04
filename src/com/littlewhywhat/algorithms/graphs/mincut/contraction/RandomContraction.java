@@ -17,8 +17,7 @@ public class RandomContraction extends
 	public void execute() {
 		ContractionGraph graph = getData();
 		final LinkedList<Vertice> vertices = getVertices(graph);
-		int end = graph.size() - 2;
-		for (int i = 0; i < end; i++) {
+		while (graph.size() != 2) {
 			ContractionVertice randomStart = getRandomVertice(vertices);
 			ContractionVertice randomEnd = getRandomConnection(graph, randomStart);
 			graph.merge(randomStart, randomEnd);
