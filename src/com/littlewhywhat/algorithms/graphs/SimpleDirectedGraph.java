@@ -45,8 +45,11 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public boolean addAll(Collection<? extends I> c) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		for (I item : c)
+			if (add(item))
+				result = true;
+		return result;
 	}
 
 	@Override
