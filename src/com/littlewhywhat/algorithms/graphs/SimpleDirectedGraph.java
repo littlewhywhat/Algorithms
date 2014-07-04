@@ -2,9 +2,11 @@ package com.littlewhywhat.algorithms.graphs;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
+	
 	@Override
 	public void connect(int one, int two) {
 		// TODO Auto-generated method stub
@@ -12,7 +14,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public Iterator<I> getConnections(I item) {
+	public ListIterator<I> getConnections(I item) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -24,13 +26,13 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean add(I arg0) {
+	public boolean add(I item) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends I> arg0) {
+	public boolean addAll(Collection<? extends I> c) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -42,15 +44,14 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean contains(Object arg0) {
+	public boolean contains(Object o) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean containsAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -66,21 +67,19 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean remove(Object arg0) {
+	public boolean remove(Object o) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removeAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean retainAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -91,14 +90,12 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <T> T[] toArray(T[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
