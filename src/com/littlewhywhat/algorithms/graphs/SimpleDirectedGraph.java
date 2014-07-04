@@ -1,11 +1,21 @@
 package com.littlewhywhat.algorithms.graphs;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
+	private class Vertice {
+		private I item;
+		private Vertice(I item) {
+			this.item = item;
+		}
+	}
+	
+	private final Map<Integer, Vertice> vertices = new HashMap<Integer, Vertice>();
 	
 	@Override
 	public void connect(int one, int two) {
@@ -27,8 +37,10 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public boolean add(I item) {
-		// TODO Auto-generated method stub
-		return false;
+		if (vertices.containsKey(item.getId()))
+			return false;
+		vertices.put(item.getId(), new Vertice(item));
+		return true;
 	}
 
 	@Override
