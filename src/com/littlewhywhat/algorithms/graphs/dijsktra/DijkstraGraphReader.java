@@ -34,14 +34,12 @@ public class DijkstraGraphReader extends GraphReader {
 
 	private ConnectionInfo getConnectionInfoFromToken(String token) {
 		String[] info = StringUtils.split(token, ',');
-		return new ConnectionInfo(
-				convertVerticeIndex(Integer
-						.valueOf(info[CONNECTION_INFO_INDEX])),
+		return new ConnectionInfo(Integer.valueOf(info[CONNECTION_INFO_INDEX]),
 				Integer.valueOf(info[WEIGHT_INFO_INDEX]));
 	}
 
 	private void processLine(Graph graph, Scanner line) {
-		final int verticeIndex = convertVerticeIndex(line.nextInt());
+		final int verticeIndex = line.nextInt();
 		while (line.hasNext()) {
 			ConnectionInfo info = getConnectionInfoFromToken(line.next());
 			WeightedConnection connection = (WeightedConnection) graph.connect(
