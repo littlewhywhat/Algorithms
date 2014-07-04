@@ -89,6 +89,7 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testRemove() {
+		Assert.fail("Not implemented");
 		addAllItems();
 		final int index = 0;
 		final int id = items[index].getId();
