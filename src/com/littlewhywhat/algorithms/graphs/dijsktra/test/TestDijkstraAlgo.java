@@ -32,7 +32,7 @@ public class TestDijkstraAlgo {
 	@Test
 	public void testBig() {
 		reader.setInputFilePath(INPUT_FILE_PATH);
-		reader.setGraph(new DijkstraGraph(0));
+		reader.setGraph(new DijkstraGraph(1));
 		executeAlgo();
 		int[] answers = new int[indices.length];
 		for (int i = 0; i < answers.length; i++) {
@@ -44,7 +44,7 @@ public class TestDijkstraAlgo {
 	@Test
 	public void testSmall() {
 		reader.setInputFilePath(INPUT_FILE_PATH_SMALL);
-		reader.setGraph(new DijkstraGraph(0));
+		reader.setGraph(new DijkstraGraph(1));
 		executeAlgo();
 		Assert.assertArrayEquals(ANSWERS_SMALL, algo.getOutput());
 	}
