@@ -1,9 +1,10 @@
 package com.littlewhywhat.algorithms.graphs;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
-public interface Graph<T extends Id> extends List<T> {
+public interface Graph<T extends Id> extends Collection<T> {
 	void connect(int one, int two);
 	Iterator<T> getConnections(T item);
+	T get(int id);
 }
