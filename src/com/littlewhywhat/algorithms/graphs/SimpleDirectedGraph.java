@@ -31,8 +31,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public I get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return vertices.get(id).item;
 	}
 
 	@Override
@@ -51,13 +50,13 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		vertices.clear();
 	}
 
 	@Override
-	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
+	public boolean contains(Object id) {
+		if (id instanceof Integer)
+			return vertices.containsKey(id);
 		return false;
 	}
 
@@ -68,8 +67,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return vertices.isEmpty();
 	}
 
 	@Override
@@ -79,8 +77,9 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
+	public boolean remove(Object id) {
+		if (id instanceof Integer)
+			return vertices.remove(id) != null;
 		return false;
 	}
 
@@ -96,8 +95,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return vertices.size();
 	}
 
 	@Override
