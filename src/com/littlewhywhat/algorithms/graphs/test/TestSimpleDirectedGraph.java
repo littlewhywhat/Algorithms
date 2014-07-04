@@ -1,5 +1,7 @@
 package com.littlewhywhat.algorithms.graphs.test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Assert;
@@ -136,7 +138,12 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testAddAll() {
-		Assert.fail("Not implemented");
+		final List<Item> list = new ArrayList<Item>();
+		for (Item item : items)
+			list.add(item);
+		Assert.assertEquals(true, graph.addAll(list));
+		Assert.assertEquals(list.size(), graph.size());
+		Assert.assertEquals(false, graph.addAll(list));
 	}
 
 	@Test
