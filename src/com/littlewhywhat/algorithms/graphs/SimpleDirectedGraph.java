@@ -3,16 +3,39 @@ package com.littlewhywhat.algorithms.graphs;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	private class Vertice {
-		private I item;
-
+		private final I item;
+		private final LinkedList<Edge> in = new LinkedList<Edge>();
+		private final LinkedList<Edge> out = new LinkedList<Edge>();
+		
 		private Vertice(I item) {
 			this.item = item;
+		}
+		
+		@Override
+		public String toString() {
+			return item.toString();
+		}
+	}
+	
+	private class Edge {
+		private Vertice start;
+		private Vertice end;
+		private Edge(Vertice start, Vertice end) {
+			this.start = start;
+			this.end = end;
+		}
+		
+		@Override
+		public String toString() {
+			return "(" + start + " -> "+ end + ")";
 		}
 	}
 
@@ -20,8 +43,24 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void connect(int one, int two) {
-		// TODO Auto-generated method stub
+		if (connectAndGet(one,two) == null)
+			throw new NoSuchElementException();
+	}
 
+	protected Edge connectAndGet(int one, int two) {
+		if (contains(one) && contains(two)) {
+			Vertice vOne = vertices.get(one);
+			Vertice vTwo = vertices.get(two);
+			Edge edge = getNewEdge(vOne, vTwo);
+			vOne.out.add(edge);
+			vTwo.in.add(edge);
+			return edge;
+		}
+		return null;
+	}
+
+	protected Edge getNewEdge(Vertice vOne, Vertice vTwo) {
+		return new Edge(vOne, vTwo);
 	}
 
 	@Override
