@@ -80,6 +80,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public boolean remove(Object id) {
+		// TODO Auto-generated method stub
 		return vertices.remove(id) != null;
 	}
 
