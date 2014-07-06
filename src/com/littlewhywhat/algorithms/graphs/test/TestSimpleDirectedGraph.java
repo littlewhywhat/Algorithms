@@ -25,7 +25,16 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testReverse() {
-		Assert.fail("Not implemented");
+		final TestItem one = items[0];
+		final TestItem two = items[1];
+		addAllItems();
+		graph.connect(one.getId(), two.getId());
+		Assert.assertEquals(true, graph.getConnections(one).hasNext());
+		Assert.assertEquals(false, graph.getConnections(two).hasNext());
+		((SimpleDirectedGraph<TestItem>) graph).reverse();
+		Assert.assertEquals(false, graph.getConnections(one).hasNext());
+		Assert.assertEquals(true, graph.getConnections(two).hasNext());
+		
 	}
 
 	@Test
