@@ -1,5 +1,7 @@
 package com.littlewhywhat.algorithms.graphs.test;
 
+import java.util.ListIterator;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,13 +13,21 @@ public class TestSimpleDirectedGraphGetConnections {
 
 	private Graph<TestItem> graph;
 	private final TestItem[] items = TestItem.getNewTestArray();
+	private final TestItem first = items[0];
 	
 	@Before
 	public void setUp() throws Exception {
-		graph = new SimpleDirectedGraph<TestItem>();
-		
+		graph = new SimpleDirectedGraph<TestItem>();		
+		for (TestItem item : items) {
+			graph.add(item);
+			graph.connect(first.getId(), item.getId());
+		}
 	}
 
+	private ListIterator<TestItem> getConnectionsOfFirst() {
+		return graph.getConnections(first);
+	}
+	
 	@Test
 	public void testAdd() {
 		Assert.fail("Not yet implemented");
@@ -25,7 +35,13 @@ public class TestSimpleDirectedGraphGetConnections {
 	
 	@Test
 	public void testHasNext() {
-		Assert.fail("Not yet implemented");
+		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		int count = 0;
+		while (iterator.hasNext()) {
+			iterator.next();
+			count++;
+		}
+		Assert.assertEquals(items.length, count);
 	}
 
 	@Test
