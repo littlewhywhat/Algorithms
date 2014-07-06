@@ -117,7 +117,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	}
 
-	private class Vertice {
+	protected class Vertice {
 		private final I item;
 		private final LinkedList<Edge> in = new LinkedList<Edge>();
 		private final LinkedList<Edge> out = new LinkedList<Edge>();
@@ -132,11 +132,11 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 		}
 	}
 
-	private class Edge {
+	protected class Edge {
 		private Vertice start;
 		private Vertice end;
 
-		private Edge(Vertice start, Vertice end) {
+		protected Edge(Vertice start, Vertice end) {
 			this.start = start;
 			this.end = end;
 		}
