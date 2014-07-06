@@ -9,63 +9,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.graphs.Graph;
-import com.littlewhywhat.algorithms.graphs.Id;
 import com.littlewhywhat.algorithms.graphs.SimpleDirectedGraph;
 
 public class TestSimpleDirectedGraph {
 
-	private class Item implements Id {
-
-		private int id;
-
-		private Item(int id) {
-			this.id = id;
-		}
-
-		@Override
-		public int getId() {
-			return id;
-		}
-
-		@Override
-		public String toString() {
-			return String.valueOf(id);
-		}
-
-		@Override
-		public int hashCode() {
-			return id;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof Item)) {
-				return false;
-			}
-			Item other = (Item) obj;
-			if (id != other.id) {
-				return false;
-			}
-			return true;
-		}
-
-
-	}
-
-	private Graph<Item> graph;
-	private final Item[] items = new Item[] { new Item(0), new Item(1),
-			new Item(2), new Item(3) };
+	private Graph<TestItem> graph;
+	private final TestItem[] items = new TestItem[] { new TestItem(0), new TestItem(1),
+			new TestItem(2), new TestItem(3) };
 	private Random random = new Random();
 
 	@Before
 	public void setUp() throws Exception {
-		graph = new SimpleDirectedGraph<Item>();
+		graph = new SimpleDirectedGraph<TestItem>();
 	}
 
 	@Test
@@ -77,11 +32,11 @@ public class TestSimpleDirectedGraph {
 	public void testSize() {
 		int count = 0;
 		Assert.assertEquals(count, graph.size());
-		for (Item item : items) {
+		for (TestItem item : items) {
 			graph.add(item);
 			Assert.assertEquals(++count, graph.size());
 		}
-		for (Item item : items) {
+		for (TestItem item : items) {
 			graph.remove(item.getId());
 			Assert.assertEquals(--count, graph.size());
 		}
@@ -99,7 +54,7 @@ public class TestSimpleDirectedGraph {
 	}
 
 	private void addAllItems() {
-		for (Item item : items) {
+		for (TestItem item : items) {
 			graph.add(item);
 		}
 	}
@@ -111,7 +66,7 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testIsEmpty() {
-		final Item item = items[0];
+		final TestItem item = items[0];
 		Assert.assertEquals(true, graph.isEmpty());
 		graph.add(item);
 		Assert.assertEquals(false, graph.isEmpty());
@@ -121,7 +76,7 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testContains() {
-		final Item item = getRandomItem();
+		final TestItem item = getRandomItem();
 		addAllItems();
 		Assert.assertEquals(true, graph.contains(item.getId()));
 		graph.remove(item.getId());
@@ -139,8 +94,8 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testAddAll() {
-		final List<Item> list = new ArrayList<Item>();
-		for (Item item : items)
+		final List<TestItem> list = new ArrayList<TestItem>();
+		for (TestItem item : items)
 			list.add(item);
 		Assert.assertEquals(true, graph.addAll(list));
 		Assert.assertEquals(list.size(), graph.size());
@@ -149,33 +104,33 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testAdd() {
-		for (Item item : items)
+		for (TestItem item : items)
 			Assert.assertEquals(true, graph.add(item));
 		Assert.assertEquals(items.length, graph.size());
-		for (Item item : items)
+		for (TestItem item : items)
 			Assert.assertEquals(false, graph.add(item));
 		Assert.assertEquals(items.length, graph.size());
-		for (Item item : items)
+		for (TestItem item : items)
 			Assert.assertEquals(true, graph.contains(item.getId()));
 	}
 
-	private Item getRandomItem() {
+	private TestItem getRandomItem() {
 		return items[random.nextInt(items.length)];
 	}
 
 	@Test
 	public void testGet() {
 		addAllItems();
-		for (Item item : items)
+		for (TestItem item : items)
 			Assert.assertEquals(item, graph.get(item.getId()));
 	}
 
 	@Test
 	public void testConnect() {
 		//Assert.fail("Not implemented");
-		final Item one = items[0];
-		final Item two = items[1];
-		final Item three = items[2];
+		final TestItem one = items[0];
+		final TestItem two = items[1];
+		final TestItem three = items[2];
 		graph.add(one);
 		graph.add(two);
 		graph.connect(one.getId(), two.getId());
