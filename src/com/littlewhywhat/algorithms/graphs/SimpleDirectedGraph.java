@@ -9,6 +9,31 @@ import java.util.Map;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
+	private class VerticesIterator implements Iterator<I> {
+
+		private final Iterator<Vertice> iterator;
+
+		private VerticesIterator(Iterator<Vertice> iterator) {
+			this.iterator = iterator;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public I next() {
+			return iterator.next().item;
+		}
+
+		@Override
+		public void remove() {
+			iterator.remove();
+		}
+
+	}
+
 	private class ConnectionsIterator implements ListIterator<I> {
 
 		private final ListIterator<Edge> iterator;
@@ -201,8 +226,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public Iterator<I> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new VerticesIterator(vertices.values().iterator());
 	}
 
 	@Override
