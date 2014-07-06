@@ -6,12 +6,94 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
+	private class ConnectionsIterator implements ListIterator<I>{
+
+		private final ListIterator<Edge> iterator;
+		private final Vertice vertice;
+		private Edge currentState;
+		
+		private ConnectionsIterator(Vertice vertice) {
+			this.iterator = vertice.out.listIterator();
+			this.vertice = vertice;
+		}
+		
+		private I getConnection(Edge edge) {
+			return edge.end.item;
+		}
+		
+		@Override
+		public void add(I item) {
+			Edge edge = getNewEdge(vertice.item.getId(), item.getId());
+			if (edge != null) {
+				vertice.in.add(edge);
+				iterator.add(edge);
+				currentState = null;
+			} else 
+				throw new IllegalArgumentException();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public boolean hasPrevious() {
+			return iterator.hasPrevious();
+		}
+
+		@Override
+		public I next() {
+			return getConnection(setAndGetCurrentState(iterator.next()));
+		}
+
+		private Edge setAndGetCurrentState(Edge state) {
+			return this.currentState = state;
+		}
+
+		@Override
+		public int nextIndex() {
+			return iterator.nextIndex();
+		}
+
+		@Override
+		public I previous() {
+			return getConnection(setAndGetCurrentState(iterator.previous()));
+		}
+
+		@Override
+		public int previousIndex() {
+			return iterator.previousIndex();
+		}
+
+		@Override
+		public void remove() {
+			if (stateIsLegal()) {
+				iterator.remove();
+				currentState.end.in.remove(currentState);
+				currentState = null;
+			}
+		}
+
+		private boolean stateIsLegal() {
+			if (currentState == null)
+				throw new IllegalStateException();
+			return true;
+		}
+
+		@Override
+		public void set(I item) {
+			if (stateIsLegal())
+				currentState.setEnd(item);
+		}
+		
+	}
+	
 	private class Vertice {
-		private final I item;
+		private I item;
 		private final LinkedList<Edge> in = new LinkedList<Edge>();
 		private final LinkedList<Edge> out = new LinkedList<Edge>();
 		
@@ -33,6 +115,10 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 			this.end = end;
 		}
 		
+		public void setEnd(I item) {
+			this.end.item = item;
+		}
+
 		@Override
 		public String toString() {
 			return "(" + start + " -> "+ end + ")";
@@ -43,30 +129,31 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void connect(int one, int two) {
-		if (connectAndGet(one,two) == null)
-			throw new NoSuchElementException();
+		connectAndGet(one,two);
 	}
 
 	protected Edge connectAndGet(int one, int two) {
-		if (contains(one) && contains(two)) {
-			Vertice vOne = vertices.get(one);
-			Vertice vTwo = vertices.get(two);
-			Edge edge = getNewEdge(vOne, vTwo);
-			vOne.out.add(edge);
-			vTwo.in.add(edge);
-			return edge;
-		}
-		return null;
+		Edge edge = getNewEdge(one, two);
+		edge.start.out.add(edge);
+		edge.end.in.add(edge);
+		return edge;
 	}
 
+	private Edge getNewEdge(int one, int two) {
+		if (!contains(one) || !contains(two))
+			throw new IllegalArgumentException();
+		Vertice vOne = vertices.get(one);
+		Vertice vTwo = vertices.get(two);
+		return getNewEdge(vOne, vTwo);
+	}
+	 
 	protected Edge getNewEdge(Vertice vOne, Vertice vTwo) {
 		return new Edge(vOne, vTwo);
 	}
 
 	@Override
 	public ListIterator<I> getConnections(I item) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ConnectionsIterator(vertices.get(item.getId()));
 	}
 
 	@Override
