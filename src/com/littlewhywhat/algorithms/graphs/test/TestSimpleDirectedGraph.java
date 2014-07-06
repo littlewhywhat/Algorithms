@@ -2,7 +2,6 @@ package com.littlewhywhat.algorithms.graphs.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.junit.Assert;
@@ -172,11 +171,6 @@ public class TestSimpleDirectedGraph {
 	}
 
 	@Test
-	public void testGetConnections() {
-		Assert.fail("Not implemented");
-	}
-
-	@Test
 	public void testConnect() {
 		//Assert.fail("Not implemented");
 		final Item one = items[0];
@@ -188,7 +182,7 @@ public class TestSimpleDirectedGraph {
 		try {
 			graph.connect(one.getId(), three.getId());
 			Assert.fail();
-		} catch (NoSuchElementException e) {}
+		} catch (IllegalArgumentException e) {}
 		
 	}
 }
