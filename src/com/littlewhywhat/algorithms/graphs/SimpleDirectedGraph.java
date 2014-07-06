@@ -249,8 +249,14 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void reverse() {
-		// TODO Auto-generated method stub
-
+		for (Vertice vertice : vertices.values()) {
+			int sizeIn = vertice.in.size();
+			int sizeOut = vertice.out.size();
+			for (int i = 0; i < sizeIn; i++)
+				vertice.out.addLast(vertice.in.pollFirst());
+			for (int i = 0; i < sizeOut; i++)
+				vertice.in.addLast(vertice.out.pollFirst());
+		}
 	}
 
 }
