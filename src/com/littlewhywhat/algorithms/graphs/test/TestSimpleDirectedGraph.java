@@ -46,7 +46,7 @@ public class TestSimpleDirectedGraph {
 			Assert.assertEquals(++count, graph.size());
 		}
 		for (TestItem item : items) {
-			graph.remove(item.getId());
+			graph.remove(item);
 			Assert.assertEquals(--count, graph.size());
 		}
 	}
@@ -57,7 +57,7 @@ public class TestSimpleDirectedGraph {
 		final TestItem two = items[1];
 		addAllItems();
 		graph.connect(two, one);
-		Assert.assertEquals(true, graph.remove(one.getId()));
+		Assert.assertEquals(true, graph.remove(one));
 		Assert.assertEquals(null, graph.get(one));
 		Assert.assertEquals(false, graph.getConnections(two).hasNext());
 		Assert.assertEquals(items.length - 1, graph.size());
@@ -83,7 +83,7 @@ public class TestSimpleDirectedGraph {
 		Assert.assertEquals(true, graph.isEmpty());
 		graph.add(item);
 		Assert.assertEquals(false, graph.isEmpty());
-		graph.remove(item.getId());
+		graph.remove(item);
 		Assert.assertEquals(true, graph.isEmpty());
 	}
 
@@ -91,9 +91,9 @@ public class TestSimpleDirectedGraph {
 	public void testContains() {
 		final TestItem item = getRandomItem();
 		addAllItems();
-		Assert.assertEquals(true, graph.contains(item.getId()));
-		graph.remove(item.getId());
-		Assert.assertEquals(false, graph.contains(item.getId()));
+		Assert.assertEquals(true, graph.contains(item));
+		graph.remove(item);
+		Assert.assertEquals(false, graph.contains(item));
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class TestSimpleDirectedGraph {
 			Assert.assertEquals(false, graph.add(item));
 		Assert.assertEquals(items.length, graph.size());
 		for (TestItem item : items)
-			Assert.assertEquals(true, graph.contains(item.getId()));
+			Assert.assertEquals(true, graph.contains(item));
 	}
 
 	private TestItem getRandomItem() {
