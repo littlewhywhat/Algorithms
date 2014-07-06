@@ -9,21 +9,21 @@ import java.util.Map;
 
 public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
-	private class ConnectionsIterator implements ListIterator<I>{
+	private class ConnectionsIterator implements ListIterator<I> {
 
 		private final ListIterator<Edge> iterator;
 		private final Vertice vertice;
 		private Edge currentState;
-		
+
 		private ConnectionsIterator(Vertice vertice) {
 			this.iterator = vertice.out.listIterator();
 			this.vertice = vertice;
 		}
-		
+
 		private I getConnection(Edge edge) {
 			return edge.end.item;
 		}
-		
+
 		@Override
 		public void add(I item) {
 			Edge edge = getNewEdge(vertice.item.getId(), item.getId());
@@ -31,7 +31,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 				vertice.in.add(edge);
 				iterator.add(edge);
 				currentState = null;
-			} else 
+			} else
 				throw new IllegalArgumentException();
 		}
 
@@ -89,39 +89,40 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 			if (stateIsLegal())
 				currentState.setEnd(vertices.get(item.getId()));
 		}
-		
+
 	}
-	
+
 	private class Vertice {
 		private final I item;
 		private final LinkedList<Edge> in = new LinkedList<Edge>();
 		private final LinkedList<Edge> out = new LinkedList<Edge>();
-		
+
 		private Vertice(I item) {
 			this.item = item;
 		}
-		
+
 		@Override
 		public String toString() {
 			return item.toString();
 		}
 	}
-	
+
 	private class Edge {
 		private Vertice start;
 		private Vertice end;
+
 		private Edge(Vertice start, Vertice end) {
 			this.start = start;
 			this.end = end;
 		}
-		
+
 		public void setEnd(Vertice vertice) {
 			this.end = vertice;
 		}
 
 		@Override
 		public String toString() {
-			return "(" + start + " -> "+ end + ")";
+			return "(" + start + " -> " + end + ")";
 		}
 	}
 
@@ -129,7 +130,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void connect(int one, int two) {
-		connectAndGet(one,two);
+		connectAndGet(one, two);
 	}
 
 	protected Edge connectAndGet(int one, int two) {
@@ -146,7 +147,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 		Vertice vTwo = vertices.get(two);
 		return getNewEdge(vOne, vTwo);
 	}
-	 
+
 	protected Edge getNewEdge(Vertice vOne, Vertice vTwo) {
 		return new Edge(vOne, vTwo);
 	}
@@ -206,8 +207,29 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public boolean remove(Object id) {
-		// TODO Auto-generated method stub
-		return vertices.remove(id) != null;
+		final Vertice vertice = vertices.remove(id);
+		final boolean result = vertice != null;
+		if (result) {
+			removeEdgesOut(vertice);
+			removeEdgesIn(vertice);
+		}
+		return result;
+	}
+
+	private void removeEdgesIn(Vertice vertice) {
+		for (Edge edge : vertice.out) {
+			while (edge.end.in.contains(edge)) {
+				edge.end.in.remove(edge);
+			}
+		}
+	}
+
+	private void removeEdgesOut(Vertice vertice) {
+		for (Edge edge : vertice.in) {
+			while (edge.start.out.contains(edge)) {
+				edge.start.out.remove(edge);
+			}
+		}
 	}
 
 	@Override
