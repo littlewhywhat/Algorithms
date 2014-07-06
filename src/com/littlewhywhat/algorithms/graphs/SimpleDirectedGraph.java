@@ -51,7 +51,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 		@Override
 		public void add(I item) {
-			Edge edge = getNewEdge(vertice.item.getId(), item.getId());
+			Edge edge = getNewEdge(vertice.item, item);
 			if (edge != null) {
 				vertice.in.add(edge);
 				iterator.add(edge);
@@ -155,21 +155,21 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 
 	@Override
 	public void connect(I one, I two) {
-		connectAndGet(one.getId(), two.getId());
+		connectAndGet(one, two);
 	}
 
-	protected Edge connectAndGet(int one, int two) {
+	protected Edge connectAndGet(I one, I two) {
 		Edge edge = getNewEdge(one, two);
 		edge.start.out.add(edge);
 		edge.end.in.add(edge);
 		return edge;
 	}
 
-	private Edge getNewEdge(int one, int two) {
+	private Edge getNewEdge(I one, I two) {
 		if (!contains(one) || !contains(two))
 			throw new IllegalArgumentException();
-		Vertice vOne = vertices.get(one);
-		Vertice vTwo = vertices.get(two);
+		Vertice vOne = vertices.get(one.getId());
+		Vertice vTwo = vertices.get(two.getId());
 		return getNewEdge(vOne, vTwo);
 	}
 
@@ -210,8 +210,11 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean contains(Object id) {
-		return vertices.containsKey(id);
+	public boolean contains(Object obj) {
+		if (!(obj instanceof Id))
+			return false;
+		final Id item = (Id)obj;
+		return vertices.containsKey(item.getId());
 	}
 
 	@Override
@@ -230,8 +233,11 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public boolean remove(Object id) {
-		final Vertice vertice = vertices.remove(id);
+	public boolean remove(Object obj) {
+		if (!(obj instanceof Id))
+			return false;
+		final Id item = (Id) obj;
+		final Vertice vertice = vertices.remove(item.getId());
 		final boolean result = vertice != null;
 		if (result)
 			removeEdges(vertice);
