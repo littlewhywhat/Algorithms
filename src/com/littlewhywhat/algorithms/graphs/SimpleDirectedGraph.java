@@ -93,7 +93,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 	
 	private class Vertice {
-		private I item;
+		private final I item;
 		private final LinkedList<Edge> in = new LinkedList<Edge>();
 		private final LinkedList<Edge> out = new LinkedList<Edge>();
 		
