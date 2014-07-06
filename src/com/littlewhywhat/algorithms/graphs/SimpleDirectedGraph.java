@@ -209,26 +209,16 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	public boolean remove(Object id) {
 		final Vertice vertice = vertices.remove(id);
 		final boolean result = vertice != null;
-		if (result) {
-			removeEdgesOut(vertice);
-			removeEdgesIn(vertice);
-		}
+		if (result)
+			removeEdges(vertice);
 		return result;
 	}
 
-	private void removeEdgesIn(Vertice vertice) {
-		for (Edge edge : vertice.out) {
-			while (edge.end.in.contains(edge)) {
-				edge.end.in.remove(edge);
-			}
-		}
-	}
-
-	private void removeEdgesOut(Vertice vertice) {
+	private void removeEdges(Vertice vertice) {
+		for (Edge edge : vertice.out)
+			edge.end.in.remove(edge);
 		for (Edge edge : vertice.in) {
-			while (edge.start.out.contains(edge)) {
-				edge.start.out.remove(edge);
-			}
+			edge.start.out.remove(edge);
 		}
 	}
 
