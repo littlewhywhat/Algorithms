@@ -6,7 +6,7 @@ class TestItem implements Id {
 
 	private int id;
 
-	TestItem(int id) {
+	private TestItem(int id) {
 		this.id = id;
 	}
 
@@ -41,6 +41,11 @@ class TestItem implements Id {
 			return false;
 		}
 		return true;
+	}
+
+	public static TestItem[] getNewTestArray() {
+		return  new TestItem[] { new TestItem(0), new TestItem(1),
+				new TestItem(2), new TestItem(3) };
 	}
 
 }
