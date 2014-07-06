@@ -28,7 +28,7 @@ public class TestSimpleDirectedGraph {
 		final TestItem one = items[0];
 		final TestItem two = items[1];
 		addAllItems();
-		graph.connect(one.getId(), two.getId());
+		graph.connect(one, two);
 		Assert.assertEquals(true, graph.getConnections(one).hasNext());
 		Assert.assertEquals(false, graph.getConnections(two).hasNext());
 		((SimpleDirectedGraph<TestItem>) graph).reverse();
@@ -56,9 +56,9 @@ public class TestSimpleDirectedGraph {
 		final TestItem one = items[0];
 		final TestItem two = items[1];
 		addAllItems();
-		graph.connect(two.getId(), one.getId());
+		graph.connect(two, one);
 		Assert.assertEquals(true, graph.remove(one.getId()));
-		Assert.assertEquals(null, graph.get(one.getId()));
+		Assert.assertEquals(null, graph.get(one));
 		Assert.assertEquals(false, graph.getConnections(two).hasNext());
 		Assert.assertEquals(items.length - 1, graph.size());
 	}
@@ -135,7 +135,7 @@ public class TestSimpleDirectedGraph {
 	public void testGet() {
 		addAllItems();
 		for (TestItem item : items)
-			Assert.assertEquals(item, graph.get(item.getId()));
+			Assert.assertEquals(item, graph.get(item));
 	}
 
 	@Test
@@ -145,9 +145,9 @@ public class TestSimpleDirectedGraph {
 		final TestItem three = items[2];
 		graph.add(one);
 		graph.add(two);
-		graph.connect(one.getId(), two.getId());
+		graph.connect(one, two);
 		try {
-			graph.connect(one.getId(), three.getId());
+			graph.connect(one, three);
 			Assert.fail();
 		} catch (IllegalArgumentException e) {}
 		final ListIterator<TestItem> iterator = graph.getConnections(one);
