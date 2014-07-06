@@ -25,7 +25,7 @@ public class TestSimpleDirectedGraphGetConnections {
 	
 	private void connectFirstWithAll() {
 		for (TestItem item : items) {
-			graph.connect(first.getId(), item.getId());
+			graph.connect(first, item);
 		}
 	}
 	
