@@ -89,7 +89,7 @@ public class TestSimpleDirectedGraphGetConnections {
 	@Test
 	public void testRemove() {
 		ListIterator<TestItem> iterator = getConnectionsOfFirst();
-		canRemoveFrom(iterator);
+		Assert.assertEquals(false, canRemoveFrom(iterator));
 		while (iterator.hasNext()) {
 			iterator.next();
 			Assert.assertEquals(true, iterator.hasPrevious());
@@ -117,9 +117,47 @@ public class TestSimpleDirectedGraphGetConnections {
 			return false;
 		}
 	}
+	
+	private boolean canSet(ListIterator<TestItem> iterator) {
+		try {
+			iterator.set(first);
+			return true;
+		} catch (IllegalStateException e) {
+			return false;
+		}
+	}
 
 	@Test
 	public void testSet() {
-		Assert.fail("Not yet implemented");
+		ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		Assert.assertEquals(false, canSet(iterator));
+		iterator.next();
+		while (iterator.hasNext()) {
+			Assert.assertNotEquals(first, iterator.next());
+			iterator.set(first);
+			iterator.remove();
+			iterator.add(first);
+			Assert.assertEquals(false, canSet(iterator));
+			Assert.assertEquals(first, iterator.previous());
+			iterator.next();
+		}
+		while (iterator.hasPrevious()) {
+			iterator.remove();
+			iterator.previous();
+		}
+		iterator.remove();
+		connectFirstWithAll();
+		iterator = getConnectionsOfFirst();
+		getToEnd(iterator);
+		while (iterator.previousIndex()!= 0) {
+			TestItem item = iterator.previous();
+			Assert.assertNotEquals(first, item);
+			iterator.set(first);
+			iterator.remove();
+			Assert.assertEquals(false, canSet(iterator));
+			iterator.add(first);
+			iterator.previous();
+		}
+		
 	}
 }
