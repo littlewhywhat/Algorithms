@@ -154,8 +154,8 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	private final Map<Integer, Vertice> vertices = new HashMap<Integer, Vertice>();
 
 	@Override
-	public void connect(int one, int two) {
-		connectAndGet(one, two);
+	public void connect(I one, I two) {
+		connectAndGet(one.getId(), two.getId());
 	}
 
 	protected Edge connectAndGet(int one, int two) {
@@ -183,8 +183,8 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 	}
 
 	@Override
-	public I get(int id) {
-		Vertice vertice = vertices.get(id);
+	public I get(I item) {
+		Vertice vertice = vertices.get(item.getId());
 		if (vertice != null)
 			return vertice.item;
 		return null;
