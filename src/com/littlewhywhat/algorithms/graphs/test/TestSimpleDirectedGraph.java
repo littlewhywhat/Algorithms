@@ -14,8 +14,7 @@ import com.littlewhywhat.algorithms.graphs.SimpleDirectedGraph;
 public class TestSimpleDirectedGraph {
 
 	private Graph<TestItem> graph;
-	private final TestItem[] items = new TestItem[] { new TestItem(0), new TestItem(1),
-			new TestItem(2), new TestItem(3) };
+	private final TestItem[] items = TestItem.getNewTestArray();
 	private Random random = new Random();
 
 	@Before
