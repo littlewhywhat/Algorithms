@@ -34,39 +34,48 @@ public class TestSimpleDirectedGraphGetConnections {
 	}
 	
 	@Test
-	public void testHasNext() {
+	public void testHasNextAndIndex() {
 		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
 		int count = 0;
 		while (iterator.hasNext()) {
+			Assert.assertEquals(count, iterator.nextIndex());
 			iterator.next();
 			count++;
 		}
+		Assert.assertEquals(items.length, iterator.nextIndex());
 		Assert.assertEquals(items.length, count);
 	}
 
 	@Test
-	public void testHasPrevious() {
-		Assert.fail("Not yet implemented");
+	public void testHasPreviousAndIndex() {
+		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		while (iterator.hasNext())
+			iterator.next();
+		int count = items.length - 1;
+		while (iterator.hasPrevious()) {
+			Assert.assertEquals(count, iterator.previousIndex());
+			iterator.previous();
+			count--;
+		}
+		Assert.assertEquals(-1, iterator.previousIndex());
+		Assert.assertEquals(-1, count);
 	}
 	
 	@Test
 	public void testNext() {
-		Assert.fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testNextIndex() {
-		Assert.fail("Not yet implemented");
+		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		for (TestItem item : items) 
+			Assert.assertEquals(item, iterator.next());
 	}
 	
 	@Test
 	public void testPrevious() {
-		Assert.fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testPreviousIndex() {
-		Assert.fail("Not yet implemented");
+		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		while (iterator.hasNext())
+			iterator.next();
+		for (int i = items.length - 1; i > -1; i--) {
+			Assert.assertEquals(items[i], iterator.previous());
+		}
 	}
 	
 	@Test
