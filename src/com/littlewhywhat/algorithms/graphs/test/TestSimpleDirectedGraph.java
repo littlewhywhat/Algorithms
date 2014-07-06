@@ -71,7 +71,10 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testIterator() {
-		Assert.fail("Not implemented");
+		addAllItems();
+		int count = 0;
+		for (TestItem item: graph) 
+			Assert.assertEquals(item, items[count++]);
 	}
 
 	@Test
