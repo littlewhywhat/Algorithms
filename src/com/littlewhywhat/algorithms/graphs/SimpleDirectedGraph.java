@@ -87,7 +87,7 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 		@Override
 		public void set(I item) {
 			if (stateIsLegal())
-				currentState.setEnd(item);
+				currentState.setEnd(vertices.get(item.getId()));
 		}
 		
 	}
@@ -115,8 +115,8 @@ public class SimpleDirectedGraph<I extends Id> implements DirectedGraph<I> {
 			this.end = end;
 		}
 		
-		public void setEnd(I item) {
-			this.end.item = item;
+		public void setEnd(Vertice vertice) {
+			this.end = vertice;
 		}
 
 		@Override
