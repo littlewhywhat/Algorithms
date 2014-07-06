@@ -2,6 +2,7 @@ package com.littlewhywhat.algorithms.graphs.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import org.junit.Assert;
@@ -43,12 +44,13 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testRemove() {
-		Assert.fail("Not implemented");
+		final TestItem one = items[0];
+		final TestItem two = items[1];
 		addAllItems();
-		final int index = 0;
-		final int id = items[index].getId();
-		graph.remove(id);
-		Assert.assertEquals(null, graph.get(id));
+		graph.connect(two.getId(), one.getId());
+		Assert.assertEquals(true, graph.remove(one.getId()));
+		Assert.assertEquals(null, graph.get(one.getId()));
+		Assert.assertEquals(false, graph.getConnections(two).hasNext());
 		Assert.assertEquals(items.length - 1, graph.size());
 	}
 
@@ -126,7 +128,6 @@ public class TestSimpleDirectedGraph {
 
 	@Test
 	public void testConnect() {
-		//Assert.fail("Not implemented");
 		final TestItem one = items[0];
 		final TestItem two = items[1];
 		final TestItem three = items[2];
@@ -137,6 +138,12 @@ public class TestSimpleDirectedGraph {
 			graph.connect(one.getId(), three.getId());
 			Assert.fail();
 		} catch (IllegalArgumentException e) {}
-		
+		final ListIterator<TestItem> iterator = graph.getConnections(one);
+		int count = 0;
+		while (iterator.hasNext()) {
+			iterator.next();
+			count++;
+		}
+		Assert.assertEquals(1, count );
 	}
 }
