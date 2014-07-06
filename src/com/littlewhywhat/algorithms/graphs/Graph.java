@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.ListIterator;
 
 public interface Graph<T extends Id> extends Collection<T> {
-	void connect(int one, int two);
+	void connect(T one, T two);
 	ListIterator<T> getConnections(T item);
-	T get(int id);
+	T get(T item);
 }
