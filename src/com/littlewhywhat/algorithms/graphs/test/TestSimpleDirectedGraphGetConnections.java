@@ -40,7 +40,17 @@ public class TestSimpleDirectedGraphGetConnections {
 
 	@Test
 	public void testAdd() {
-		Assert.fail("Not yet implemented");
+		final ListIterator<TestItem> iterator = getConnectionsOfFirst();
+		for (TestItem item : items) {
+			iterator.add(item);
+			iterator.next();
+		}
+		while (iterator.hasPrevious())
+			iterator.previous();
+		for (TestItem item : items) {
+			Assert.assertEquals(item, iterator.next());
+			Assert.assertEquals(item, iterator.next());
+		}
 	}
 
 	@Test
