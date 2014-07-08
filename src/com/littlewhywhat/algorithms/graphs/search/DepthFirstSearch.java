@@ -3,23 +3,21 @@ package com.littlewhywhat.algorithms.graphs.search;
 import java.util.Stack;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.Connection;
-import com.littlewhywhat.algorithms.graphs.Vertice;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
+import com.littlewhywhat.algorithms.graphs.Edge;
+import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.Id;
 
-public class DepthFirstSearch extends
-		AbstractAlgorithm<Void, SearchGraph, SearchGraph> {
+public class DepthFirstSearch<I, T extends Id<I> & SearchItem> extends
+		AbstractAlgorithm<Void, Graph<I, T, Edge<I,T>>, Graph<I, T, Edge<I,T>>> {
 
-	private final Stack<SearchVertice> stack = new Stack<SearchVertice>();
+	private final Stack<T> stack = new Stack<T>();
 
 	@Override
 	public void execute() {
-		final SearchGraph graph = getData();
-		SearchVertice startVertice;
-		for (Vertice vertice : graph) {
-			startVertice = (SearchVertice) vertice;
-			if (!startVertice.isExplored()) {
-				addToStack(startVertice);
+		final Graph<I, T, Edge<I,T>> graph = getData();
+		for (T vertice : graph) {
+			if (!vertice.isExplored()) {
+				addToStack(vertice);
 				while (!stack.empty())
 					recursiveCall(graph, stack.pop());
 			}
@@ -27,16 +25,16 @@ public class DepthFirstSearch extends
 		setOutput(graph);
 	}
 
-	private void addToStack(SearchVertice vertice) {
-		vertice.markAsExplored();
+	private void addToStack(T vertice) {
+		vertice.makeExplored();
 		stack.push(vertice);
 	}
 	
-	protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
-			for (Connection connection : graph.getConnections(vertice)) {
-				SearchVertice vConnection = (SearchVertice) connection.getVertice();
-				if (!vConnection.isExplored())
-					addToStack(vConnection);
+	protected void recursiveCall(Graph<I, T, Edge<I,T>> graph, T start) {
+			for (Edge<I,T> edge : graph.getOut(start)) {
+				T end =  edge.getEnd();
+				if (!end.isExplored())
+					addToStack(end);
 			}
 	}
 
