@@ -1,28 +1,20 @@
 package com.littlewhywhat.algorithms.graphs.dijsktra;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph.DijkstraVertice;
+import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.Id;
+import com.littlewhywhat.algorithms.graphs.WeightedEdge;
 
-public class DijkstraAlgo extends AbstractAlgorithm<Void, DijkstraGraph, int[]> {
+public class DijkstraAlgo<I, T extends Id<I>, E extends WeightedEdge<I,T>> extends AbstractAlgorithm<I, Graph<I, T, E>, int[]> {
 
 	@Override
 	public void execute() {
-		DijkstraGraph graph = getData();
-		DijkstraVertice source = graph.getSource();
-		while (graph.getConnections(source).size() != 0) {
-			graph.mergeDijkstra();
+		Graph<I, T, E> graph = getData();
+		T source = graph.get(getConfig());
+		while (!graph.getOut(source).isEmpty()) {
+			
 		}
-		setOutput();
-	}
 
-	private void setOutput() {
-		DijkstraGraph graph = getData();
-		int[] output = new int[graph.size()];
-		for (int i = 1; i <= output.length; i++) {
-			output[i - 1] = ((DijkstraVertice) graph.get(i))
-					.getDistanceToSource();
-		}
-		setOutput(output);
 	}
 
 }
