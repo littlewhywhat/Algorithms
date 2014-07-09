@@ -1,21 +1,23 @@
 package com.littlewhywhat.algorithms.graphs.csc;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.Connection;
-import com.littlewhywhat.algorithms.graphs.Vertice;
-import com.littlewhywhat.algorithms.graphs.search.DepthFirstSearch;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph;
-import com.littlewhywhat.algorithms.graphs.search.SearchGraph.SearchVertice;
+import com.littlewhywhat.algorithms.graphs.DirectedGraph;
+import com.littlewhywhat.algorithms.graphs.Edge;
+import com.littlewhywhat.algorithms.graphs.Graph;
+import com.littlewhywhat.algorithms.graphs.Id;
+import com.littlewhywhat.algorithms.graphs.search.SearchItem;
 
-public class KosarajuAlgo extends
-		AbstractAlgorithm<Void, ReversibleGraph, LinkedList<Integer>> {
+public class KosarajuAlgo<I, T extends Id<I> & SearchItem>
+		extends
+		AbstractAlgorithm<Void, DirectedGraph<I, T, Edge<I, T>>, List<Integer>> {
 
 	private LinkedList<Integer> counts = new LinkedList<Integer>();
 	private FirstPass firstPass = new FirstPass();
-	private LinkedList<Integer> order = new LinkedList<Integer>();
+	private LinkedList<I> order = new LinkedList<I>();
 	private SecondPass secondPass = new SecondPass();
 
 	@Override
@@ -25,39 +27,43 @@ public class KosarajuAlgo extends
 		firstPass.execute();
 		// System.out.println(order);
 		getData().reverse();
-		getData().reset();
+		reset(getData());
 		secondPass.setData(getData());
 		secondPass.execute();
 		setOutput(counts);
 	}
 
-	public class SecondPass extends DepthFirstSearch {
+	private void reset(DirectedGraph<I, T, Edge<I, T>> data) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		private final Stack<SearchVertice> stack = new Stack<SearchVertice>();
+	private class SecondPass
+			extends
+			AbstractAlgorithm<Void, Graph<I, T, Edge<I, T>>, Graph<I, T, Edge<I, T>>> {
 
-		@Override
-		protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
-			vertice.markAsExplored();
-			for (Connection connection : graph.getConnections(vertice)) {
-				SearchVertice verticeOther = (SearchVertice) connection.getVertice();
-				if (!verticeOther.isExplored())
-					stack.push(verticeOther);
+		private final Stack<T> stack = new Stack<T>();
+
+		protected void recursiveCall(Graph<I, T, Edge<I, T>> graph, T start) {
+			start.makeExplored();
+			for (Edge<I, T> edge : graph.getOut(start)) {
+				T end = edge.getEnd();
+				if (!end.isExplored())
+					stack.push(end);
 			}
 		}
 
 		@Override
 		public void execute() {
-			SearchGraph graph = getData();
-			for (Integer index : order) {
-				SearchVertice startVertice = (SearchVertice) graph
-						.get(index);
-				if (!startVertice.isExplored()) {
-					stack.push(startVertice);
+			final Graph<I, T, Edge<I, T>> graph = getData();
+			for (I index : order) {
+				T start = graph.get(index);
+				if (!start.isExplored()) {
+					stack.push(start);
 					int count = 0;
 					while (!stack.empty()) {
 						if (!stack.peek().isExplored()) {
 							count++;
-
 							recursiveCall(graph, stack.pop());
 						} else
 							stack.pop();
@@ -70,36 +76,35 @@ public class KosarajuAlgo extends
 
 	}
 
-	public class FirstPass extends DepthFirstSearch {
+	private class FirstPass extends
+	AbstractAlgorithm<Void, Graph<I, T, Edge<I, T>>, Graph<I, T, Edge<I, T>>> {
 
 		private final Stack<Object> stack = new Stack<Object>();
 
-		@Override
-		protected void recursiveCall(SearchGraph graph, SearchVertice vertice) {
-			if (!vertice.isExplored()) {
-				vertice.markAsExplored();
-				stack.push(vertice.getIndex());
+		protected void recursiveCall(Graph<I, T, Edge<I,T>> graph, T start) {
+			if (!start.isExplored()) {
+				start.makeExplored();
+				stack.push(start.getId());
 
-				for (Connection connection : graph.getConnections(vertice)) {
-					SearchVertice verticeOther = (SearchVertice) connection.getVertice();
-					if (!verticeOther.isExplored())
-						stack.push(verticeOther);
+				for (Edge<I,T> edge: graph.getOut(start)) {
+					T end = edge.getEnd();
+					if (!end.isExplored())
+						stack.push(end);
 				}
 			}
 		}
 
 		@Override
 		public void execute() {
-			SearchGraph graph = getData();
-			for (Vertice vertice : graph) {
-				SearchVertice startVertice = (SearchVertice) vertice;
-				if (!startVertice.isExplored()) {
-					stack.push(startVertice);
+			final Graph<I, T, Edge<I,T>> graph = getData();
+			for (T start : graph) {
+				if (!start.isExplored()) {
+					stack.push(start);
 					while (!stack.empty()) {
-						if (stack.peek() instanceof SearchVertice)
-							recursiveCall(graph, (SearchVertice) stack.pop());
+						if (stack.peek() instanceof Id<?>)
+							recursiveCall(graph, (T)stack.pop());
 						else
-							order.addFirst((Integer) stack.pop());
+							order.addFirst((I)stack.pop());
 					}
 				}
 			}
