@@ -7,4 +7,5 @@ public interface Graph<I, T extends Id<I>, E extends Edge<I,T>> extends Collecti
 	T get(I id);
 	Collection<E> getIn(T item);
 	Collection<E> getOut(T item);
+	Collection<E> edges();
 }
