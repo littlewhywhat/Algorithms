@@ -2,6 +2,9 @@ package com.littlewhywhat.algorithms.schedule.test;
 
 import java.util.Comparator;
 
+
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,10 +16,15 @@ import com.littlewhywhat.algorithms.schedule.SimpleSchedule;
 
 public class TestMinWeightedSum {
 
+	private static final long ANSWER_DIFF_SMALL = 45;
+	private static final long ANSWER_RATIO_SMALL = 44;
 	private final String FOLDER = "src/com/littlewhywhat/algorithms/schedule/test/input/";
 	private final String INPUT = FOLDER + "jobs.txt";
 	private final String INPUT_SMALL = FOLDER + "jobsSmall.txt";
 
+	private final long ANSWER_DIFF = 69119377652L;
+	private final long ANSWER_RATIO = 67311454237L;
+	
 	private Schedule<SimpleJob> schedule;
 	private SimpleJobReader reader;
 	private Comparator<SimpleJob> comparatorDiff = new Comparator<SimpleJob>() {
@@ -50,25 +58,33 @@ public class TestMinWeightedSum {
 	}
 
 	@Test
-	public void testDiff() {
-		schedule = new SimpleSchedule(comparatorDiff);
-		reader = new SimpleJobReader(schedule);
-		reader.setInputFilePath(INPUT);
-		reader.read();
-		algo.setData(reader.getData());
-		algo.execute();
-		System.out.println(algo.getOutput());
+	public void testDiffBig() {
+		test(comparatorDiff, INPUT, ANSWER_DIFF);
 	}
 	
 	@Test
-	public void testRatio() {
-		schedule = new SimpleSchedule(comparatorRatio);
+	public void testDiffSmall() {
+		test(comparatorDiff, INPUT_SMALL, ANSWER_DIFF_SMALL);
+	}
+	
+	@Test
+	public void testRatioSmall() {
+		test(comparatorRatio, INPUT_SMALL, ANSWER_RATIO_SMALL);
+	}
+	
+	private void test(Comparator<SimpleJob> comparator, String inputFilePath, long answer) {
+		schedule = new SimpleSchedule(comparator);
 		reader = new SimpleJobReader(schedule);
-		reader.setInputFilePath(INPUT);
+		reader.setInputFilePath(inputFilePath);
 		reader.read();
 		algo.setData(reader.getData());
 		algo.execute();
-		System.out.println(algo.getOutput());
+		Assert.assertEquals(answer, algo.getOutput().longValue());
+	}
+	
+	@Test
+	public void testRatioBig() {
+		test(comparatorRatio, INPUT, ANSWER_RATIO);
 	}
 
 }
