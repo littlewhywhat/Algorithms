@@ -11,12 +11,12 @@ public class SimpleItem implements KnapsackItem {
 
 	@Override
 	public int getWeight() {
-		return this.value;
+		return this.weight;
 	}
 
 	@Override
 	public int getValue() {
-		return this.weight;
+		return this.value;
 	}
 
 	@Override
