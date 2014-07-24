@@ -22,7 +22,7 @@ public class TestKnapsackAlgo {
 	private static final int INPUT_CONFIG = 6;
 	private static final int ANSWER = 8;
 	private static final int ANSWER_SMALL = 2493893;
-	private static final int ANSWER_BIG = 0;
+	private static final int ANSWER_BIG = 4243395;
 	private KnapsackAlgo algo;
 	private KnapsackReader reader;
 
