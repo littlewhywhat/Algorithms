@@ -7,7 +7,7 @@ import com.littlewhywhat.algorithms.graphs.Vertice;
 import com.littlewhywhat.algorithms.graphs.clustering.UnionFindGraph.WeightedEdge;
 
 public class FloydWarshalAlgo extends
-		AbstractAlgorithm<Void, Graph, int[]> {
+		AbstractAlgorithm<Void, Graph, int[][]> {
 
 	private class ProcessingData {
 		private int CACHE_INDEX = 0;
@@ -34,8 +34,19 @@ public class FloydWarshalAlgo extends
 			
 	@Override
 	public void execute() {
-		final ProcessingData data = new ProcessingData(this.getData().size());
+		final int size = this.getData().size();
+		final ProcessingData data = new ProcessingData(size);
 		fillProcessingData(data);
+		int[][] current;
+		int[][] cache;
+		
+		for (int k = 0; k < size; k++) {
+			current = data.getCurrent();
+			cache = data.getCache();
+			
+			data.switchCurrentCache();
+		}
+		setOutput(data.getCache());
 	}
 
 
