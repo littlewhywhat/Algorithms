@@ -10,7 +10,7 @@ import com.littlewhywhat.algorithms.graphs.clustering.UnionFindGraph;
 
 public class TestFloydWarshalAlgo {
 	private static final String FOLDER = "src/com/littlewhywhat/algorithms/graphs/allpairs/test/input/";
-	private static final String INPUT_ONE = FOLDER + "graph1.txt";
+	private static final String INPUT_ONE = FOLDER + "graph.txt";
 	private FloydWarshalAlgo algo;
 	private ClusteringReader reader;
 	private Graph graph;
