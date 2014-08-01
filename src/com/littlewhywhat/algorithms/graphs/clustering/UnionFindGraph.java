@@ -31,7 +31,7 @@ public class UnionFindGraph extends SimpleGraph {
 			this.weight = value;
 		}
 
-		int getWeight() {
+		public int getWeight() {
 			return this.weight;
 		}
 
