@@ -43,10 +43,29 @@ public class FloydWarshalAlgo extends
 		for (int k = 0; k < size; k++) {
 			current = data.getCurrent();
 			cache = data.getCache();
-			
+			int caseOne;
+			int caseTwo;
+			for (int i = 0; i < size; i++) 
+				for (int j = 0; j < size; j++) {
+					caseOne = cache[i][j];
+					caseTwo = cache[i][k] + cache[k][j];
+					if (caseOne < caseTwo)
+						current[i][j] = caseOne;
+					else
+						current[i][j] = caseTwo;
+				}
 			data.switchCurrentCache();
 		}
-		setOutput(data.getCache());
+		if (!hasNegativeCycles(data.getCache()))
+			setOutput(data.getCache());
+	}
+
+
+	private boolean hasNegativeCycles(int[][] data) {
+		for (int i = 0; i < data.length; i++)
+			if (data[i][i] < 0)
+				return true;
+		return false;
 	}
 
 
@@ -54,7 +73,7 @@ public class FloydWarshalAlgo extends
 		final Graph graph = getData();
 		for (int i = 0; i < graph.size(); i++) 
 			for (int j = 0; j < graph.size(); j++)
-				data.getCache()[i][j] = Integer.MAX_VALUE;
+				data.getCache()[i][j] = Integer.MAX_VALUE/2;
 		for (Vertice vertice: graph) 
 			for (Connection connection: graph.getConnections(vertice)) {
 				WeightedEdge edge = (WeightedEdge) connection;
