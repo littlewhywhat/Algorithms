@@ -7,5 +7,8 @@ public interface LinkedNode {
 	LinkedNode getParent();
 	boolean hasChildren();
 	List<LinkedNode> getChildren();
+	LinkedNode getFirstChild();
+	LinkedNode getFirst();
+	LinkedNode getLast();
 }
  
