@@ -3,18 +3,18 @@ package com.littlewhywhat.algorithms.salesman;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SimpleNode implements Node {
+public class SimpleNode implements LinkedNode {
 
-	private Node parent;
-	private final List<Node> children = new LinkedList<Node>();
+	private LinkedNode parent;
+	private final List<LinkedNode> children = new LinkedList<LinkedNode>();
 	
 	@Override
-	public Node getParent() {
+	public LinkedNode getParent() {
 		return this.parent;
 	}
 
 	@Override
-	public List<Node> getChildren() {
+	public List<LinkedNode> getChildren() {
 		return this.children;
 	}
 

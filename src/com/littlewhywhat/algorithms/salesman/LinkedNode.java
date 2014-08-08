@@ -2,10 +2,10 @@ package com.littlewhywhat.algorithms.salesman;
 
 import java.util.List;
 
-public interface Node {
+public interface LinkedNode {
 	boolean hasParent();
-	Node getParent();
+	LinkedNode getParent();
 	boolean hasChildren();
-	List<Node> getChildren();
+	List<LinkedNode> getChildren();
 }
  
