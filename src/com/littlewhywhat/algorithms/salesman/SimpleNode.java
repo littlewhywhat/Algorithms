@@ -28,4 +28,22 @@ public class SimpleNode implements LinkedNode {
 		return !this.children.isEmpty();
 	}
 
+	@Override
+	public LinkedNode getFirstChild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LinkedNode getFirst() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LinkedNode getLast() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
