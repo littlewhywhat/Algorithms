@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.salesman;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -11,7 +10,7 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 
 	private class CityNode extends SimpleNode {
 		private final City city;
-
+		private int[] map = new int[25];
 		private CityNode(City city) {
 			this.city = city;
 		}
@@ -26,8 +25,6 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 		}
 	}
 
-	private List<CityNode> cityNodes = new ArrayList<CityNode>();
-	private Node cache;
 	private Node current;
 
 	@Override
@@ -44,7 +41,8 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 	}
 
 	private void printTree(Node node, String tab) {
-		System.out.println(tab + node);
+		String str = ((CityNode)node).map != null? ((CityNode)node).map.toString(): "";
+		System.out.println(tab + node + str);
 		if (node.hasChildren()) {
 			String extraTab = tab + ">> ";
 			for (Node cityNode : node.getChildren()) 
@@ -56,19 +54,23 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 		int i = 0;
 		while (childIterator.hasNext()) {
 			CityNode cityChild = (CityNode) childIterator.next();
-			node.getChildren().add(new CityNode(cityChild.getCity()));
+			CityNode newCityChild = new CityNode(cityChild.getCity());
+			node.getChildren().add(newCityChild);
 			i++;
+			
 		}
 		for (int j = 0; j < i; j++)
 			childIterator.previous();
 	}
 
 	private void recurseParent(Node parent) {
+		((CityNode)parent).map = null;
 		final LinkedList<Node> children = (LinkedList<Node>) parent.getChildren();
 		ListIterator<Node> childIterator = children.listIterator();
 		int bounds = children.size() - 1;
 		for (int i = 0; i < bounds ; i++) {
 			Node child = childIterator.next();
+			((CityNode)child).map = null;
 			if (child.hasChildren())
 				recurseParent(child);
 			else
