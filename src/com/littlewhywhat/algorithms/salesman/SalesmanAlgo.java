@@ -1,14 +1,13 @@
 package com.littlewhywhat.algorithms.salesman;
 
-import java.util.LinkedList;
+
 import java.util.List;
-import java.util.ListIterator;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 
 public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 
-	private class CityNode extends SimpleNode {
+	private class CityNode extends SimpleTreeLinkedNode {
 		private final City city;
 		private int[] map = new int[25];
 		private CityNode(City city) {
@@ -25,12 +24,12 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 		}
 	}
 
-	private Node current;
+	private TreeLinkedNode current;
 
 	@Override
 	public void execute() {
 		final List<City> cities = getData();
-		current = new CityNode(cities.get(0));
+		//current = new CityNode(cities.get(0));
 		for (int index = 1; index < cities.size(); index++)
 			current.getChildren().add(new CityNode(cities.get(index)));
 		//printTree(current, "");
@@ -40,43 +39,40 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 		}
 	}
 
-	private void printTree(Node node, String tab) {
-		String str = ((CityNode)node).map != null? ((CityNode)node).map.toString(): "";
+	private void printTree(TreeLinkedNode node, String tab) {
+		//String str = ((CityNode)node).map != null? ((CityNode)node).map.toString(): "";
+		String str = "";
 		System.out.println(tab + node + str);
 		if (node.hasChildren()) {
 			String extraTab = tab + ">> ";
-			for (Node cityNode : node.getChildren()) 
-				printTree(cityNode, extraTab);
+			LinkedList<TreeLinkedNode> children = node.getChildren();
+			TreeLinkedNode child = children.getFirst();
+			while (child.hasNext()) {
+				printTree(child, extraTab);
+				child = (TreeLinkedNode) child.getNext();
+			}
 		}
 	}
 
-	private void addChildren(Node node, ListIterator<Node> childIterator) {
-		int i = 0;
-		while (childIterator.hasNext()) {
-			CityNode cityChild = (CityNode) childIterator.next();
-			CityNode newCityChild = new CityNode(cityChild.getCity());
-			node.getChildren().add(newCityChild);
-			i++;
-			
+	private void addChildren(TreeLinkedNode node) {
+		final TreeLinkedNode parent = node;
+		while (node.hasNext()) {
+			TreeLinkedNode child = new CityNode(((CityNode) node).getCity());
+			parent.getChildren().add(child);
+			node = (TreeLinkedNode) node.getNext();
 		}
-		for (int j = 0; j < i; j++)
-			childIterator.previous();
 	}
 
-	private void recurseParent(Node parent) {
-		((CityNode)parent).map = null;
-		final LinkedList<Node> children = (LinkedList<Node>) parent.getChildren();
-		ListIterator<Node> childIterator = children.listIterator();
-		int bounds = children.size() - 1;
-		for (int i = 0; i < bounds ; i++) {
-			Node child = childIterator.next();
-			((CityNode)child).map = null;
+	private void recurseParent(TreeLinkedNode node) {
+		final LinkedList<TreeLinkedNode> children =  node.getChildren();
+		TreeLinkedNode child = children.getFirst();
+		while (child.hasNext()) {
 			if (child.hasChildren())
 				recurseParent(child);
 			else
-				addChildren(child, childIterator);
+				addChildren(child);
+			child = (TreeLinkedNode) child.getNext();
 		}
-		childIterator.next();
-		childIterator.remove();
+		children.removeLast();
 	}
 }
