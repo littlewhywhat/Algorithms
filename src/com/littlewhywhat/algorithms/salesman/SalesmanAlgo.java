@@ -29,7 +29,7 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 	@Override
 	public void execute() {
 		final List<City> cities = getData();
-		//current = new CityNode(cities.get(0));
+		current = new CityNode(cities.get(0));
 		for (int index = 1; index < cities.size(); index++)
 			current.getChildren().add(new CityNode(cities.get(index)));
 		//printTree(current, "");
@@ -40,14 +40,13 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 	}
 
 	private void printTree(TreeLinkedNode node, String tab) {
-		//String str = ((CityNode)node).map != null? ((CityNode)node).map.toString(): "";
-		String str = "";
+		String str = ((CityNode)node).map != null? ((CityNode)node).map.toString(): "";
 		System.out.println(tab + node + str);
 		if (node.hasChildren()) {
 			String extraTab = tab + ">> ";
 			LinkedList<TreeLinkedNode> children = node.getChildren();
 			TreeLinkedNode child = children.getFirst();
-			while (child.hasNext()) {
+			while (child != null) {
 				printTree(child, extraTab);
 				child = (TreeLinkedNode) child.getNext();
 			}
@@ -56,7 +55,8 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 
 	private void addChildren(TreeLinkedNode node) {
 		final TreeLinkedNode parent = node;
-		while (node.hasNext()) {
+		node = (TreeLinkedNode) node.getNext();
+		while (node != null) {
 			TreeLinkedNode child = new CityNode(((CityNode) node).getCity());
 			parent.getChildren().add(child);
 			node = (TreeLinkedNode) node.getNext();
@@ -64,6 +64,7 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 	}
 
 	private void recurseParent(TreeLinkedNode node) {
+		((CityNode)node).map = null;
 		final LinkedList<TreeLinkedNode> children =  node.getChildren();
 		TreeLinkedNode child = children.getFirst();
 		while (child.hasNext()) {
