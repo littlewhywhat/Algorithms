@@ -2,28 +2,27 @@ package com.littlewhywhat.algorithms.salesman;
 
 public class SimpleLinkedNode implements LinkedNode {
 
+	protected LinkedNode previous;
+	protected LinkedNode next;
+	
 	@Override
 	public LinkedNode getPrevious() {
-		// TODO Auto-generated method stub
-		return null;
+		return previous;
 	}
 
 	@Override
 	public LinkedNode getNext() {
-		// TODO Auto-generated method stub
-		return null;
+		return next;
 	}
 
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		return next != null;
 	}
 
 	@Override
 	public boolean hasPrevious() {
-		// TODO Auto-generated method stub
-		return false;
+		return previous != null;
 	}
 
 }
