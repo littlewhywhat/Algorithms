@@ -2,40 +2,37 @@ package com.littlewhywhat.algorithms.salesman;
 
 public class SimpleTreeLinkedNode extends SimpleLinkedNode implements TreeLinkedNode {
 
+	private LinkedList<TreeLinkedNode> children = new SimpleLinkedList();
+	private TreeLinkedNode parent;
+	
 	@Override
 	public LinkedList<TreeLinkedNode> getChildren() {
-		// TODO Auto-generated method stub
-		return null;
+		return children;
 	}
 
 	@Override
 	public boolean hasChildren() {
-		// TODO Auto-generated method stub
-		return false;
+		return !children.isEmpty();
 	}
 
 	@Override
 	public TreeLinkedNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent;
 	}
 
 	@Override
 	public boolean hasParent() {
-		// TODO Auto-generated method stub
-		return false;
+		return parent != null;
 	}
 
 	@Override
 	public void setPrevious(TreeLinkedNode node) {
-		// TODO Auto-generated method stub
-
+		previous = node;
 	}
 
 	@Override
 	public void setNext(TreeLinkedNode node) {
-		// TODO Auto-generated method stub
-
+		next = node;
 	}
 
 }
