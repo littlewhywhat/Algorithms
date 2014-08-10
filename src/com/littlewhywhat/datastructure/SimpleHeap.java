@@ -144,6 +144,7 @@ public class SimpleHeap<T> implements Heap<T> {
 		return this.items.size();
 	}
 	
+	@Override
 	public void clear() {
 		this.items.clear();
 	}
