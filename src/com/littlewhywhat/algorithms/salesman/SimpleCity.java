@@ -25,5 +25,10 @@ public class SimpleCity implements City {
 		return index + "[" + x + ", " + y + "]";
 	}
 
+	@Override
+	public int getIndex() {
+		return index;
+	}
+
 	
 }
