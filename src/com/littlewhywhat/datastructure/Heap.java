@@ -9,4 +9,5 @@ public interface Heap<T> {
 	T poll();
 	T peek();
 	int size();
+	void clear();
 }
