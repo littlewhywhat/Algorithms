@@ -25,7 +25,8 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 	}
 
 	private TreeLinkedNode current;
-
+	private int i;
+	
 	@Override
 	public void execute() {
 		final List<City> cities = getData();
@@ -34,8 +35,14 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 			current.getChildren().add(new CityNode(cities.get(index)));
 		//printTree(current, "");
 		for (int m = 2; m < cities.size(); m++) {
+			long start = System.currentTimeMillis();
+			
 			recurseParent(current);
-			//printTree(current, "");
+			long end = System.currentTimeMillis();
+			System.out.println("iteration=" + m + " time:" + (end - start));
+			countTree(current);
+			System.out.println(i);
+			i=0;
 		}
 	}
 
@@ -51,6 +58,19 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 				child = (TreeLinkedNode) child.getNext();
 			}
 		}
+	}
+	
+	private void countTree(TreeLinkedNode node) {
+		if (node.hasChildren()) {
+			LinkedList<TreeLinkedNode> children = node.getChildren();
+			TreeLinkedNode child = children.getFirst();
+			while (child != null) {
+				countTree(child);
+				child = (TreeLinkedNode) child.getNext();
+			}
+		}
+		else
+			i++;
 	}
 
 	private void addChildren(TreeLinkedNode node) {
@@ -72,8 +92,9 @@ public class SalesmanAlgo extends AbstractAlgorithm<Void, List<City>, Double> {
 				recurseParent(child);
 			else
 				addChildren(child);
-			child = (TreeLinkedNode) child.getNext();
+			child = (TreeLinkedNode) child.getNext();	
 		}
+		
 		children.removeLast();
 	}
 }
