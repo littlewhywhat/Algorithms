@@ -3,7 +3,6 @@ package com.littlewhywhat.algorithms.salesman;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -13,10 +12,17 @@ import com.littlewhywhat.algorithms.AbstractAlgorithm;
 public class SalesmanAlgoTwo extends
 		AbstractAlgorithm<Void, List<City>, Double> {
 
-	private LinkedHashMap<LinkedList<City>, HashMap<Integer, Double>> cache = new LinkedHashMap<LinkedList<City>, HashMap<Integer, Double>>();
-	private LinkedHashMap<LinkedList<City>, HashMap<Integer, Double>> current = new LinkedHashMap<LinkedList<City>, HashMap<Integer, Double>>();
-	private List<LinkedList<City>> cacheKeys = new ArrayList<LinkedList<City>>();
-	private List<LinkedList<City>> currentKeys = new ArrayList<LinkedList<City>>();
+	
+	private class Data {
+		private List<City> list;
+		private int[] array;
+		Data(List<City> list, int[] array) {
+			this.list = list;
+			this.array = array;
+		}
+	}
+	private List<Data> cache = new ArrayList<Data>();
+	private List<Data> current = new ArrayList<Data>();
 
 	@Override
 	public void execute() {
@@ -24,31 +30,34 @@ public class SalesmanAlgoTwo extends
 		final City firstCity = cities.remove(0);
 		int i = 1;
 		for (City city : cities) {
-			LinkedList<City> set = new LinkedList<City>();
+			List<City> set = new ArrayList<City>();
 			set.add(city);
 			HashMap<Integer, Double> answers = new HashMap<Integer, Double>(
 					cities.size());
 			answers.put(i++, firstCity.getDistanceTo(city));
-			cache.put(set, answers);
+			cache.add(new Data(set, new int[getData().size()]));
 			//cacheKeys.add(set);
 		}
 		for (int m = 0; m < cities.size(); m++) {
 			long start = System.currentTimeMillis();
-			for (LinkedList<City> linkedList : cache.keySet()) {
-				//System.out.println(linkedList);
-				process(linkedList , cities);
+			for (Data data : cache) {
+				//System.out.println(data.list);
+				process(data.list , cities);
+				data.list = null;
+				data.array = null;
 			}
 			//System.out.println(currentKeys);
 			switchCurrentAndCache();
 			long end = System.currentTimeMillis();
 			//if (m == 8)
-				System.out.println("iteration:" + m + " time:" + (end - start) + " keysSize:" + cacheKeys.size());
+				System.out.println("iteration:" + m + " time:" + (end - start) + " keysSize:" + cache.size());
 		}
 
 	}
 
-	private void process(LinkedList<City> linkedList, List<City> cities) {
-		int index = linkedList.getLast().getIndex();
+	private void process(List<City> linkedList, List<City> cities) {
+		//int index = linkedList.getLast().getIndex();
+		int index = linkedList.get(linkedList.size() - 1).getIndex();
 		if (index < cities.size()) {
 			ListIterator<City> iterator = cities.listIterator(index);
 			while (iterator.hasNext())
@@ -58,22 +67,22 @@ public class SalesmanAlgoTwo extends
 
 	private void switchCurrentAndCache() {
 		cache = current;
-		current = new LinkedHashMap<LinkedList<City>, HashMap<Integer, Double>>();
+		current = new ArrayList<Data>();
 		//cacheKeys = currentKeys;
 		//currentKeys = new ArrayList<LinkedList<City>>();
 	}
 
-	private void addNewListToCurrent(LinkedList<City> linkedList, City newCity) {
-		LinkedList<City> list = new LinkedList<City>(linkedList);
-		list.addLast(newCity);
+	private void addNewListToCurrent(List<City> linkedList, City newCity) {
+		List<City> list = new ArrayList<City>(linkedList);
+		list.add(newCity);
 		ListIterator<City> listIterator = list.listIterator();
 		while (listIterator.hasNext()) {
 			City city = listIterator.next();
-			listIterator.remove();
+			//listIterator.remove();
 			// System.out.println(city);
-			listIterator.add(city);
+			//listIterator.add(city);
 		}
-		current.put(list, new HashMap<Integer, Double>());
+		current.add(new Data(list, new int[getData().size()]));
 		//currentKeys.add(list);
 	}
 
