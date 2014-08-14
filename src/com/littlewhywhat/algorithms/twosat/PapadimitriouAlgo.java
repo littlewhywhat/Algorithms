@@ -14,22 +14,26 @@ public class PapadimitriouAlgo extends
 	public void execute() {
 		int length = getConfig();
 		int number = 2 * (length ^ 2);
-		boolean[] data = new boolean[length];
-		for (Clause clause : getData())
-			clause.setVariables(data);
+		boolean[] variables = new boolean[length];
+		preProcessData(variables);
 		//System.out.println(getData());
 		int log = (int) Math.log(length);
 		for (int i = 0; i < log; i++) {
-			randomize(data);
+			randomize(variables);
 			for (int j = 0; j < number; j++) {
 				//printArray(data);
-				if (execute(data)) {
+				if (execute(variables)) {
 					setOutput(true);
 					return;
 				}
 			}
 		}
 		setOutput(false);
+	}
+
+	private void preProcessData(boolean[] data) {
+		for (Clause clause : getData())
+			clause.setVariables(data);
 	}
 
 	private void printArray(boolean[] data) {
