@@ -9,7 +9,7 @@ import com.littlewhywhat.algorithms.twosat.PapadimitriouAlgo;
 public class PapadimitriouAlgoTest {
 
 	private final String FOLDER = "src/com/littlewhywhat/algorithms/twosat/test/input/";
-	private final String INPUT = FOLDER + "2sat1.txt";
+	private final String INPUT = FOLDER + "2sat0.txt";
 	private PapadimitriouAlgo algo;
 	private ClauseReader reader;
 	
@@ -23,7 +23,9 @@ public class PapadimitriouAlgoTest {
 	public void test() {
 		reader.setInputFilePath(INPUT);
 		reader.read();
+		algo.setConfig(reader.getConfig());
 		algo.setData(reader.getData());
+		algo.execute();
 		System.out.println(algo.getOutput());
 	}
 
