@@ -4,18 +4,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.littlewhywhat.algorithms.salesman.CityReader;
-import com.littlewhywhat.algorithms.salesman.SalesmanAlgo;
+import com.littlewhywhat.algorithms.salesman.SalesmanAlgoTwo;
 
 public class TestSalesmanAlgo {
 
-	private static final String INPUT_SMALL = "src/com/littlewhywhat/algorithms/salesman/test/input/tspSmall.txt";
+	private static final String INPUT_SMALL = "src/com/littlewhywhat/algorithms/salesman/test/input/tsp.txt";
 	private CityReader reader;
-	private SalesmanAlgo algo;
+	private SalesmanAlgoTwo algo;
 	
 	@Before
 	public void setUp() throws Exception {
 		reader = new CityReader();
-		algo = new SalesmanAlgo();
+		algo = new SalesmanAlgoTwo();
 	}
 
 	@Test
