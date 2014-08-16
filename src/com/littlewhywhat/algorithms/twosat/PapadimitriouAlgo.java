@@ -21,7 +21,7 @@ public class PapadimitriouAlgo extends
 		for (int i = 0; i < log; i++) {
 			randomize(variables);
 			for (int j = 0; j < number; j++) {
-				//printArray(data);
+				//printArray(variables);
 				if (execute(variables)) {
 					setOutput(true);
 					return;
