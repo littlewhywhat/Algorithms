@@ -17,7 +17,7 @@ public class ClauseReader extends TextFileInputReader<Integer, List<SimpleClause
 		while (scanner.hasNext()) {
 			int one = scanner.nextInt();
 			int two = scanner.nextInt();
-			data.add(new SimpleClause(one < 0, Math.abs(one) - 1, two < 0, Math.abs(two) - 1));
+			data.add(SimpleClause.getNewSimpleClause(one < 0, Math.abs(one) - 1, two < 0, Math.abs(two) - 1));
 		}
 		setData(data);
 	}
