@@ -16,7 +16,6 @@ public class ClauseCleaner extends
 
 	private Set<Clause> bloomFilter = new HashSet<Clause>();
 	private Map<Integer, LinkedList<Clause>> clausesCount = new HashMap<Integer, LinkedList<Clause>>();
-	private int i;
 
 	@Override
 	public void execute() {
@@ -42,14 +41,7 @@ public class ClauseCleaner extends
 			if (iterator.next().size() < 3)
 				iterator.remove();
 		}
-		System.out.println("i= " + i);
 		setOutput(data);
-	}
-
-	private void countClauses(int variableIndexOne, int variableIndexTwo) {
-		//clausesCount[variableIndexOne][variableIndexTwo] += 1;
-		//if (clausesCount[variableIndexOne][variableIndexTwo] > 2)
-			//System.out.println(variableIndexOne + " " + variableIndexTwo);
 	}
 
 	private boolean isAboutOneVariable(SimpleClause clause) {
