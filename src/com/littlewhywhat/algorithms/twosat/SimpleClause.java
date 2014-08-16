@@ -6,26 +6,33 @@ public class SimpleClause implements Clause {
 	private final boolean isInversedTwo;
 	private final int variableIndexOne;
 	private final int variableIndexTwo;
-	
+
 	private boolean[] variables;
-	
-	public SimpleClause(boolean isInversedOne, int variableIndexOne , boolean isInversedTwo, int variableIndexTwo) {
+
+	public static SimpleClause getNewSimpleClause(boolean isInversedOne,
+			int variableIndexOne, boolean isInversedTwo, int variableIndexTwo) {
+		return new SimpleClause(isInversedOne, variableIndexOne, isInversedTwo,
+				variableIndexTwo);
+	}
+
+	private SimpleClause(boolean isInversedOne, int variableIndexOne,
+			boolean isInversedTwo, int variableIndexTwo) {
 		this.isInversedOne = isInversedOne;
 		this.isInversedTwo = isInversedTwo;
 		this.variableIndexOne = variableIndexOne;
 		this.variableIndexTwo = variableIndexTwo;
 	}
-	
+
 	@Override
 	public void setVariables(boolean[] variables) {
 		this.variables = variables;
 	}
-	
+
 	@Override
 	public boolean check() {
-		//boolean one = checkOne(getVariableOne());
-		//boolean two = checkTwo(getVariableTwo());
-		//System.out.println(one + " or " + two);
+		// boolean one = checkOne(getVariableOne());
+		// boolean two = checkTwo(getVariableTwo());
+		// System.out.println(one + " or " + two);
 		return checkOne(getVariableOne()) || checkTwo(getVariableTwo());
 	}
 
@@ -60,15 +67,15 @@ public class SimpleClause implements Clause {
 	public void inverseFirstVariable() {
 		variables[variableIndexOne] = !getVariableOne();
 	}
-	
+
 	public void inverseSecondVariable() {
 		variables[variableIndexTwo] = !getVariableTwo();
 	}
 
 	@Override
 	public String toString() {
-		return "[" + (isInversedOne()? "!" : "") + variableIndexOne + ", " + (isInversedTwo()? "!" : "")
-				+ variableIndexTwo + "]";
+		return "[" + (isInversedOne() ? "!" : "") + variableIndexOne + ", "
+				+ (isInversedTwo() ? "!" : "") + variableIndexTwo + "]";
 	}
 
 	public int getVariableIndexOne() {
@@ -82,19 +89,19 @@ public class SimpleClause implements Clause {
 	public boolean isInversedOneAndTwo() {
 		return isInversedOne() && isInversedTwo();
 	}
-	
+
 	public boolean isInversedOnlyOne() {
 		return isInversedOne() && !isInversedTwo();
 	}
-	
+
 	public boolean isInversedOnlyTwo() {
 		return !isInversedOne() && isInversedTwo();
 	}
-	
+
 	public boolean isInversedOneOrTwo() {
 		return isInversedOne() || isInversedTwo();
 	}
-	
+
 	public boolean isNotInversedOneAndTwo() {
 		return !isInversedOne() && !isInversedTwo();
 	}
@@ -136,6 +143,5 @@ public class SimpleClause implements Clause {
 		}
 		return true;
 	}
-	
-	
+
 }
