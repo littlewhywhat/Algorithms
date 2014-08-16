@@ -57,19 +57,10 @@ public class ClauseCleaner extends
 	}
 
 	private int getIndicesHash(SimpleClause clause) {
-		int lessIndex;
-		int moreIndex;
 		final int prime = 31;
 		int result = 1;
-		if (clause.getSmallerVariableIndex() < clause.getLargerVariableIndex()) {
-			lessIndex = clause.getSmallerVariableIndex();
-			moreIndex = clause.getLargerVariableIndex();
-		} else {
-			lessIndex = clause.getLargerVariableIndex();
-			moreIndex = clause.getSmallerVariableIndex();
-		}
-		result = prime * result + lessIndex;
-		result = prime * result + moreIndex;
+		result = prime * result + clause.getSmallerVariableIndex();
+		result = prime * result + clause.getLargerVariableIndex();
 		return result;
 	}
 
