@@ -36,14 +36,14 @@ public class SimpleClause implements Clause {
 		// boolean one = checkOne(getVariableOne());
 		// boolean two = checkTwo(getVariableTwo());
 		// System.out.println(one + " or " + two);
-		return checkOne(getVariableOne()) || checkTwo(getVariableTwo());
+		return checkOne(getSmallerVariable()) || checkTwo(getLargerVariable());
 	}
 
-	private boolean getVariableTwo() {
+	private boolean getLargerVariable() {
 		return variables[largerVariableIndex];
 	}
 
-	private boolean getVariableOne() {
+	private boolean getSmallerVariable() {
 		return variables[smallerVariableIndex];
 	}
 
@@ -67,12 +67,12 @@ public class SimpleClause implements Clause {
 		return isInversedLarger;
 	}
 
-	public void inverseFirstVariable() {
-		variables[smallerVariableIndex] = !getVariableOne();
+	public void inverseSmallerVariable() {
+		variables[smallerVariableIndex] = !getSmallerVariable();
 	}
 
-	public void inverseSecondVariable() {
-		variables[largerVariableIndex] = !getVariableTwo();
+	public void inverseLargerVariable() {
+		variables[largerVariableIndex] = !getLargerVariable();
 	}
 
 	@Override
@@ -89,23 +89,23 @@ public class SimpleClause implements Clause {
 		return largerVariableIndex;
 	}
 
-	public boolean isInversedOneAndTwo() {
+	public boolean isInversedAll() {
 		return isInversedSmaller() && isInversedLarger();
 	}
 
-	public boolean isInversedOnlyOne() {
+	public boolean isInversedOnlySmaller() {
 		return isInversedSmaller() && !isInversedLarger();
 	}
 
-	public boolean isInversedOnlyTwo() {
+	public boolean isInversedOnlyLarger() {
 		return !isInversedSmaller() && isInversedLarger();
 	}
 
-	public boolean isInversedOneOrTwo() {
+	public boolean isInversedAnyone() {
 		return isInversedSmaller() || isInversedLarger();
 	}
 
-	public boolean isNotInversedOneAndTwo() {
+	public boolean isNotInversedAll() {
 		return !isInversedSmaller() && !isInversedLarger();
 	}
 
