@@ -33,9 +33,9 @@ public class SimpleClause implements Clause {
 
 	@Override
 	public boolean check() {
-		 boolean one = checkSingleItem(isInversedSmaller(), getSmallerVariable());
-		 boolean two = checkSingleItem(isInversedLarger(), getLargerVariable());
-		 System.out.println(one + " or " + two);
+		//boolean one = checkSingleItem(isInversedSmaller(), getSmallerVariable());
+		// boolean two = checkSingleItem(isInversedLarger(), getLargerVariable());
+		// System.out.println(one + " or " + two);
 		return checkSingleItem(isInversedSmaller(), getSmallerVariable()) || checkSingleItem(isInversedLarger(), getLargerVariable());
 	}
 
