@@ -33,10 +33,10 @@ public class SimpleClause implements Clause {
 
 	@Override
 	public boolean check() {
-		// boolean one = checkOne(getVariableOne());
-		// boolean two = checkTwo(getVariableTwo());
-		// System.out.println(one + " or " + two);
-		return checkOne(getSmallerVariable()) || checkTwo(getLargerVariable());
+		 boolean one = checkSingleItem(isInversedSmaller(), getSmallerVariable());
+		 boolean two = checkSingleItem(isInversedLarger(), getLargerVariable());
+		 System.out.println(one + " or " + two);
+		return checkSingleItem(isInversedSmaller(), getSmallerVariable()) || checkSingleItem(isInversedLarger(), getLargerVariable());
 	}
 
 	private boolean getLargerVariable() {
@@ -47,16 +47,8 @@ public class SimpleClause implements Clause {
 		return variables[smallerVariableIndex];
 	}
 
-	private boolean checkOne(boolean one) {
-		return checkSingleItem(isInversedSmaller(), one);
-	}
-
 	private boolean checkSingleItem(boolean isInversed, boolean item) {
 		return isInversed ^ item;
-	}
-
-	private boolean checkTwo(boolean two) {
-		return checkSingleItem(isInversedLarger(), two);
 	}
 
 	public boolean isInversedSmaller() {
