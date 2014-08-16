@@ -2,25 +2,28 @@ package com.littlewhywhat.algorithms.twosat;
 
 public class SimpleClause implements Clause {
 
-	private final boolean isInversedOne;
-	private final boolean isInversedTwo;
-	private final int variableIndexOne;
-	private final int variableIndexTwo;
+	private final boolean isInversedSmaller;
+	private final boolean isInversedLarger;
+	private final int smallerVariableIndex;
+	private final int largerVariableIndex;
 
 	private boolean[] variables;
 
 	public static SimpleClause getNewSimpleClause(boolean isInversedOne,
 			int variableIndexOne, boolean isInversedTwo, int variableIndexTwo) {
-		return new SimpleClause(isInversedOne, variableIndexOne, isInversedTwo,
-				variableIndexTwo);
+		if (variableIndexOne < variableIndexTwo)
+			return new SimpleClause(isInversedOne, variableIndexOne, isInversedTwo,
+					variableIndexTwo);
+		return new SimpleClause(isInversedTwo, variableIndexTwo, isInversedOne,
+				variableIndexOne);
 	}
 
 	private SimpleClause(boolean isInversedOne, int variableIndexOne,
 			boolean isInversedTwo, int variableIndexTwo) {
-		this.isInversedOne = isInversedOne;
-		this.isInversedTwo = isInversedTwo;
-		this.variableIndexOne = variableIndexOne;
-		this.variableIndexTwo = variableIndexTwo;
+		this.isInversedSmaller = isInversedOne;
+		this.isInversedLarger = isInversedTwo;
+		this.smallerVariableIndex = variableIndexOne;
+		this.largerVariableIndex = variableIndexTwo;
 	}
 
 	@Override
@@ -37,15 +40,15 @@ public class SimpleClause implements Clause {
 	}
 
 	private boolean getVariableTwo() {
-		return variables[variableIndexTwo];
+		return variables[largerVariableIndex];
 	}
 
 	private boolean getVariableOne() {
-		return variables[variableIndexOne];
+		return variables[smallerVariableIndex];
 	}
 
 	private boolean checkOne(boolean one) {
-		return checkSingleItem(isInversedOne(), one);
+		return checkSingleItem(isInversedSmaller(), one);
 	}
 
 	private boolean checkSingleItem(boolean isInversed, boolean item) {
@@ -53,67 +56,67 @@ public class SimpleClause implements Clause {
 	}
 
 	private boolean checkTwo(boolean two) {
-		return checkSingleItem(isInversedTwo(), two);
+		return checkSingleItem(isInversedLarger(), two);
 	}
 
-	public boolean isInversedOne() {
-		return isInversedOne;
+	public boolean isInversedSmaller() {
+		return isInversedSmaller;
 	}
 
-	public boolean isInversedTwo() {
-		return isInversedTwo;
+	public boolean isInversedLarger() {
+		return isInversedLarger;
 	}
 
 	public void inverseFirstVariable() {
-		variables[variableIndexOne] = !getVariableOne();
+		variables[smallerVariableIndex] = !getVariableOne();
 	}
 
 	public void inverseSecondVariable() {
-		variables[variableIndexTwo] = !getVariableTwo();
+		variables[largerVariableIndex] = !getVariableTwo();
 	}
 
 	@Override
 	public String toString() {
-		return "[" + (isInversedOne() ? "!" : "") + variableIndexOne + ", "
-				+ (isInversedTwo() ? "!" : "") + variableIndexTwo + "]";
+		return "[" + (isInversedSmaller() ? "!" : "") + smallerVariableIndex + ", "
+				+ (isInversedLarger() ? "!" : "") + largerVariableIndex + "]";
 	}
 
-	public int getVariableIndexOne() {
-		return variableIndexOne;
+	public int getSmallerVariableIndex() {
+		return smallerVariableIndex;
 	}
 
-	public int getVariableIndexTwo() {
-		return variableIndexTwo;
+	public int getLargerVariableIndex() {
+		return largerVariableIndex;
 	}
 
 	public boolean isInversedOneAndTwo() {
-		return isInversedOne() && isInversedTwo();
+		return isInversedSmaller() && isInversedLarger();
 	}
 
 	public boolean isInversedOnlyOne() {
-		return isInversedOne() && !isInversedTwo();
+		return isInversedSmaller() && !isInversedLarger();
 	}
 
 	public boolean isInversedOnlyTwo() {
-		return !isInversedOne() && isInversedTwo();
+		return !isInversedSmaller() && isInversedLarger();
 	}
 
 	public boolean isInversedOneOrTwo() {
-		return isInversedOne() || isInversedTwo();
+		return isInversedSmaller() || isInversedLarger();
 	}
 
 	public boolean isNotInversedOneAndTwo() {
-		return !isInversedOne() && !isInversedTwo();
+		return !isInversedSmaller() && !isInversedLarger();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isInversedOne ? 1231 : 1237);
-		result = prime * result + (isInversedTwo ? 1231 : 1237);
-		result = prime * result + variableIndexOne;
-		result = prime * result + variableIndexTwo;
+		result = prime * result + (isInversedSmaller ? 1231 : 1237);
+		result = prime * result + (isInversedLarger ? 1231 : 1237);
+		result = prime * result + smallerVariableIndex;
+		result = prime * result + largerVariableIndex;
 		return result;
 	}
 
@@ -129,16 +132,16 @@ public class SimpleClause implements Clause {
 			return false;
 		}
 		SimpleClause other = (SimpleClause) obj;
-		if (isInversedOne != other.isInversedOne) {
+		if (isInversedSmaller != other.isInversedSmaller) {
 			return false;
 		}
-		if (isInversedTwo != other.isInversedTwo) {
+		if (isInversedLarger != other.isInversedLarger) {
 			return false;
 		}
-		if (variableIndexOne != other.variableIndexOne) {
+		if (smallerVariableIndex != other.smallerVariableIndex) {
 			return false;
 		}
-		if (variableIndexTwo != other.variableIndexTwo) {
+		if (largerVariableIndex != other.largerVariableIndex) {
 			return false;
 		}
 		return true;
