@@ -71,42 +71,6 @@ public class SimpleClause implements Clause {
 				+ variableIndexTwo + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (isInversedOne ? 1231 : 1237) + (isInversedTwo ? 1231 : 1237);
-		result = prime * result + variableIndexOne + variableIndexTwo;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof SimpleClause)) {
-			return false;
-		}
-		SimpleClause other = (SimpleClause) obj;
-		if ((isInversedOne != other.isInversedOne) && (isInversedOne != other.isInversedTwo)) {
-			return false;
-		}
-		if ((isInversedTwo != other.isInversedTwo) && (isInversedTwo != other.isInversedOne)) {
-			return false;
-		}
-		if ((variableIndexOne != other.variableIndexOne) && (variableIndexOne != other.variableIndexTwo)) {
-			return false;
-		}
-		if ((variableIndexTwo != other.variableIndexTwo) && (variableIndexTwo != other.variableIndexOne)) {
-			return false;
-		}
-		return true;
-	}
-
 	public int getVariableIndexOne() {
 		return variableIndexOne;
 	}
@@ -133,6 +97,44 @@ public class SimpleClause implements Clause {
 	
 	public boolean isNotInversedOneAndTwo() {
 		return !isInversedOne() && !isInversedTwo();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (isInversedOne ? 1231 : 1237);
+		result = prime * result + (isInversedTwo ? 1231 : 1237);
+		result = prime * result + variableIndexOne;
+		result = prime * result + variableIndexTwo;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof SimpleClause)) {
+			return false;
+		}
+		SimpleClause other = (SimpleClause) obj;
+		if (isInversedOne != other.isInversedOne) {
+			return false;
+		}
+		if (isInversedTwo != other.isInversedTwo) {
+			return false;
+		}
+		if (variableIndexOne != other.variableIndexOne) {
+			return false;
+		}
+		if (variableIndexTwo != other.variableIndexTwo) {
+			return false;
+		}
+		return true;
 	}
 	
 	
