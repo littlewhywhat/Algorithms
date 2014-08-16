@@ -14,12 +14,13 @@ import com.littlewhywhat.algorithms.AbstractAlgorithm;
 public class ClauseCleaner extends
 		AbstractAlgorithm<Integer, List<SimpleClause>, List<SimpleClause>> {
 
-	private Set<Clause> bloomFilter = new HashSet<Clause>();
-	private Map<Integer, LinkedList<Clause>> clausesCount = new HashMap<Integer, LinkedList<Clause>>();
+	private Set<Clause> bloomFilter;
+	private Map<Integer, LinkedList<Clause>> clausesCount;
 
 	@Override
 	public void execute() {
 		final List<SimpleClause> data = getData();
+		setUp();
 		for (ListIterator<SimpleClause> listIterator = data.listIterator(); listIterator
 				.hasNext();) {
 			SimpleClause clause = listIterator.next();
@@ -42,6 +43,11 @@ public class ClauseCleaner extends
 				iterator.remove();
 		}
 		setOutput(data);
+	}
+
+	private void setUp() {
+		bloomFilter = new HashSet<Clause>();
+		clausesCount = new HashMap<Integer, LinkedList<Clause>>();
 	}
 
 	private boolean isAboutOneVariable(SimpleClause clause) {
