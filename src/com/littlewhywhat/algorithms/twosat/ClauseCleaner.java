@@ -53,7 +53,7 @@ public class ClauseCleaner extends
 	}
 
 	private boolean isAboutOneVariable(SimpleClause clause) {
-		if (clause.getVariableIndexOne() == clause.getVariableIndexTwo())
+		if (clause.getSmallerVariableIndex() == clause.getLargerVariableIndex())
 			return true;
 		return false;
 	}
@@ -63,12 +63,12 @@ public class ClauseCleaner extends
 		int moreIndex;
 		final int prime = 31;
 		int result = 1;
-		if (clause.getVariableIndexOne() < clause.getVariableIndexTwo()) {
-			lessIndex = clause.getVariableIndexOne();
-			moreIndex = clause.getVariableIndexTwo();
+		if (clause.getSmallerVariableIndex() < clause.getLargerVariableIndex()) {
+			lessIndex = clause.getSmallerVariableIndex();
+			moreIndex = clause.getLargerVariableIndex();
 		} else {
-			lessIndex = clause.getVariableIndexTwo();
-			moreIndex = clause.getVariableIndexOne();
+			lessIndex = clause.getLargerVariableIndex();
+			moreIndex = clause.getSmallerVariableIndex();
 		}
 		result = prime * result + lessIndex;
 		result = prime * result + moreIndex;
