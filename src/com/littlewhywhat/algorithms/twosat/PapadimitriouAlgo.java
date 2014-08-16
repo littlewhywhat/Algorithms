@@ -47,9 +47,9 @@ public class PapadimitriouAlgo extends
 		for (SimpleClause clause : getData())
 			if (!clause.check()) {
 				if (random.nextBoolean())
-					clause.inverseFirstVariable();
+					clause.inverseSmallerVariable();
 				else
-					clause.inverseSecondVariable();
+					clause.inverseLargerVariable();
 				return false;
 			}
 		return true;

@@ -26,9 +26,9 @@ public class ClauseCleaner extends
 			SimpleClause clause = listIterator.next();
 			if (isDuplicate(clause)
 					|| (isAboutOneVariable(clause) && (clause
-							.isInversedOneOrTwo()
-							|| clause.isInversedOneAndTwo() || clause
-								.isNotInversedOneAndTwo())))
+							.isInversedAnyone()
+							|| clause.isInversedAll() || clause
+								.isNotInversedAll())))
 				listIterator.remove();
 			else {
 				int hash = getIndicesHash(clause);
