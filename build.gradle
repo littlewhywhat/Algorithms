@@ -8,3 +8,7 @@ dependencies {
 	compile 'junit:junit:4.8.2'
 	compile 'org.apache.commons:commons-lang3:3.3.2'
 }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.3'
+}
