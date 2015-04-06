@@ -1,6 +1,5 @@
 package com.littlewhywhat.algorithms.graphs.dijsktra;
 
-<<<<<<< HEAD:src/com/littlewhywhat/algorithms/graphs/dijsktra/DijkstraAlgo.java
 import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
@@ -81,31 +80,6 @@ public class DijkstraAlgo<I, T extends Id<I> & Station & SearchItem, E extends W
 				item.setDistanceToSource(UNREACHABLE);
 				unprocessed.insert(item);
 			}
-=======
-import com.littlewhywhat.algorithms.AbstractAlgorithm;
-import com.littlewhywhat.algorithms.graphs.dijsktra.DijkstraGraph.DijkstraVertice;
-
-public class DijkstraAlgo extends AbstractAlgorithm<Void, DijkstraGraph, int[]> {
-
-	@Override
-	public void execute() {
-		DijkstraGraph graph = getData();
-		DijkstraVertice source = graph.getSource();
-		while (graph.getConnections(source).size() != 0) {
-			graph.mergeDijkstra();
-		}
-		setOutput();
-	}
-
-	private void setOutput() {
-		DijkstraGraph graph = getData();
-		int[] output = new int[graph.size()];
-		for (int i = 1; i <= output.length; i++) {
-			output[i - 1] = ((DijkstraVertice) graph.get(i))
-					.getDistanceToSource();
-		}
-		setOutput(output);
->>>>>>> 261a4fc613ddf1a5618e40849b5110012513a1fc:src/main/java/com/littlewhywhat/algorithms/graphs/dijsktra/DijkstraAlgo.java
 	}
 
 }

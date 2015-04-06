@@ -143,13 +143,10 @@ public class SimpleHeap<T> implements Heap<T> {
 	public int size() {
 		return this.items.size();
 	}
-<<<<<<< HEAD:src/com/littlewhywhat/datastructure/SimpleHeap.java
-=======
 	
 	@Override
 	public void clear() {
 		this.items.clear();
 	}
->>>>>>> 261a4fc613ddf1a5618e40849b5110012513a1fc:src/main/java/com/littlewhywhat/datastructure/SimpleHeap.java
 
 }

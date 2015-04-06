@@ -13,11 +13,7 @@ import com.littlewhywhat.algorithms.twosum.TwoSumReader;
 
 public class TestTwoSum {
 
-<<<<<<< HEAD:src/com/littlewhywhat/algorithms/twosum/test/TestTwoSum.java
-	private static final String FOLDER = "src/com/littlewhywhat/algorithms/twosum/test/input/";
-=======
 	private static final String FOLDER = "algorithms/twosum/";
->>>>>>> 261a4fc613ddf1a5618e40849b5110012513a1fc:src/test/java/com/littlewhywhat/algorithms/twosum/TestTwoSum.java
 	private static final String INPUT_SMALL = FOLDER + "2sumSmall.txt";
 	private static final String INPUT_BIG = FOLDER + "2sum.txt";
 	private final AbstractAlgorithm<TwoSumConfig, List<Long>, Integer> algo = new TwoSumAlgo();

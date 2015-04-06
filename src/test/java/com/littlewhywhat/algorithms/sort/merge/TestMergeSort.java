@@ -51,27 +51,6 @@ public class TestMergeSort {
 		executeAlgos();
 	}
 
-<<<<<<< HEAD:src/com/littlewhywhat/algorithms/sort/merge/test/TestMergeSort.java
-	@Test
-	public void testExecuteRandom() {
-		generator.generate(100000);
-		reader.setInputFilePath(SortTest.INPUT_PATH_RANDOM);
-		reader.read();
-		addAllAlgos();
-		executeAlgos();
-	}
-
-	@Test
-	public void testExecuteBad() {
-		generator.generateBad(100000);
-		reader.setInputFilePath(SortTest.INPUT_PATH_BAD);
-		reader.read();
-		algos.push(sort);
-		algos.push(sortEff);
-		algos.push(randomQS);
-		executeAlgos();
-	}
-=======
 	// @Test
 	// public void testExecuteRandom() {
 	// 	generator.generate(100000);
@@ -91,7 +70,6 @@ public class TestMergeSort {
 	// 	algos.push(randomQS);
 	// 	executeAlgos();
 	// }
->>>>>>> 261a4fc613ddf1a5618e40849b5110012513a1fc:src/test/java/com/littlewhywhat/algorithms/sort/merge/TestMergeSort.java
 
 	@Test
 	public void testExecute() {
