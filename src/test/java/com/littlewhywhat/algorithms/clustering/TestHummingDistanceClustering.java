@@ -1,12 +1,14 @@
-package com.littlewhywhat.algorithms.clustering.test;
+package com.littlewhywhat.algorithms.clustering;
 
+import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.littlewhywhat.algorithms.clustering.ClusteringReader;
-import com.littlewhywhat.algorithms.clustering.HummingDistanceClustering;
+import java.util.Map;
+
+import com.littlewhywhat.algorithms.Algorithm;
+import com.littlewhywhat.algorithms.io.txt.FileInputReader;
 
 public class TestHummingDistanceClustering {
 
@@ -15,9 +17,8 @@ public class TestHummingDistanceClustering {
 	private static final String INPUT_SMALL = FOLDER + "clustering_small.txt";
 	private static final int ANSWER_BIG = 6118;
 	private static final int ANSWER_SMALL = 1;
-	HummingDistanceClustering algo;
-	ClusteringReader reader;
-	
+	private Algorithm<Integer, Map<HummingDistance, Boolean>, Integer> algo;
+	private FileInputReader<Integer, Map<HummingDistance, Boolean>> reader;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -25,10 +26,10 @@ public class TestHummingDistanceClustering {
 		algo = new HummingDistanceClustering();
 	}
 
-	// @Test
-	// public void testBig() {
-	// 	test(INPUT_BIG, ANSWER_BIG);
-	// }
+	@Test
+	public void testBig() {
+		test(INPUT_BIG, ANSWER_BIG);
+	}
 	
 	@Test
 	public void testSmall() {
@@ -40,7 +41,7 @@ public class TestHummingDistanceClustering {
 		reader.read();
 		algo.setData(reader.getData());
 		algo.execute();
-		Assert.assertEquals(answer, algo.getOutput().intValue());
+		assertEquals(answer, algo.getOutput().intValue());
 	}
 
 }
