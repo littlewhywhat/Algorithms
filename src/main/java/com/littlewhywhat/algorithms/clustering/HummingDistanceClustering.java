@@ -9,8 +9,7 @@ import com.littlewhywhat.algorithms.AbstractAlgorithm;
 public class HummingDistanceClustering extends
 		AbstractAlgorithm<Integer, Map<HummingDistance, Boolean>, Integer> {
 
-	final Stack<HummingDistance> stack = new Stack<HummingDistance>();
-	final Stack<HummingDistance> buffer = new Stack<HummingDistance>();
+	final Stack<HummingDistance> neighbours = new Stack<HummingDistance>();
 
 	@Override
 	public void execute() {
@@ -20,48 +19,53 @@ public class HummingDistanceClustering extends
 		for (HummingDistance code : codes) {
 			if (!codesMap.get(code)) {
 				count++;
-				pushToStack(code);
-				//System.out.println("Group " + count + ":");
-				while (!stack.isEmpty()) {
-					HummingDistance node = stack.pop();
-					//System.out.println(node);
-					fillBufferWithPossibleNeighbours(node);
-					//System.out.println(buffer);
-					while (!buffer.isEmpty()) {
-						HummingDistance neighbour = buffer.pop();
-						if (codesMap.containsKey(neighbour)
-								&& !codesMap.get(neighbour))
-							pushToStack(neighbour);
-					}
+				pushToNeighbours(code);
+				while (!neighbours.isEmpty()) {
+					HummingDistance node = neighbours.pop();
+					pushNeighboursOf(node);
 				}
 			}
 		}
 		setOutput(count);
 	}
 
-	private void pushToStack(HummingDistance node) {
-		stack.push(node);
+	private void pushToNeighbours(HummingDistance node) {
+		neighbours.push(node);
 		getData().put(node, true);
 	}
-	
 
-	private void fillBufferWithPossibleNeighbours(HummingDistance node) {
-		boolean[] distance = node.getDistance();
-		for (int firstIndex = 0; firstIndex < distance.length - 1; firstIndex++) {
-			for (int secondIndex = firstIndex + 1; secondIndex < distance.length; secondIndex++) {
-				boolean[] neighbour = new boolean[distance.length];
-				for (int i = 0; i < neighbour.length; i++)
-					neighbour[i] = distance[i];
-				neighbour[firstIndex] = !distance[firstIndex];
-				neighbour[secondIndex] = !distance[secondIndex];
-				buffer.push(new HummingDistance(neighbour));
-			}
+	private boolean isProcessed(HummingDistance node) {
+		return getData().get(node);
+	}
 
-		}
+	private void pushToNeighboursIfNotProcessed(HummingDistance node) {
+		if (getData().containsKey(node)
+				&& !isProcessed(node))
+			pushToNeighbours(node);
+	}
+
+	private HummingDistance getTwoStepNeighbour(boolean[] distance, int firstIndex, int secondIndex) {
+		final boolean[] neighbour = distance.clone();
+		neighbour[firstIndex] = !distance[firstIndex];
+		neighbour[secondIndex] = !distance[secondIndex];
+		return new HummingDistance(neighbour);
+	}	
+
+	private HummingDistance getOneStepNeighbour(boolean[] distance, int index) {
+		final boolean[] neighbour = distance.clone();
+		neighbour[index] = !distance[index];
+		return new HummingDistance(neighbour);
+	}
+
+	private void pushNeighboursOf(HummingDistance node) {
+		final boolean[] distance = node.getDistance();
 		for (int firstIndex = 0; firstIndex < distance.length; firstIndex++) {
-			boolean[] neighbour = distance.clone();
-			neighbour[firstIndex] = !distance[firstIndex];
-			buffer.push(new HummingDistance(neighbour));
+			for (int secondIndex = firstIndex + 1; secondIndex < distance.length; secondIndex++) {
+				HummingDistance neighbourDistance = getTwoStepNeighbour(distance, firstIndex, secondIndex);
+				pushToNeighboursIfNotProcessed(neighbourDistance);
+			}
+			HummingDistance neighbourDistance = getOneStepNeighbour(distance, firstIndex);
+			pushToNeighboursIfNotProcessed(neighbourDistance);
 		}
 	}
 
