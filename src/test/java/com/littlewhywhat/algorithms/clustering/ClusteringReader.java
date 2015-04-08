@@ -1,29 +1,40 @@
 package com.littlewhywhat.algorithms.clustering;
 
-import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
-public class ClusteringReader extends TextFileInputReader<Integer, Map<BinaryString, Boolean>> {
+public class ClusteringReader extends TextFileInputReader<Integer, Data> {
 
 	@Override
 	protected void extractInputData(Scanner scanner)
 			throws InputMismatchException {
-		final Map<BinaryString, Boolean> map = new HashMap<BinaryString, Boolean>();
+		final Set<BinaryString> set = new HashSet<BinaryString>();
+		final List<BinaryString> list = new ArrayList<BinaryString>();
 		scanner.nextLine();
+		String stroke;
+		boolean[] symbols;
+		BinaryString string;
 		while (scanner.hasNext()) {
-			String string = scanner.nextLine();
-			boolean[] node = new boolean[string.length()];
-			for (int i = 0; i < string.length(); i++) {
-				if (string.charAt(i) == '1')
-					node[i] = true;
+			stroke = scanner.nextLine();
+			symbols = new boolean[stroke.length()];
+			for (int i = 0; i < stroke.length(); i++) {
+				if (stroke.charAt(i) == '1')
+					symbols[i] = true;
 			}
-			map.put(new BinaryString(node), false);
+			string = new BinaryString(symbols);
+			set.add(string);
+			list.add(string);
 		}
-		setData(map);
+		final Data data = new Data();
+		data.setSet(set);
+		data.setList(list);
+		setData(data);
 	}
 
 }

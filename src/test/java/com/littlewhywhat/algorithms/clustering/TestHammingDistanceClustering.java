@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-
 import com.littlewhywhat.algorithms.Algorithm;
 import com.littlewhywhat.algorithms.io.txt.FileInputReader;
 
@@ -17,8 +15,9 @@ public class TestHammingDistanceClustering {
 	private static final String INPUT_SMALL = FOLDER + "clustering_small.txt";
 	private static final int ANSWER_BIG = 6118;
 	private static final int ANSWER_SMALL = 1;
-	private Algorithm<Integer, Map<BinaryString, Boolean>, Integer> algo;
-	private FileInputReader<Integer, Map<BinaryString, Boolean>> reader;
+	
+	private Algorithm<Integer, Data, Integer> algo;
+	private FileInputReader<Integer, Data> reader;
 	
 	@Before
 	public void setUp() throws Exception {

@@ -1,23 +1,22 @@
 package com.littlewhywhat.algorithms.clustering;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.Set;
+import java.util.List;
 import java.util.Stack;
 
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 
 public class HammingDistanceClustering extends
-		AbstractAlgorithm<Integer, Map<BinaryString, Boolean>, Integer> {
+		AbstractAlgorithm<Integer, Data, Integer> {
 
 	final Stack<BinaryString> neighbours = new Stack<BinaryString>();
 
 	@Override
 	public void execute() {
-		final Map<BinaryString, Boolean> stringsMap = getData();
-		final Collection<BinaryString> strings = stringsMap.keySet();
 		int count = 0;
-		for (BinaryString string : strings) {
-			if (!stringsMap.get(string)) {
+		for (BinaryString string : getData().getList()) {
+			if (!isProcessed(string)) {
 				count++;
 				pushToNeighbours(string);
 				while (!neighbours.isEmpty())
@@ -29,16 +28,15 @@ public class HammingDistanceClustering extends
 
 	private void pushToNeighbours(BinaryString string) {
 		neighbours.push(string);
-		getData().put(string, true);
+		getData().getSet().remove(string);
 	}
 
 	private boolean isProcessed(BinaryString string) {
-		return getData().get(string);
+		return !getData().getSet().contains(string);
 	}
 
 	private void pushToNeighboursIfNotProcessed(BinaryString string) {
-		if (getData().containsKey(string)
-				&& !isProcessed(string))
+		if (!isProcessed(string))
 			pushToNeighbours(string);
 	}
 
