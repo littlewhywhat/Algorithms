@@ -6,7 +6,7 @@ This project includes the solutions to all programming assignments taken from th
 [part 2](https://www.coursera.org/course/algo2)
 
 #####Implemented algorithms
-* humming distance clustering
+* hamming distance clustering
 * floydwarshalalgo
 * many others
 

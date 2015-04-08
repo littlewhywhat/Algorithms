@@ -2,9 +2,9 @@ package com.littlewhywhat.algorithms.clustering;
 
 import java.util.Arrays;
 
-public class HummingDistance {
+public class HammingDistance {
 	private boolean[] distance;
-	public HummingDistance(boolean[] distance) {
+	public HammingDistance(boolean[] distance) {
 		this.distance = distance;
 	}
 	
@@ -28,17 +28,17 @@ public class HummingDistance {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof HummingDistance)) {
+		if (!(obj instanceof HammingDistance)) {
 			return false;
 		}
-		HummingDistance other = (HummingDistance) obj;
+		HammingDistance other = (HammingDistance) obj;
 		if (!distanceEquals(other)) {
 			return false;
 		}
 		return true;
 	}
 
-	private boolean distanceEquals(HummingDistance other) {
+	private boolean distanceEquals(HammingDistance other) {
 		if (this.distance.length != other.distance.length)
 			return false;
 		for (int i = 0; i < other.distance.length; i++) {

@@ -10,20 +10,20 @@ import java.util.Map;
 import com.littlewhywhat.algorithms.Algorithm;
 import com.littlewhywhat.algorithms.io.txt.FileInputReader;
 
-public class TestHummingDistanceClustering {
+public class TestHammingDistanceClustering {
 
 	private static final String FOLDER = "algorithms/clustering/";
 	private static final String INPUT_BIG = FOLDER + "clustering_big.txt";
 	private static final String INPUT_SMALL = FOLDER + "clustering_small.txt";
 	private static final int ANSWER_BIG = 6118;
 	private static final int ANSWER_SMALL = 1;
-	private Algorithm<Integer, Map<HummingDistance, Boolean>, Integer> algo;
-	private FileInputReader<Integer, Map<HummingDistance, Boolean>> reader;
+	private Algorithm<Integer, Map<HammingDistance, Boolean>, Integer> algo;
+	private FileInputReader<Integer, Map<HammingDistance, Boolean>> reader;
 	
 	@Before
 	public void setUp() throws Exception {
 		reader = new ClusteringReader();
-		algo = new HummingDistanceClustering();
+		algo = new HammingDistanceClustering();
 	}
 
 	@Test
