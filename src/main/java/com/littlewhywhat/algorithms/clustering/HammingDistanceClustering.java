@@ -7,65 +7,63 @@ import java.util.Stack;
 import com.littlewhywhat.algorithms.AbstractAlgorithm;
 
 public class HammingDistanceClustering extends
-		AbstractAlgorithm<Integer, Map<HammingDistance, Boolean>, Integer> {
+		AbstractAlgorithm<Integer, Map<BinaryString, Boolean>, Integer> {
 
-	final Stack<HammingDistance> neighbours = new Stack<HammingDistance>();
+	final Stack<BinaryString> neighbours = new Stack<BinaryString>();
 
 	@Override
 	public void execute() {
-		final Map<HammingDistance, Boolean> codesMap = getData();
-		final Collection<HammingDistance> codes = codesMap.keySet();
+		final Map<BinaryString, Boolean> stringsMap = getData();
+		final Collection<BinaryString> strings = stringsMap.keySet();
 		int count = 0;
-		for (HammingDistance code : codes) {
-			if (!codesMap.get(code)) {
+		for (BinaryString string : strings) {
+			if (!stringsMap.get(string)) {
 				count++;
-				pushToNeighbours(code);
-				while (!neighbours.isEmpty()) {
-					HammingDistance node = neighbours.pop();
-					pushNeighboursOf(node);
-				}
+				pushToNeighbours(string);
+				while (!neighbours.isEmpty())
+					pushNeighboursOf(neighbours.pop());
 			}
 		}
 		setOutput(count);
 	}
 
-	private void pushToNeighbours(HammingDistance node) {
-		neighbours.push(node);
-		getData().put(node, true);
+	private void pushToNeighbours(BinaryString string) {
+		neighbours.push(string);
+		getData().put(string, true);
 	}
 
-	private boolean isProcessed(HammingDistance node) {
-		return getData().get(node);
+	private boolean isProcessed(BinaryString string) {
+		return getData().get(string);
 	}
 
-	private void pushToNeighboursIfNotProcessed(HammingDistance node) {
-		if (getData().containsKey(node)
-				&& !isProcessed(node))
-			pushToNeighbours(node);
+	private void pushToNeighboursIfNotProcessed(BinaryString string) {
+		if (getData().containsKey(string)
+				&& !isProcessed(string))
+			pushToNeighbours(string);
 	}
 
-	private HammingDistance getTwoStepNeighbour(boolean[] distance, int firstIndex, int secondIndex) {
-		final boolean[] neighbour = distance.clone();
-		neighbour[firstIndex] = !distance[firstIndex];
-		neighbour[secondIndex] = !distance[secondIndex];
-		return new HammingDistance(neighbour);
+	private BinaryString getTwoStepNeighbour(boolean[] symbols, int firstIndex, int secondIndex) {
+		final boolean[] neighbourSymbols = symbols.clone();
+		neighbourSymbols[firstIndex] = !symbols[firstIndex];
+		neighbourSymbols[secondIndex] = !symbols[secondIndex];
+		return new BinaryString(neighbourSymbols);
 	}	
 
-	private HammingDistance getOneStepNeighbour(boolean[] distance, int index) {
-		final boolean[] neighbour = distance.clone();
-		neighbour[index] = !distance[index];
-		return new HammingDistance(neighbour);
+	private BinaryString getOneStepNeighbour(boolean[] symbols, int index) {
+		final boolean[] neighbourSymbols = symbols.clone();
+		neighbourSymbols[index] = !symbols[index];
+		return new BinaryString(neighbourSymbols);
 	}
 
-	private void pushNeighboursOf(HammingDistance node) {
-		final boolean[] distance = node.getDistance();
-		for (int firstIndex = 0; firstIndex < distance.length; firstIndex++) {
-			for (int secondIndex = firstIndex + 1; secondIndex < distance.length; secondIndex++) {
-				HammingDistance neighbourDistance = getTwoStepNeighbour(distance, firstIndex, secondIndex);
-				pushToNeighboursIfNotProcessed(neighbourDistance);
+	private void pushNeighboursOf(BinaryString string) {
+		final boolean[] symbols = string.getSymbols();
+		for (int firstIndex = 0; firstIndex < symbols.length; firstIndex++) {
+			for (int secondIndex = firstIndex + 1; secondIndex < symbols.length; secondIndex++) {
+				BinaryString neighbourSymbols = getTwoStepNeighbour(symbols, firstIndex, secondIndex);
+				pushToNeighboursIfNotProcessed(neighbourSymbols);
 			}
-			HammingDistance neighbourDistance = getOneStepNeighbour(distance, firstIndex);
-			pushToNeighboursIfNotProcessed(neighbourDistance);
+			BinaryString neighbourSymbols = getOneStepNeighbour(symbols, firstIndex);
+			pushToNeighboursIfNotProcessed(neighbourSymbols);
 		}
 	}
 

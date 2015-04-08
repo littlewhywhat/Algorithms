@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 import com.littlewhywhat.algorithms.io.txt.TextFileInputReader;
 
-public class ClusteringReader extends TextFileInputReader<Integer, Map<HammingDistance, Boolean>> {
+public class ClusteringReader extends TextFileInputReader<Integer, Map<BinaryString, Boolean>> {
 
 	@Override
 	protected void extractInputData(Scanner scanner)
 			throws InputMismatchException {
-		final Map<HammingDistance, Boolean> map = new HashMap<HammingDistance, Boolean>();
+		final Map<BinaryString, Boolean> map = new HashMap<BinaryString, Boolean>();
 		scanner.nextLine();
 		while (scanner.hasNext()) {
 			String string = scanner.nextLine();
@@ -21,7 +21,7 @@ public class ClusteringReader extends TextFileInputReader<Integer, Map<HammingDi
 				if (string.charAt(i) == '1')
 					node[i] = true;
 			}
-			map.put(new HammingDistance(node), false);
+			map.put(new BinaryString(node), false);
 		}
 		setData(map);
 	}
