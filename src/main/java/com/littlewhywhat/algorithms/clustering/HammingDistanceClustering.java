@@ -27,7 +27,11 @@ public class HammingDistanceClustering extends
 	}
 
 	private void pushToNeighbourhood(BinaryString string) {
+		markProcessed(string);
 		neighbourhood.push(string);
+	}
+
+	private void markProcessed(BinaryString string) {
 		getData().getSet().remove(string);
 	}
 
