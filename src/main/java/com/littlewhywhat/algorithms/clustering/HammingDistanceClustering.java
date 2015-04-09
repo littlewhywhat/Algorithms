@@ -10,7 +10,7 @@ import com.littlewhywhat.algorithms.AbstractAlgorithm;
 public class HammingDistanceClustering extends
 		AbstractAlgorithm<Integer, Data, Integer> {
 
-	final Stack<BinaryString> neighbours = new Stack<BinaryString>();
+	final Stack<BinaryString> neighbourhood = new Stack<BinaryString>();
 
 	@Override
 	public void execute() {
@@ -18,16 +18,16 @@ public class HammingDistanceClustering extends
 		for (BinaryString string : getData().getList()) {
 			if (!isProcessed(string)) {
 				count++;
-				pushToNeighbours(string);
-				while (!neighbours.isEmpty())
-					pushNeighboursOf(neighbours.pop());
+				pushToNeighbourhood(string);
+				while (!neighbourhood.isEmpty())
+					pushNeighboursOf(neighbourhood.pop());
 			}
 		}
 		setOutput(count);
 	}
 
-	private void pushToNeighbours(BinaryString string) {
-		neighbours.push(string);
+	private void pushToNeighbourhood(BinaryString string) {
+		neighbourhood.push(string);
 		getData().getSet().remove(string);
 	}
 
@@ -35,33 +35,29 @@ public class HammingDistanceClustering extends
 		return !getData().getSet().contains(string);
 	}
 
-	private void pushToNeighboursIfNotProcessed(BinaryString string) {
+	private void pushToNeighbourhoodIfNotProcessed(BinaryString string) {
 		if (!isProcessed(string))
-			pushToNeighbours(string);
+			pushToNeighbourhood(string);
 	}
 
-	private BinaryString getTwoStepNeighbour(boolean[] symbols, int firstIndex, int secondIndex) {
-		final boolean[] neighbourSymbols = symbols.clone();
-		neighbourSymbols[firstIndex] = !symbols[firstIndex];
-		neighbourSymbols[secondIndex] = !symbols[secondIndex];
+	private BinaryString getTwoStepNeighbour(BinaryString string, int firstIndex, int secondIndex) {
+		final boolean[] neighbourSymbols = string.getSymbols().clone();
+		neighbourSymbols[firstIndex] = !string.getSymbols()[firstIndex];
+		neighbourSymbols[secondIndex] = !string.getSymbols()[secondIndex];
 		return new BinaryString(neighbourSymbols);
 	}	
 
-	private BinaryString getOneStepNeighbour(boolean[] symbols, int index) {
-		final boolean[] neighbourSymbols = symbols.clone();
-		neighbourSymbols[index] = !symbols[index];
+	private BinaryString getOneStepNeighbour(BinaryString string, int index) {
+		final boolean[] neighbourSymbols = string.getSymbols().clone();
+		neighbourSymbols[index] = !string.getSymbols()[index];
 		return new BinaryString(neighbourSymbols);
 	}
 
 	private void pushNeighboursOf(BinaryString string) {
-		final boolean[] symbols = string.getSymbols();
-		for (int firstIndex = 0; firstIndex < symbols.length; firstIndex++) {
-			for (int secondIndex = firstIndex + 1; secondIndex < symbols.length; secondIndex++) {
-				BinaryString neighbourSymbols = getTwoStepNeighbour(symbols, firstIndex, secondIndex);
-				pushToNeighboursIfNotProcessed(neighbourSymbols);
-			}
-			BinaryString neighbourSymbols = getOneStepNeighbour(symbols, firstIndex);
-			pushToNeighboursIfNotProcessed(neighbourSymbols);
+		for (int firstIndex = 0; firstIndex < string.getSymbols().length; firstIndex++) {
+			pushToNeighbourhoodIfNotProcessed(getOneStepNeighbour(string, firstIndex));
+			for (int secondIndex = firstIndex + 1; secondIndex < string.getSymbols().length; secondIndex++)
+				pushToNeighbourhoodIfNotProcessed(getTwoStepNeighbour(string, firstIndex, secondIndex));
 		}
 	}
 
