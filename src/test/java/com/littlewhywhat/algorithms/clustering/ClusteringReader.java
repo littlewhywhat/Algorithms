@@ -2,8 +2,8 @@ package com.littlewhywhat.algorithms.clustering;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class ClusteringReader extends TextFileInputReader<Integer, Data> {
 	@Override
 	protected void extractInputData(Scanner scanner)
 			throws InputMismatchException {
-		final Set<BinaryString> set = new HashSet<BinaryString>();
+		final Map<BinaryString, BinaryString> map = new HashMap<BinaryString, BinaryString>();
 		final List<BinaryString> list = new ArrayList<BinaryString>();
 		scanner.nextLine();
 		String stroke;
@@ -28,11 +28,11 @@ public class ClusteringReader extends TextFileInputReader<Integer, Data> {
 					symbols[i] = true;
 			}
 			string = new BinaryString(symbols);
-			set.add(string);
+			map.put(string, string);
 			list.add(string);
 		}
 		final Data data = new Data();
-		data.setSet(set);
+		data.setMap(map);
 		data.setList(list);
 		setData(data);
 	}

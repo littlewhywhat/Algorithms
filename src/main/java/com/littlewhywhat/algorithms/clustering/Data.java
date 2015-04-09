@@ -1,11 +1,11 @@
 package com.littlewhywhat.algorithms.clustering;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class Data {
 	private List<BinaryString> list;
-	private Set<BinaryString> set;
+	private Map<BinaryString, BinaryString> map;
 
 	public void setList(List<BinaryString> list) {
 		this.list = list;
@@ -15,11 +15,11 @@ public class Data {
 		return this.list;
 	}
 
-	public void setSet(Set<BinaryString> set) {
-		this.set = set;
+	public void setMap(Map<BinaryString, BinaryString> map) {
+		this.map = map;
 	}
 
-	public Set<BinaryString> getSet() {
-		return this.set;
+	public Map<BinaryString, BinaryString> getMap() {
+		return this.map;
 	}
 }
