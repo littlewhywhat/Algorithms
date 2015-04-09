@@ -15,10 +15,9 @@ public class HammingDistanceClustering extends
 	public void execute() {
 		int count = 0;
 		for (BinaryString string : getData().getList()) {
-			BinaryString neighbour = getMap().remove(string);
-			if (neighbour != null) {
+			if (getMap().containsKey(string)) {
 				count++;
-				neighbourhood.push(neighbour);
+				extrudeAndPush(string);
 				while (!neighbourhood.isEmpty())
 					pushNeighboursOf(neighbourhood.pop());
 			}
